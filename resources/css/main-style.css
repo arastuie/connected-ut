@@ -1,0 +1,336 @@
+/**************General Styling to change the default ****************/
+*{
+    box-sizing: border-box;
+}
+html{
+    min-width: 26.25rem;
+}
+html,
+body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.618em;
+}
+
+
+body{
+    background-color: #FCFCFC;
+}
+
+img{
+    max-height: 100%;
+    height: auto;
+}
+
+a,
+a:link,
+a:hover,
+a:active,
+a:visited{
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6{
+    line-height: 1.313em;
+}
+
+h1{
+    font-size: 3em;
+    margin: 0.563em 0;
+}
+
+h2{
+    font-size: 2.25em;
+    margin: 0.625em 0;
+}
+
+h3{
+    font-size: 1.5em;
+    margin: 1.313em 0;
+}
+
+h4{
+    font-size: 1.313em;
+    margin: 1.313em 0;
+}
+
+h5{
+    font-size: 1.125em;
+    margin: 1.313em 0;
+}
+
+h6{
+    font-size: 1em;
+    margin: 0.75em 0;
+}
+
+.clearfix:before,
+.clearfix:after{
+    content: ' ';
+    display: table;
+}
+
+.clearfix:after{
+    clear: both;
+}
+
+.hidden{
+    display: none !important;
+}
+
+.wrap{
+    max-width: 75rem;
+    width: 100%;
+    margin: 0 auto;
+}
+
+
+/**************  Style for Header, Main and Footer  *********************/
+
+div#wrapper{
+    min-height: 100%;
+    position: relative;
+}
+
+header{
+    width: 100%;
+    height: 4.8rem;
+}
+
+header div#top-portion{
+    width: 100%;
+    height: 4.6875rem;
+    padding: 0.125rem 0.5rem 0 0.5rem;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem #888888;
+    background-color: #F7F7F7;
+}
+
+main{
+    padding-bottom: 5rem;
+    width: 100%;
+    height: auto;
+}
+
+footer{
+    width: 100%;
+    height: 5rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    box-shadow: 0.0625rem -0.125rem 0.1875rem #888888;
+    background-color: #F7F7F7;
+}
+/******************************* UT Colors ****************************/
+.ut_yellow{
+    color: #ffd818;
+    font-weight: bold;
+}
+
+.ut_blue{
+    color: #184890;
+    font-weight: bold;
+}
+
+/*********************** Style for the LOGO *************************/
+div.logo_div{
+    width: 10rem;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    color: #333333;
+    font-size: 1.65rem;
+    float: left;
+    margin: 0.125rem 1rem 0 0;
+    display: inline-block;
+    cursor: default;
+    font-weight: 700;
+}
+
+div.logo_div div{
+    float:left;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+div.logo_div div:nth-child(2){
+    margin: 2.1875rem 0 0 -0.625rem;
+}
+
+/*********************** Style for the LOGIN & SIGN UP *************************/
+
+div.login_box{
+    width: 11rem; /*changed*/
+    height: 2.5rem;
+    float: right;
+    padding: 0.25rem;
+    margin: 1rem 0 0 0;
+    display: inline-block;
+}
+
+div.sign_up,
+div.log_in{
+    width: 4.375rem;
+    height: 1.875rem;
+    line-height: 1.875rem;
+    border-radius: 0.3125rem;
+    -moz-border-radius: 0.3125rem;
+    -webkit-border-radius: 0.3125rem;
+    -ms-border-radius: 0.3125rem;
+    text-align: center;
+    font-size: 0.9rem;
+    cursor: pointer;
+    float: left;
+}
+
+div.log_in{
+    border: 0;
+    color: #06F;
+}
+
+div.log_in:hover{
+    background-color: #06F;
+    color: #FFF;
+}
+
+div.sign_up{
+    background-color: #06F;
+    color: #FFF;
+}
+
+div.sign_up:hover{
+    background-color: #03F;
+}
+
+div#divider{
+    width: 0.875rem;
+    margin: 0 0 0 0.625rem;
+    height: 1.875rem;
+    border-left: 0.0625rem solid #888;
+    float: left;
+}
+
+/**************************** Copyright info style ***************************/
+div.copyright{
+    height: 100%;
+    width: 11rem;
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 0.65rem;
+    margin: 0 auto;
+}
+
+/************************ Primary Search Section ************************/
+
+div.header-search_box {
+    width: 50%; /* Fallback for calc*/
+    width: calc(100% - 23.3rem);
+    min-width: 17rem;
+    height: 2.6rem;
+    border: 0.0625rem solid #555;
+    background-color:#FFF;
+    border-radius: 0.625rem;
+    -moz-border-radius: 0.625rem;
+    -ms-border-radius: 0.625rem;
+    -webkit-border-radius: 0.625rem;
+    overflow: hidden;
+    box-shadow: 0 0 0.25rem 0.0625rem #777;
+    -moz-box-shadow: 0 0 0.25rem 0.0625rem #777;
+    -ms-box-shadow: 0 0 0.25rem 0.0625rem #777;
+    -webkit-box-shadow: 0 0 0.25rem 0.0625rem #777;
+    position: absolute;
+    top: 1.1rem;
+    left: 11.5rem;
+}
+
+i.fa-search{
+    width: 7%;
+    height: 2.5rem;
+    margin: 0;
+    padding: 0.135rem;
+    float: left;
+    font-size: 2rem;
+    color: #555555;
+    display: block;
+    text-align: center;
+}
+
+input.search_input{
+    float: right;
+    height: 2.5rem;
+    width: 90%;
+    font-size: 0.9rem;
+    padding: 0 0.9375rem 0 0.9375rem;
+    border: none;
+    outline: none;
+    display: block;
+}
+
+input.search_input:focus{
+    -webkit-appearance:none;
+}
+
+button.search_btn{
+    width: 10%;
+    height: 2.5rem;
+    float: right;
+    font-size: 1rem;
+    background-color: #09F;
+    border: none;
+    cursor: pointer;
+    color: #FFF;
+}
+
+
+button.search_btn:hover{
+    background-color: #3366FF;
+}
+
+form.main_search_form{
+    width: 93%;
+    height: 2.5rem;
+    float: right;
+    display: block;
+}
+/***************** Header styling for screens under 62rem (992px)************************/
+@media screen and (max-width: 62rem){
+
+    i.fa-search{
+        width: 10%;
+        font-size: 1.5rem;
+        line-height: 2.1rem;
+    }
+
+    form.main_search_form{
+        width: 90%;
+    }
+
+    button.search_btn{
+        width: 15%;
+    }
+
+    input.search_input{
+        width: 85%;
+    }
+
+    div.logo_div{
+        margin-right: 0.5rem;
+    }
+}
+
+/***************** Header styling for screens under 46.9rem (~750px)************************/
+@media screen and (max-width: 46.9rem){
+    div.header-search_box {
+        top: 5.7rem;
+        width: 90%;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+    }
+    
+    header{
+        height: 8.6rem;
+    }
+}

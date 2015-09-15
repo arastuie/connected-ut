@@ -1,0 +1,308 @@
+/************** General Styling to change the default ****************/
+*{
+    box-sizing: border-box;
+}
+html{
+    min-width: 319px;
+}
+html,
+body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.618em;
+}
+
+
+body{
+    background-color: #FCFCFC;
+}
+
+img{
+    max-height: 100%;
+    height: auto;
+}
+
+a,
+a:link,
+a:hover,
+a:active,
+a:visited{
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6{
+    line-height: 1.313em;
+}
+
+h1{
+    font-size: 3em;
+    margin: 0.563em 0;
+}
+
+h2{
+    font-size: 2.25em;
+    margin: 0.625em 0;
+}
+
+h3{
+    font-size: 1.5em;
+    margin: 1.313em 0;
+}
+
+h4{
+    font-size: 1.313em;
+    margin: 1.313em 0;
+}
+
+h5{
+    font-size: 1.125em;
+    margin: 1.313em 0;
+}
+
+h6{
+    font-size: 1em;
+    margin: 0.75em 0;
+}
+
+.clearfix:before,
+.clearfix:after{
+    content: ' ';
+    display: table;
+}
+
+.clearfix:after{
+    clear: both;
+}
+
+.clear{
+    clear: both;
+}
+
+.hidden{
+    display: none !important;
+}
+
+.wrap{
+    max-width: 75rem;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.full-width{
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+
+hr.style-two { border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0)); }
+
+/**************  Style for Header, Main and Footer  *********************/
+
+div.wrapper{
+    min-height: 100%;
+    position: relative;
+}
+
+header{
+    width: 100%;
+    height: 6rem;
+    position: relative;
+}
+
+header div#top-portion{
+    height: 6rem;
+    box-shadow: 0.0625rem 0.125rem 0.1875rem #888888;
+    background-color: #F7F7F7;
+    padding: 8px;
+}
+
+main{
+    padding: 0.7rem 0 5rem 0;
+    width: 90%;
+    margin: 20px auto;
+    height: auto;
+}
+
+footer{
+    width: 100%;
+    height: 5rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    box-shadow: 0.0625rem -0.125rem 0.1875rem #888888;
+    background-color: #F7F7F7;
+}
+/******************************* UT Colors ****************************/
+.ut_yellow{
+    color: #ffd818;
+    font-weight: bold;
+}
+
+.ut_blue{
+    color: #184890;
+    font-weight: bold;
+}
+
+/*********************** Style for the LOGO *************************/
+div.logo_div{
+    /*font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;*/
+    /*color: #333333;*/
+    /*font-size: 2vw;*/
+    /*display: inline-block;*/
+    /*cursor: default;*/
+    /*font-weight: 700;*/
+    height: 100%;
+    padding: 0;
+}
+
+div.logo_div img{
+    height: 100%;
+}
+
+/*div.logo_div div{*/
+    /*float:left;*/
+    /*-webkit-user-select: none;*/
+    /*-moz-user-select: none;*/
+    /*-ms-user-select: none;*/
+    /*user-select: none;*/
+/*}*/
+
+/*div.logo_div div:nth-child(3){*/
+    /*float: right;*/
+/*}*/
+
+/*********************** Style for the LOGIN & SIGN UP *************************/
+
+div.login_box{
+    height: 3.4rem;
+    margin-right: 0;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+div.sign_up,
+div.log_in{
+    height: 2.875rem;
+    line-height: 2.875rem;
+    border-radius: 0.3125rem;
+    -moz-border-radius: 0.3125rem;
+    -webkit-border-radius: 0.3125rem;
+    -ms-border-radius: 0.3125rem;
+    text-align: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+div.login_box a{
+    color: inherit;
+}
+
+div.login_box a:hover {
+    text-decoration: none;
+}
+
+div.log_in{
+    border: 0;
+    color: #06F;
+}
+
+div.log_in:hover{
+    background-color: #06F;
+    color: #FFF;
+}
+
+div.sign_up{
+    background-color: #06F;
+    color: #FFF;
+}
+
+div.sign_up:hover{
+    background-color: #03F;
+}
+/**************************** Copyright info style ***************************/
+div.copyright{
+    height: 100%;
+    padding: 0.7rem;
+    text-align: center;
+    font-size: 1.2rem;
+    margin: 0 auto;
+}
+
+/************************ Primary Search Section ************************/
+
+div.header-search_box {
+    height: 3.6rem;
+    border: 0.0625rem solid #555;
+    background-color:#FFF;
+    border-radius: 0.625rem;
+    -moz-border-radius: 0.625rem;
+    -ms-border-radius: 0.625rem;
+    -webkit-border-radius: 0.625rem;
+    overflow: hidden;
+    box-shadow: 0 0 0.25rem 0.0625rem #777;
+    -moz-box-shadow: 0 0 0.25rem 0.0625rem #777;
+    -ms-box-shadow: 0 0 0.25rem 0.0625rem #777;
+    -webkit-box-shadow: 0 0 0.25rem 0.0625rem #777;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+i.fa-search{
+    height: 3.5rem;
+    line-height: 3.5rem;
+    font-size: 2rem;
+    color: #555555;
+    text-align: center;
+    padding: 0;
+}
+
+input.search_input{
+    height: 3.5rem;
+    font-size: 1.5rem;
+    border: none;
+    outline: none;
+}
+
+input.search_input:focus{
+    -webkit-appearance:none;
+}
+
+button.search_btn{
+    height: 3.6rem;
+    font-size: 1rem;
+    background-color: #09F;
+    border: none;
+    cursor: pointer;
+    color: #FFF;
+}
+
+
+button.search_btn:hover{
+    background-color: #3366FF;
+}
+
+form.main_search_form{
+    height: 3.5rem;
+}
+
+
+/***************** Header styling for xs screens (<768px) *******************************/
+@media screen and (max-width: 768px) {
+
+    div.header-search_box{
+        position: absolute;
+        margin: 34px auto;
+        left: 0;
+        right: 0;
+    }
+
+    header{
+        height: 11rem;
+    }
+
+}

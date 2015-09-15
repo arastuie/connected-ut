@@ -1,0 +1,134 @@
+/**************************************************************************************/
+/* Welcome/Home page has a separate stylesheet and it does not have main-style linked */
+/**************************************************************************************/
+
+/*********************** Style for the LOGIN & SIGN UP *************************/
+div.login_box{
+	width: 38rem;
+}
+
+div.login_input_div{
+	width: 13.125rem;
+	border: 0.0625rem solid #09F;
+	height: 1.875rem;
+	background-color: #FFF;
+	border-radius: 0.3125rem;
+	-o-border-radius: 0.3125rem;
+	-moz-border-radius: 0.3125rem;
+	-webkit-border-radius: 0.3125rem;
+	-ms-border-radius: 0.3125rem;
+	display: inline-block;
+	margin: 0 0.375rem 0 0;
+	float: left;
+}
+
+div.login_input_div:hover{
+	border: 0.0625rem ridge #03F !important;
+}
+
+input.login_input{
+    border: 0.0625rem solid #FFF;
+    width: 86%;
+    height: 1.5625rem;
+    font-size: 0.75rem;
+    color: #555;
+    float: left;
+    border-radius: 0.3125rem 0 0 0.3125rem;
+    -moz-border-radius: 0.3125rem 0 0 0.3125rem;
+    -ms-border-radius: 0.3125rem 0 0 0.3125rem;
+    -o-border-radius: 0.3125rem 0 0 0.3125rem;
+    -webkit-border-radius: 0.3125rem 0 0 0.3125rem;
+    padding: 0.17rem 0 0 0.225rem;
+}
+
+input.login_input:focus{
+    outline: none;
+}
+
+button.login_btn{
+	height: 1.875rem;
+    line-height: 1.65rem;
+	border: 0;
+	border-radius: 0.3125rem;
+	-o-border-radius: 0.3125rem;
+	-moz-border-radius: 0.3125rem;
+	-webkit-border-radius: 0.3125rem;
+	-ms-border-radius: 0.3125rem;
+	font-size: 0.95rem;
+	background-color: transparent;
+	color: #06F;
+	float: left;
+	cursor: pointer;
+}
+
+button.login_btn:hover{
+	background-color: #06F;
+	color: #FFF;
+}
+
+div.login_input_div div{
+	padding: 0.1875rem;
+	border: 0.0625rem solid #999;
+	width: 1.125rem;
+	height: 1.125rem;
+    line-height: 0.75rem;
+	float: right;
+	text-align: center;
+	font-size: 0.875rem;
+	border-radius: 0.5625rem;
+	-o-border-radius: 0.5625rem;
+	-moz-border-radius: 0.5625rem;
+	-webkit-border-radius: 0.5625rem;
+	-ms-border-radius: 0.5625rem;
+	cursor: pointer;
+	font-family: Tahoma, Geneva, sans-serif;
+	margin: 0.28rem 0.28rem 0 0;
+}
+
+div.login_input_div div:hover{
+	border-color: #06F;
+    background-color: #F8F8F8 ;
+}
+
+/************ Header view under 976px in normal font-size or 61rem **************/
+@media screen and (max-width: 61rem){
+    div.login_input_div{
+        display: none;
+    }
+
+    div.login_box{
+        width: 10.25rem;
+    }
+
+    div.logo_div{
+        margin-left: 0.5rem;
+    }
+}
+
+/**************************** Main Section Style *******************************/
+fieldset.developer_quote{
+    margin: 1rem auto;
+    width: 40%;
+    max-width: 43.75rem;
+    min-width: 23rem;
+    padding: 0 0.9rem 0.9rem 0.9rem;
+    border: 0.09rem dashed #666666;
+    border-radius: 0.9rem;
+}
+
+fieldset.developer_quote p{
+    margin: 0 1rem 0 1rem;
+}
+
+i.fa-quote-left{
+    font-size: 2rem;
+    color: #444444;
+    margin: 0 0.3125rem 0 0.3125rem;
+}
+
+fieldset.developer_quote > span{
+    float: right;
+    font-weight: lighter;
+    font-style: italic;
+    font-size: 0.85rem;
+}
