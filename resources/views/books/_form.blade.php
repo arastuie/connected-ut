@@ -4,6 +4,11 @@
 </div>
 
 <div class="form-group">
+    {!! Form::label('instructors_list', 'Instructors:') !!}
+    {!! Form::select('instructors_list[]', $instructors, null, ['id' => 'instructor_list', 'class' => 'form-control', 'multiple']) !!}
+</div>
+
+<div class="form-group">
     {!! Form::label('description', 'Description:') !!}
     {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Description']) !!}
 </div>
@@ -129,116 +134,123 @@
 
 @section('script')
 
-<script>
-   $(function() {
-       $("input.available_by").datepicker({
-           format: 'mm/dd/yyyy',
-           minDate: 'd'
+    <script>
+        $("#instructor_list").select2({
+            placeholder: "Select all the instructors who use this book"
+        });
+    </script>
+
+
+    <script>
+       $(function() {
+           $("input.available_by").datepicker({
+               format: 'mm/dd/yyyy',
+               minDate: 'd'
+           });
        });
-   });
-</script>
+    </script>
 
-<script>
-    $(function() {
-       // Rest of the javascript is for photo selection
+    <script>
+        $(function() {
+           // Rest of the javascript is for photo selection
 
-       // uploaded pic div for edit form
-       var uploadedPic = $('div.uploaded-pic');
+           // uploaded pic div for edit form
+           var uploadedPic = $('div.uploaded-pic');
 
-        //  photoArray and file inputs, limits the selection to 4
-       var photoArray = [false, false, false, false];
+            //  photoArray and file inputs, limits the selection to 4
+           var photoArray = [false, false, false, false];
 
-        for(var i = 0; i < uploadedPic.length; i++)
-        {
-            photoArray[i] = true;
-        }
+            for(var i = 0; i < uploadedPic.length; i++)
+            {
+                photoArray[i] = true;
+            }
 
-       var inputId = $.inArray(false, photoArray);
-       var photoNum;
-       var browsePhoto = $('div.browse-photo');
+           var inputId = $.inArray(false, photoArray);
+           var photoNum;
+           var browsePhoto = $('div.browse-photo');
 
-       browsePhoto.on('click', function(){
-           $('input#photo_' + inputId).trigger('click');
-       });
+           browsePhoto.on('click', function(){
+               $('input#photo_' + inputId).trigger('click');
+           });
 
 
-       // Clicking on delete btn for chosen photos
-       $('div.photo-group').on('click', 'i.delete-btn', function(){
-           inputId = $(this).siblings('img').attr('class').substr(-1);
-           inputId = parseInt(inputId);
+           // Clicking on delete btn for chosen photos
+           $('div.photo-group').on('click', 'i.delete-btn', function(){
+               inputId = $(this).siblings('img').attr('class').substr(-1);
+               inputId = parseInt(inputId);
 
-           $(this).parent('div.thumb-photo-div').remove();
+               $(this).parent('div.thumb-photo-div').remove();
 
-           $('input#photo_' + inputId).val("");
-           deleteCleanUp();
-       });
+               $('input#photo_' + inputId).val("");
+               deleteCleanUp();
+           });
 
-        // Clicking on delete btn for uploaded photos
-        if(uploadedPic.length > 0)
-        {
-            uploadedPic.children('i.fa-times-circle-o').on('click', function(){
-                inputId = $(this).siblings('img').attr('class').substr(-1);
-                inputId = parseInt(inputId);
+            // Clicking on delete btn for uploaded photos
+            if(uploadedPic.length > 0)
+            {
+                uploadedPic.children('i.fa-times-circle-o').on('click', function(){
+                    inputId = $(this).siblings('img').attr('class').substr(-1);
+                    inputId = parseInt(inputId);
 
-                var deletedPicsInput = $('input.deleted-pics');
-                var deletedPics = deletedPicsInput.attr('value');
-                deletedPics = (deletedPics)? (deletedPics + ';' + inputId): inputId;
-                deletedPicsInput.attr('value', deletedPics);
+                    var deletedPicsInput = $('input.deleted-pics');
+                    var deletedPics = deletedPicsInput.attr('value');
+                    deletedPics = (deletedPics)? (deletedPics + ';' + inputId): inputId;
+                    deletedPicsInput.attr('value', deletedPics);
 
-                $(this).parent('div.uploaded-pic').remove();
+                    $(this).parent('div.uploaded-pic').remove();
 
-                deleteCleanUp();
-            });
-        }
+                    deleteCleanUp();
+                });
+            }
 
-       // takes care of deleting and adding a new photo
-       $('input.photo').on('change', function(){
+           // takes care of deleting and adding a new photo
+           $('input.photo').on('change', function(){
 
-           photoArray[inputId] = true;
-           photoNum = inputId + 1;
-           inputId = $.inArray(false, photoArray);
-           readURL(this);
+               photoArray[inputId] = true;
+               photoNum = inputId + 1;
+               inputId = $.inArray(false, photoArray);
+               readURL(this);
 
-           if($.inArray(false, photoArray) === -1) {
-               browsePhoto.hide();
+               if($.inArray(false, photoArray) === -1) {
+                   browsePhoto.hide();
+               }
+
+               indicateMainPhoto();
+           });
+
+           //  Displays photos right after user's selection
+           function readURL(input) {
+               if (input.files) {
+                   browsePhoto.before('<div class="thumb-photo-div"><img src="#" class="photo_' + (photoNum - 1) +
+                                            '"alt="" /><i class="fa delete-btn fa-times-circle-o fa-3x"></i></div>');
+
+                   var reader = new FileReader();
+
+                   reader.onload = function (e) {
+                       $('img.photo_' + (photoNum - 1)).attr('src', e.target.result)
+                   };
+
+                   reader.readAsDataURL(input.files[0]);
+               }
            }
 
-           indicateMainPhoto();
+            //  Do necessary stuff after deleting a photo
+            function deleteCleanUp(){
+                photoArray[inputId] = false;
+                inputId = $.inArray(false, photoArray);
+                browsePhoto.show();
+
+                indicateMainPhoto();
+            }
+
+            function indicateMainPhoto()
+            {
+                $('i.check-mark').remove();
+                var mainPhoto = $.inArray(true, photoArray);
+                $('img.photo_' + mainPhoto + ', img.uploaded-photo-' + mainPhoto).after('<i class="check-mark fa fa-check-square fa-2x"></i>');
+            }
        });
-
-       //  Displays photos right after user's selection
-       function readURL(input) {
-           if (input.files) {
-               browsePhoto.before('<div class="thumb-photo-div"><img src="#" class="photo_' + (photoNum - 1) +
-                                        '"alt="" /><i class="fa delete-btn fa-times-circle-o fa-3x"></i></div>');
-
-               var reader = new FileReader();
-
-               reader.onload = function (e) {
-                   $('img.photo_' + (photoNum - 1)).attr('src', e.target.result)
-               };
-
-               reader.readAsDataURL(input.files[0]);
-           }
-       }
-
-        //  Do necessary stuff after deleting a photo
-        function deleteCleanUp(){
-            photoArray[inputId] = false;
-            inputId = $.inArray(false, photoArray);
-            browsePhoto.show();
-
-            indicateMainPhoto();
-        }
-
-        function indicateMainPhoto()
-        {
-            $('i.check-mark').remove();
-            var mainPhoto = $.inArray(true, photoArray);
-            $('img.photo_' + mainPhoto + ', img.uploaded-photo-' + mainPhoto).after('<i class="check-mark fa fa-check-square fa-2x"></i>');
-        }
-   });
-</script>
+    </script>
 
 @if(false)
     <script>
@@ -324,13 +336,13 @@
         });
     </script>
 @endif
-
 @endsection
-
-
 
 @section('head')
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="/js/libs/jquery-ui-1.11.4.min.js"></script>
+// Leave the smoothness stylesheet to be a cdn. Pulls images form its online directory
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-@endsection
 
+<script src="/js/libs/select2.js"></script>
+<link href="/css/libs/select2.css" rel="stylesheet" />
+@endsection

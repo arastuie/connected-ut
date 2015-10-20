@@ -107,28 +107,28 @@ div.login_input_div div:hover{
 
 /**************************** Main Section Style *******************************/
 fieldset.developer_quote{
-    margin: 1rem auto;
-    width: 40%;
-    max-width: 43.75rem;
-    min-width: 23rem;
-    padding: 0 0.9rem 0.9rem 0.9rem;
-    border: 0.09rem dashed #666666;
-    border-radius: 0.9rem;
+	margin: 1rem auto;
+	width: 40%;
+	max-width: 43.75rem;
+	min-width: 23rem;
+	padding: 0 0.9rem 0.9rem 0.9rem;
+	border: 0.09rem dashed #666666;
+	border-radius: 0.9rem;
 }
 
 fieldset.developer_quote p{
-    margin: 0 1rem 0 1rem;
+	margin: 0 1rem 0 1rem;
 }
 
 i.fa-quote-left{
-    font-size: 2rem;
-    color: #444444;
-    margin: 0 0.3125rem 0 0.3125rem;
+	font-size: 2rem;
+	color: #444444;
+	margin: 0 0.3125rem 0 0.3125rem;
 }
 
 fieldset.developer_quote > span{
-    float: right;
-    font-weight: lighter;
-    font-style: italic;
-    font-size: 0.85rem;
+	float: right;
+	font-weight: lighter;
+	font-style: italic;
+	font-size: 0.85rem;
 }

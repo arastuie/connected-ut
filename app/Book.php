@@ -33,7 +33,6 @@ class Book extends Model {
      */
     protected $dates = ['available_by'];
 
-
     /**
      * Sets Available_by attr to a carbon instance to save to DB
      *
@@ -77,8 +76,6 @@ class Book extends Model {
         return Carbon::parse($date)->diffForHumans();
     }
 
-
-
     /**
      * Returns the owner of the book
      *
@@ -87,5 +84,25 @@ class Book extends Model {
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    /**
+     * Get the instructors associated with the given book
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function instructors()
+    {
+        return $this->belongsToMany('App\Models\Tags\Instructor')->withTimestamps();
+    }
+
+    /**
+     * Get a list of instructor ids associated with the current book
+     *
+     * @return array
+     */
+    public function getInstructorListAttribute()
+    {
+        return $this->instructors->lists('id');
     }
 }

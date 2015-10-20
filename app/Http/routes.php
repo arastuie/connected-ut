@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -15,7 +14,6 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
 
-
 //Route::get('books', 'BooksController@index');
 //Route::get('books/create', 'BooksController@create');
 //Route::post('books/store', 'BooksController@store');
@@ -24,18 +22,12 @@ Route::get('home', 'HomeController@index');
 
 Route::resource('books', 'BooksController');
 
-
-
 Route::group(['prefix' => 'account', 'as' => 'Account.'], function(){
-
     Route::get('/', ['uses' => 'UsersController@index']);
     Route::get('change_password', ['uses' => 'UsersController@change_password']);
     Route::patch('change_password', ['uses' => 'UsersController@update_password']);
     Route::get('update', ['uses' => 'UsersController@update']);
-
 });
-
-
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

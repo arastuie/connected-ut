@@ -34,6 +34,15 @@
                     <p>{{ $book->description }}</p>
                 </span>
             @endif
+            @unless($book->instructors->isEmpty())
+                <span class="item-detail">Instructors:</span>
+                <ul>
+                    @foreach($book->instructors as $instructor)
+                        <li>{{ $instructor->name }}</li>
+                    @endforeach
+                </ul>
+
+            @endunless
         </div>
 
         <div class="clearfix"></div>

@@ -5,6 +5,7 @@ use App\Http\Requests;
 use App\Http\Requests\BookRequest;
 use App\Http\Controllers\Controller;
 
+use App\Models\Tags\Instructor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,10 +22,9 @@ class BooksController extends Controller {
 
 
 
-
-
-
     /**
+     * Create a new instance of books controller.
+     *
      * Setting middleware for auth users
      */
     public function __construct()
@@ -35,9 +35,9 @@ class BooksController extends Controller {
 
 
 
-
-
     /**
+     * Show all books.
+     *
      * @return \Illuminate\View\View
      */
     public function index()
@@ -55,9 +55,12 @@ class BooksController extends Controller {
     }
 
 
-
-
-
+    /**
+     * Show a single book.
+     *
+     * @param Book $book
+     * @return \Illuminate\View\View
+     */
     public function show(Book $book)
     {
         $this->photo_explode($book);
@@ -69,21 +72,21 @@ class BooksController extends Controller {
 
 
 
-
     /**
+     * Show the page to create a new book.
      *
      * @return \Illuminate\View\View
      */
     public function create()
     {
-        return view('books.create');
+        $instructors = Instructor::lists('name', 'id');
+        return view('books.create', compact('instructors'));
     }
 
 
 
-
     /**
-     * Stores new books to DB
+     * Save a new book.
      *
      * @return string
      */
@@ -91,16 +94,15 @@ class BooksController extends Controller {
     {
         $this->save_photos($request);
 
-        Auth::user()->books()->create($request->all());
+        $this->createBook($request);
 
         return redirect('books');
     }
 
 
 
-
     /**
-     * Returns the book's edit page
+     * Show the page to edit an existing book.
      *
      * @param Book $book
      * @return \Illuminate\View\View
@@ -115,21 +117,23 @@ class BooksController extends Controller {
     }
 
 
-
-
-
-
+    /**
+     * Update an existing book.
+     *
+     * @param BookRequest $request
+     * @param Book $book
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function update(BookRequest $request, Book $book)
     {
         $this->update_photos($request, $book);
 
         $book->update($request->all());
 
+        $this->syncInstructors($book, $request->input('instructor_list'));
+
         return redirect('books');
     }
-
-
-
 
 
 
@@ -188,9 +192,6 @@ class BooksController extends Controller {
 
 
 
-
-
-
     /**
      * delete photos and regenerate photo_array (returned from save_photo()) based on
      * the update request
@@ -201,7 +202,6 @@ class BooksController extends Controller {
     private function update_photos($request, $book)
     {
         $photo_array = $this->save_photos($request);
-
 
         $uploaded_pics = ($book->photos != null)? explode(';', $book->photos): null;
 
@@ -238,9 +238,6 @@ class BooksController extends Controller {
 
 
 
-
-
-
     /**
      * Replaces the string in $book->photos with an array of photos
      *
@@ -263,6 +260,32 @@ class BooksController extends Controller {
         $book->photos = explode(';', $book->photos);
 
     }
+
+
+
+    /**
+     * Sync up the list of instructors in the database
+     *
+     * @param Book $book
+     * @param array $instructors
+     */
+    private function syncInstructors(Book $book, array $instructors)
+    {
+        $book->instructors()->sync($instructors);
+    }
+
+
+    /**
+     * Save a new book
+     * @param BookRequest $request
+     * @return mixed
+     */
+    private function createBook(BookRequest $request)
+    {
+        $book = Auth::user()->books()->create($request->all());
+
+        $this->syncInstructors($book, $request->input('instructor_list'));
+
+        return $book;
+    }
 }
-
-

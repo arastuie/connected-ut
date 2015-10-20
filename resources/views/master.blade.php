@@ -3,22 +3,21 @@
 <head>
     <meta charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <title>Connected UT</title>
 
     <script src="/js/libs/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/libs/modernizr.custom.13737.js" type="text/javascript"></script>
 
     <link href="/css/main-style.css" rel="stylesheet" type="text/css">
 
+    <link href="/css/libs/normalize.css" rel="stylesheet" type="text/css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
     <link href='http://fonts.googleapis.com/css?family=Roboto:700italic,300,700,400' rel='stylesheet' type='text/css'>
 
-    <script src="/js/libs/modernizr.custom.13737.js" type="text/javascript"></script>
 
     @yield('head')
-
-    <title>Connected UT</title>
 
     @yield('style')
 </head>
@@ -60,13 +59,16 @@
             <div class="login_box col-md-2 col-sm-3 col-xs-6 col-md-offset-1 col-xs-offset-3 col-sm-offset-0">
 
                 <div class="row">
-                    <div class="log_in col-md-5 col-sm-5 col-xs-5 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
-                        <a href="/auth/login">Log In</a>
-                    </div>
-
-                    <div class="sign_up col-md-5 col-sm-5 col-xs-5 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
-                        <a href="/auth/register">Sign Up</a>
-                    </div>
+                    <a href="/auth/login">
+                        <div class="log_in col-md-5 col-sm-5 col-xs-5 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+                            <span>Log In</span>
+                        </div>
+                    </a>
+                    <a href="/auth/register">
+                        <div class="sign_up col-md-5 col-sm-5 col-xs-5 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+                            <span>Sign Up</span>
+                        </div>
+                    </a>
                 </div>
 
             </div>
@@ -85,6 +87,7 @@
     </footer>
 
     @yield('script')
+
 </div>
 </body>
 </html>

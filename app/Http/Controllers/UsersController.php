@@ -20,8 +20,6 @@ class UsersController extends Controller {
 
 
 
-
-
     /**
      * Returns users account manager page
      *
@@ -39,7 +37,6 @@ class UsersController extends Controller {
 
 
 
-
     /**
      * Returns change password page view
      *
@@ -49,7 +46,6 @@ class UsersController extends Controller {
     {
         return view('users.change_password');
     }
-
 
 
 
