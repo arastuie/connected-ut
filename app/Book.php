@@ -16,7 +16,12 @@ class Book extends Model {
         'condition',
         'price',
         'available_by',
-        'photos'
+        'photos',
+        'edition',
+        'publisher',
+        'published_year',
+        'ISBN_13',
+        'ISBN_10'
     ];
 
     /**
@@ -41,14 +46,9 @@ class Book extends Model {
     public function setAvailableByAttribute($date)
     {
         if($date === date('m/d/Y'))
-        {
-
             $this->attributes['available_by'] = Carbon::now();
-
-        }else{
-
+        else
             $this->attributes['available_by'] = Carbon::parse($date);
-        }
     }
 
     /**
@@ -103,6 +103,46 @@ class Book extends Model {
      */
     public function getInstructorListAttribute()
     {
-        return $this->instructors->lists('id');
+        return $this->instructors->lists('id')->toArray();
+    }
+
+    /**
+     * Get the courses associated with the given book
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function courses()
+    {
+        return $this->belongsToMany('App\Models\Tags\Course')->withTimestamps();
+    }
+
+    /**
+     * Get a list of course ids associated with the current book
+     *
+     * @return array
+     */
+    public function getCourseListAttribute()
+    {
+        return $this->courses->lists('id')->toArray();
+    }
+
+    /**
+     * Get the authors associated with the given book
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function authors()
+    {
+        return $this->belongsToMany('App\Models\Tags\Author')->withTimestamps();
+    }
+
+    /**
+     * Get a list of author ids associated with the current book
+     *
+     * @return array
+     */
+    public function getAuthorListAttribute()
+    {
+        return $this->authors->lists('id')->toArray();
     }
 }

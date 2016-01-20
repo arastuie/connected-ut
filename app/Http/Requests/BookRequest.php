@@ -47,6 +47,11 @@ class BookRequest extends Request {
             'available_by' => 'required|date|after:yesterday',
             'price' => 'required|numeric|regex:/^\d{0,8}(\.\d{1,2})?$/',
             'pics' => 'array',
+            'edition' => 'max:50',
+            'ISBN_13' => 'max:20',
+            'ISBN_10' => 'max:20',
+            'publisher' => 'max:100',
+            'published_year' => 'numeric'
         ];
 
         foreach($this->files->get('pics') as $key => $pic)
@@ -54,9 +59,7 @@ class BookRequest extends Request {
             $rules['pics.' . $key] = 'max:4000|image|mimes:jpeg,png';
         }
 
-
         return $rules;
-
 	}
 
     /**

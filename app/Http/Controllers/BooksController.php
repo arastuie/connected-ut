@@ -6,6 +6,8 @@ use App\Http\Requests\BookRequest;
 use App\Http\Controllers\Controller;
 
 use App\Models\Tags\Instructor;
+use App\Models\Tags\Course;
+use App\Models\Tags\Author;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -80,7 +82,10 @@ class BooksController extends Controller {
     public function create()
     {
         $instructors = Instructor::lists('name', 'id');
-        return view('books.create', compact('instructors'));
+        $courses = Course::lists('full_course_name', 'id');
+        $authors = $this->get_authors_list();
+
+        return view('books.create', compact('instructors', 'courses', 'authors'));
     }
 
 
@@ -89,12 +94,11 @@ class BooksController extends Controller {
      * Save a new book.
      *
      * @return string
+     * @param BookRequest $request
      */
     public function store(BookRequest $request)
     {
-        $this->save_photos($request);
-
-        $this->createBook($request);
+        $this->create_book($request);
 
         return redirect('books');
     }
@@ -110,10 +114,13 @@ class BooksController extends Controller {
     public function edit(Book $book)
     {
         $this->photo_explode($book);
-
         $available_by = date('m/d/Y', strtotime($book->available_by));
 
-        return view('books.edit', compact('book', 'available_by'));
+        $instructors = Instructor::lists('name', 'id');
+        $courses = Course::lists('full_course_name', 'id');
+        $authors = $this->get_authors_list();
+
+        return view('books.edit', compact('book', 'available_by', 'instructors', 'courses', 'authors'));
     }
 
 
@@ -126,11 +133,7 @@ class BooksController extends Controller {
      */
     public function update(BookRequest $request, Book $book)
     {
-        $this->update_photos($request, $book);
-
-        $book->update($request->all());
-
-        $this->syncInstructors($book, $request->input('instructor_list'));
+        $this->update_book($request, $book);
 
         return redirect('books');
     }
@@ -269,10 +272,85 @@ class BooksController extends Controller {
      * @param Book $book
      * @param array $instructors
      */
-    private function syncInstructors(Book $book, array $instructors)
+    private function syncInstructors(Book $book, $instructors)
     {
+        if(is_null($instructors))
+            $instructors = [];
         $book->instructors()->sync($instructors);
     }
+
+
+
+    /**
+     * Sync up the list of courses in the database
+     *
+     * @param Book $book
+     * @param array $courses
+     */
+    private function syncCourses(Book $book, $courses)
+    {
+        if(is_null($courses))
+            $courses = [];
+        $book->courses()->sync($courses);
+    }
+
+
+
+    /**
+     * Sync up the list of authors in the database
+     * And create a new author if not existed
+     *
+     * @param Book $book
+     * @param BookRequest $request
+     */
+    private function syncAuthors(Book $book, BookRequest $request)
+    {
+        $authors = $request->input('author_list');
+        if(is_null($authors))
+            $authors = [];
+        foreach($authors as $key => $author)
+        {
+            if(!strpos($author, '#^'))
+            {
+                $newAuthor = Author::firstOrCreate(['full_name' => $author]);
+                $authors[$key] = $newAuthor['id'];
+            }
+            else
+            {
+                $oldAuthor = explode('#^', $author);
+                $authorID = $oldAuthor[0];
+                $authorName = $oldAuthor[1];
+                if(Author::find($authorID)['full_name'] == $authorName)
+                    $authors[$key] = $authorID;
+                else
+                    unset($authors[$key]);
+            }
+        }
+
+        $book->authors()->sync($authors);
+    }
+
+
+
+    /**
+     * Returns all the authors as a key-value pair as 'id#^full_name'
+     *
+     * @param
+     * @return array
+     */
+    private function get_authors_list()
+    {
+        $authors = Author::lists('full_name', 'id');
+
+        foreach($authors as $id => $author)
+        {
+            $authors[$id . '#^' . $author] = $authors[$id];
+            unset($authors[$id]);
+        }
+
+        return $authors;
+    }
+
 
 
     /**
@@ -280,12 +358,36 @@ class BooksController extends Controller {
      * @param BookRequest $request
      * @return mixed
      */
-    private function createBook(BookRequest $request)
+    private function create_book(BookRequest $request)
     {
+        $this->save_photos($request);
+
         $book = Auth::user()->books()->create($request->all());
 
         $this->syncInstructors($book, $request->input('instructor_list'));
+        $this->syncCourses($book, $request->input('course_list'));
+        $this->syncAuthors($book, $request);
 
         return $book;
+    }
+
+
+
+    /**
+     * Update an edited book
+     *
+     * @param BookRequest $request
+     * @param Book $book
+     * @return mixed
+     */
+    private function update_book(BookRequest $request, Book $book)
+    {
+        $this->update_photos($request, $book);
+
+        $book->update($request->all());
+
+        $this->syncInstructors($book, $request->input('instructor_list'));
+        $this->syncCourses($book, $request->input('course_list'));
+        $this->syncAuthors($book, $request);
     }
 }

@@ -97,8 +97,18 @@ h6{
     text-align: center;
 }
 
-hr.style-two { border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0)); }
+hr.style-two {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
 
+hr.style-one {
+    border: 0;
+    height: 1px;
+    background: #333;
+    background-image: linear-gradient(to right, #ccc, #333, #ccc);
+}
 /**************  Style for Header, Main and Footer  *********************/
 
 div.wrapper{
@@ -223,6 +233,28 @@ div.sign_up{
 div.sign_up:hover{
     background-color: #03F;
 }
+/************************ User Account and Logout style ***************************/
+i.loggedin-btn{
+    color: #0c3444;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+i.loggedin-btn:hover{
+    color: #0b4387;
+}
+
+div.loggedin-box{
+    margin-top: 5px;
+}
+
+div.account-ctr-wrap{
+    padding: 0;
+}
+
+div.logout-btn{
+    text-align: right;
+}
 /**************************** Copyright info style ***************************/
 div.copyright{
     height: 100%;
@@ -292,7 +324,7 @@ form.main_search_form{
 
 
 /***************** Header styling for xs screens (<768px) *******************************/
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
 
     div.header-search_box{
         position: absolute;
@@ -305,4 +337,12 @@ form.main_search_form{
         height: 11rem;
     }
 
+    div.account-ctr-wrap{
+        text-align: right;
+    }
+}
+
+/***************************** TESTING ******************************/
+.border{
+    border: 1px solid #000;
 }

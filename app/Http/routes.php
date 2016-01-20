@@ -11,7 +11,6 @@
 */
 
 Route::get('/', 'WelcomeController@index');
-
 Route::get('home', 'HomeController@index');
 
 //Route::get('books', 'BooksController@index');
@@ -24,6 +23,7 @@ Route::resource('books', 'BooksController');
 
 Route::group(['prefix' => 'account', 'as' => 'Account.'], function(){
     Route::get('/', ['uses' => 'UsersController@index']);
+    Route::get('/mybooks', ['uses' => 'UsersController@my_books']);
     Route::get('change_password', ['uses' => 'UsersController@change_password']);
     Route::patch('change_password', ['uses' => 'UsersController@update_password']);
     Route::get('update', ['uses' => 'UsersController@update']);

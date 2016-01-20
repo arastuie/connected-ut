@@ -88,4 +88,12 @@ class UsersController extends Controller {
         return view('users.update');
     }
 
+    public function my_books()
+    {
+        $books = Auth::user()->books;
+        foreach($books as $book)
+            $book->photos = explode(';', $book->photos)[0];
+
+        return view('users.mybooks', compact('books'));
+    }
 }

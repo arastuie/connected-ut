@@ -4,7 +4,7 @@
 
 @include('partials._flash', with(['delay' => 4000]))
 
-<i class="fa fa-user fa-3x"></i><span class="heading-title">My Account</span>
+<i class="fa fa-user fa-3x user-thumb"></i><span class="heading-title">My Account</span>
 
 <div class="full-width clearfix">
 
@@ -28,23 +28,27 @@
 
 <hr class="style-two"/>
 
-<div class="posted-items clearfix">
-    <div class="heading-title">Posted items</div> <br/>
-    <div class="table-heading"> <i class="fa fa-book"></i> Books</div>
+<i class="fa fa-book fa-3x user-thumb"></i><span class="heading-title">My Listings</span>
 
-    @foreach($books as $book)
-        <table class="items-table">
-            <tr>
-                <td class="thumb-td"> <img src="/images/books/{{ $book->photos }}"> </td>
-                <td class="title-td"> {{ $book-> title }} </td>
-                <td class="update-td"> <a href="/books/{{$book->id}}/edit"><i class="fa fa-pencil-square-o"></i> Update</a></td>
-                <td class="sold-td"> <a href="#"><i class="fa fa-check-square-o"></i> Mark as sold</a></td>
-            </tr>
-        </table>
-    @endforeach
+<div class="full-width clearfix">
+
+    <a class="style-reset" href="/account/mybooks">
+        <div class="update-info">
+            <i class="fa fa-list"></i>
+            <span>My books</span>
+            <span>&#62;</span>
+        </div>
+    </a>
+
+    <a class="style-reset" href="/books/create">
+        <div class="update-info">
+            <i class="fa fa-plus-circle"></i>
+            <span>Start selling a book</span>
+            <span>&#62;</span>
+        </div>
+    </a>
 
 </div>
-
 
 @endsection
 
@@ -57,7 +61,7 @@
         margin-left: 15px;
     }
 
-    i.fa-user{
+    i.user-thumb{
         color: #2990a3;
     }
 
@@ -69,11 +73,12 @@
         margin: 20px 10px 10px 10px;
         padding: 10px;
         display: inline-block;
-        box-shadow: 1px 2px 3px #999;
+        box-shadow: 1px 1px 4px #999;
         color: #666;
         font-size: 20px;
         line-height: 40px;
         cursor: pointer;
+        border-radius: 3px;
     }
     div.update-info i{
         color: #285C99;

@@ -1,26 +1,39 @@
 <div class="form-group">
-    {!! Form::label('title', 'Title:') !!}
-    {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Title']) !!}
+    {!! Form::label('title', '*Title:') !!}
+    {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'eg: Thomas\' Calculus: Early Transcendentals']) !!}
 </div>
 
 <div class="form-group">
-    {!! Form::label('instructors_list', 'Instructors:') !!}
-    {!! Form::select('instructors_list[]', $instructors, null, ['id' => 'instructor_list', 'class' => 'form-control', 'multiple']) !!}
+    {!! Form::label('edition', 'Edition:') !!}
+    {!! Form::text('edition', null, ['class' => 'form-control', 'placeholder' => 'eg: 12th']) !!}
 </div>
 
 <div class="form-group">
-    {!! Form::label('description', 'Description:') !!}
-    {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Description']) !!}
+    {!! Form::label('author_list', 'Authors:') !!}
+    {!! Form::select('author_list[]', $authors, null, ['id' => 'author_list', 'class' => 'form-control', 'multiple']) !!}
 </div>
 
 <div class="form-group">
-    {!! Form::label('condition', 'Condition:') !!}
+    {!! Form::label('instructor_list', 'Instructors:') !!}
+    {!! Form::select('instructor_list[]', $instructors, null, ['id' => 'instructor_list', 'class' => 'form-control', 'multiple']) !!}
+</div>
+
+<div class="form-group">
+    {!! Form::label('course_list', 'Courses:') !!}
+    {!! Form::select('course_list[]', $courses, null, ['id' => 'course_list', 'class' => 'form-control', 'multiple']) !!}
+</div>
+
+<div class="form-group">
+    {!! Form::label('condition', '*Condition:') !!}
     {!! Form::select('condition', ['New', 'Used - Like New', 'Used - Very Good', 'Used - Good', 'Used - Acceptable'], null, ['class' => 'form-control', 'placeholder' => 'Condition']) !!}
 </div>
 
 <div class="form-group">
-    {!! Form::label('price', 'Price: $') !!}
-    {!! Form::input('number', 'price', null, ['class' => 'form-control', 'step' => '0.01', 'placeholder' => 'Price']) !!}
+    {!! Form::label('price', '*Price:') !!}
+    <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-usd fa-fw"></i></span>
+        {!! Form::input('number', 'price', null, ['class' => 'form-control', 'step' => '0.01', 'placeholder' => 'eg: 12.50']) !!}
+    </div>
 </div>
 
 @if($action === 'create')
@@ -66,8 +79,36 @@
 @endif
 
 <div class="form-group">
-    {!! Form::label('available_by', 'Available by:') !!}
+    {!! Form::label('available_by', '*Available by:') !!}
     {!! Form::input('text', 'available_by', $available_by, ['class' => 'form-control available_by']) !!}
+</div>
+
+<div class="form-group">
+    {!! Form::label('description', 'Description:') !!}
+    {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Description']) !!}
+</div>
+
+<br />
+<h4>Books with more info sell faster!</h4>
+
+<div class="form-group">
+    {!! Form::label('ISBN_13', 'ISBN-13:') !!}
+    {!! Form::text('ISBN_13', null, ['class' => 'form-control', 'placeholder' => 'eg: 978-0321588760']) !!}
+</div>
+
+<div class="form-group">
+    {!! Form::label('ISBN_10', 'ISBN-10:') !!}
+    {!! Form::text('ISBN_10', null, ['class' => 'form-control', 'placeholder' => 'eg: 0321588762']) !!}
+</div>
+
+<div class="form-group">
+    {!! Form::label('publisher', 'Publisher:') !!}
+    {!! Form::text('publisher', null, ['class' => 'form-control', 'placeholder' => 'eg: Pearson']) !!}
+</div>
+
+<div class="form-group">
+    {!! Form::label('published_year', 'Published year:') !!}
+    {!! Form::text('published_year', null, ['class' => 'form-control', 'placeholder' => 'eg: 2009']) !!}
 </div>
 
 <div class="form-group">
@@ -97,6 +138,7 @@
             width: 100%;
             max-height: 300px;
             padding: 0.25rem;
+            border-radius: 1rem;
         }
 
         div.thumb-photo-div{
@@ -128,7 +170,6 @@
             left: 3%;
             color: #33CC33;
         }
-
     </style>
 @endsection
 
@@ -138,8 +179,16 @@
         $("#instructor_list").select2({
             placeholder: "Select all the instructors who use this book"
         });
-    </script>
 
+        $("#course_list").select2({
+            placeholder: "Select all the courses which use this book"
+        });
+
+        $("#author_list").select2({
+            placeholder: "Select or add all the authors of this book",
+            tags: true
+        });
+    </script>
 
     <script>
        $(function() {
@@ -340,7 +389,7 @@
 
 @section('head')
 <script src="/js/libs/jquery-ui-1.11.4.min.js"></script>
-// Leave the smoothness stylesheet to be a cdn. Pulls images form its online directory
+{{--Leave the smoothness stylesheet to be a cdn. Pulls images form its online directory--}}
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
 <script src="/js/libs/select2.js"></script>
