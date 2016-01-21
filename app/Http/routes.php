@@ -1,14 +1,4 @@
 <?php
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
 
 Route::get('/', 'WelcomeController@index');
 Route::get('home', 'HomeController@index');
@@ -19,14 +9,23 @@ Route::get('home', 'HomeController@index');
 //Route::get('books/{books}/edit', 'BooksController@edit')->where('id', '[0-9]+');
 //Route::patch('books/update', 'BooksController@update');
 
-Route::resource('books', 'BooksController');
+//Route::resource('books', 'BooksController');
 
-Route::group(['prefix' => 'account', 'as' => 'Account.'], function(){
-    Route::get('/', ['uses' => 'UsersController@index']);
-    Route::get('/mybooks', ['uses' => 'UsersController@my_books']);
-    Route::get('change_password', ['uses' => 'UsersController@change_password']);
-    Route::patch('change_password', ['uses' => 'UsersController@update_password']);
-    Route::get('update', ['uses' => 'UsersController@update']);
+Route::group(['prefix' => 'books', 'as' => 'books.'], function(){
+    Route::get('/', ['as' => 'index', 'uses' => 'BooksController@index']);
+    Route::get('/create', ['as' => 'create', 'uses' => 'BooksController@create']);
+    Route::post('/store', ['as' => 'store', 'uses' => 'BooksController@store']);
+    Route::get('/{books}/edit', ['as' => 'edit', 'uses' => 'BooksController@edit'])->where('books', '[0-9]+');
+    Route::put('/{books}/update', ['as' => 'update', 'uses' => 'BooksController@update'])->where('books', '[0-9]+');
+    Route::get('/{books}', ['as' => 'show', 'uses' => 'BooksController@show'])->where('books', '[0-9]+');
+});
+
+Route::group(['prefix' => 'account', 'as' => 'accounts.'], function(){
+    Route::get('/', ['as' => 'index', 'uses' => 'UsersController@index']);
+    Route::get('/mybooks', ['as' => 'mybooks', 'uses' => 'UsersController@my_books']);
+    Route::get('change_password', ['as' => 'change_password', 'uses' => 'UsersController@change_password']);
+    Route::patch('change_password', ['as' => 'update_password', 'uses' => 'UsersController@update_password']);
+    Route::get('update', ['as' => 'update', 'uses' => 'UsersController@update']);
 });
 
 Route::controllers([

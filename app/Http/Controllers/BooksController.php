@@ -282,7 +282,7 @@ class BooksController extends Controller {
 
 
     /**
-     * Sync up the list of courses in the database
+     * Sync up the list of courses in the database:
      *
      * @param Book $book
      * @param array $courses

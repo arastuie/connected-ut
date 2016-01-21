@@ -8,7 +8,7 @@
 
     @include('errors._list')
 
-    {!! Form::model($book, ['method' => 'PATCH', 'action' => ['BooksController@update', $book->id], 'files' => true, 'class' => 'form-horizontal']) !!}
+    {!! Form::model($book, ['method' => 'PUT', 'action' => ['BooksController@update', $book->id], 'files' => true, 'class' => 'form-horizontal']) !!}
         @include('books._form', ['submitBtnText' => 'Update', 'action' => 'edit'])
     {!! Form::close() !!}
 

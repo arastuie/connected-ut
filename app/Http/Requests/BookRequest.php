@@ -19,10 +19,9 @@ class BookRequest extends Request {
                 return (Auth::check());
             }
 
-            case 'PATCH':
+            case 'PUT':
             {
                 $book = $this->route('books');
-
                 return ($book->user_id === Auth::id());
             }
 
