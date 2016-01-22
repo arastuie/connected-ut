@@ -10,17 +10,17 @@
 
 <div class="form-group">
     {!! Form::label('author_list', 'Authors:') !!}
-    {!! Form::select('author_list[]', $authors, null, ['id' => 'author_list', 'class' => 'form-control', 'multiple']) !!}
+    {!! Form::select('author_list[]', $authors, null, ['id' => 'author_list', 'class' => 'form-control', 'style' => 'width: 100%', 'multiple']) !!}
 </div>
 
 <div class="form-group">
     {!! Form::label('instructor_list', 'Instructors:') !!}
-    {!! Form::select('instructor_list[]', $instructors, null, ['id' => 'instructor_list', 'class' => 'form-control', 'multiple']) !!}
+    {!! Form::select('instructor_list[]', $instructors, null, ['id' => 'instructor_list', 'class' => 'form-control', 'style' => 'width: 100%', 'multiple']) !!}
 </div>
 
 <div class="form-group">
     {!! Form::label('course_list', 'Courses:') !!}
-    {!! Form::select('course_list[]', $courses, null, ['id' => 'course_list', 'class' => 'form-control', 'multiple']) !!}
+    {!! Form::select('course_list[]', $courses, null, ['id' => 'course_list', 'class' => 'form-control', 'style' => 'width: 100%', 'multiple']) !!}
 </div>
 
 <div class="form-group">

@@ -1,7 +1,6 @@
 @extends('master')
 
 @section('content')
-
     <div class="full-width clearfix">
         <a class="style-reset" href="/books/create">
             <div class="update-info">
@@ -33,22 +32,43 @@
                     <a href="/books/{{$book->id}}/edit"><i class="fa fa-pencil-square-o"></i> Update / Delete</a>
                 </div>
 
-                <div class="item-spec col-sm-2 hidden-xs"><a href="#">
-                        <i class="fa fa-check-square-o"></i> Mark as sold</a>
+
+                <div class="item-spec col-sm-2 hidden-xs">
+                    <a class="mark-sold" data-toggle="modal" data-target=".bs-modal-sm"><i class="fa fa-check-square-o"></i> Mark as sold</a>
                 </div>
+
 
                 <div class="item-spec btn-group col-xs-2 col-xs-offset-0 hidden-sm hidden-md hidden-lg">
                     <a class="options-btn btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-cog"></i>  <span class="fa fa-caret-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li><a href="#"><i class="fa fa-check-square-o"></i> Mark as sold</a></li>
                         <li><a href="/books/{{$book->id}}/edit"><i class="fa fa-pencil-square-o"></i> Update / Delete</a></li>
+                        <li><a class="mark-sold" data-toggle="modal" data-target=".bs-modal-sm"><i class="fa fa-check-square-o"></i> Mark as sold</a></li>
                     </ul>
                 </div>
+
+
+                {{--Modal confirmation for Mark as sold--}}
+
+                <div class="modal fade bs-modal-sm" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h5 class="modal-title" id="gridSystemModalLabel">Well done! Just to confirm:</h5>
+                            </div>
+
+                            <div class="modal-footer">
+                                <a class="btn btn-primary" href="/books/{{$book->id}}/sold/true"><i class="fa fa-check-square-o"></i> Mark as sold</a>
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban"></i> Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <hr class="style-one"/>
-
         @empty
             <div class="row">
                 <div class="col-xs-12 no-item" style="text-align: center;">You do not have any books listed for selling. <a href="/books/create" class="link">Start selling one</a>.</div>
@@ -129,6 +149,9 @@
             text-overflow: ellipsis;
             padding-right: 5px;
         }
+        
+        a.mark-sold:hover{
+            cursor: pointer;
+        }
     </style>
-
 @endsection

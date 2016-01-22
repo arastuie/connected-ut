@@ -76,6 +76,9 @@ class Book extends Model {
         return Carbon::parse($date)->diffForHumans();
     }
 
+    public function created_at(){
+        return $this->created_at;
+    }
     /**
      * Returns the owner of the book
      *

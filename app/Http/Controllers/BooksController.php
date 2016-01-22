@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
-
+use Illuminate\Support\Facades\DB;
 
 class BooksController extends Controller {
 
@@ -32,7 +32,7 @@ class BooksController extends Controller {
     public function __construct()
     {
         $this->middleware('auth', ['except' => ['index', 'show']]);
-        $this->middleware('owner:books', ['only' => 'edit']);
+        $this->middleware('owner:books', ['only' => ['edit', 'destroy', 'update']]);
     }
 
 
@@ -138,6 +138,63 @@ class BooksController extends Controller {
         return redirect('books');
     }
 
+    /**
+     * Deletes an existing book and moves it to sold_deleted_books table
+     * Also moves the book's photos to images/sold_deleted_books/user_id
+     *
+     * @param Book $book
+     * @param sold
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function destroy(Book $book, $sold)
+    {
+        $this->insert_into_sold_deleted_books_table($book, $sold);
+
+        $this->move_photos($book);
+
+        $book->delete();
+
+        return redirect('account/mybooks');
+    }
+
+
+
+
+
+
+    /**
+     *  Insert the sold/deleted book's info into sold_deleted_books table
+     *
+     * @param Book $book
+     * @param $sold: routes wildcard. true = sold, false = deleted
+     * @return View
+     */
+    private function insert_into_sold_deleted_books_table(Book $book, $sold)
+    {
+        if($sold === 'true')
+            $is_sold = 1;
+        else if($sold === 'false')
+            $is_sold = 0;
+        else
+            return redirect('account/mybooks');
+
+        $instructors = implode(', ', $book->instructor_list);
+        $courses = implode(', ', $book->course_list);
+        $authors = implode(', ', $book->author_list);
+        $available_by = $book->getOriginal('available_by');
+        $posted_at = $book->getOriginal('created_at');
+        $date = date("Y-m-d H:i:s");
+
+        DB::INSERT("INSERT INTO `sold_deleted_books`
+                      (`user_id`, `is_sold`, `title`, `edition`, `instructors`, `courses`, `authors`,
+                       `publisher`, `ISBN_10`, `ISBN_13`, `published_year`, `description`, `condition`,
+                       `price`, `photos`, `available_by`, `posted_at`, `created_at`, `updated_at`)
+                      VALUES
+                      ($book->user_id, $is_sold, '$book->title', '$book->edition', '$instructors', '$courses',
+                        '$authors','$book->publisher', '$book->ISBN_10', '$book->ISBN_13', '$book->published_year',
+                        '$book->description', '$book->condition', $book->price, '$book->photos', '$available_by',
+                        '$posted_at', '$date', '$date')");
+    }
 
 
     /**
@@ -182,14 +239,13 @@ class BooksController extends Controller {
                 File::exists($users_photos_path) or File::makeDirectory($users_photos_path);
                 $image->save($users_photos_path . $fileName);
                 $photo_array[$key] = $users_id . '/' . $fileName;
-                //  array_push($photos, $users_id . '/' . $fileName);
             }
         }
 
         $photos = count($photo_array) > 0 ? implode(';', $photo_array) : null;
         $request->request->add(['photos' => $photos]);
 
-        // Just for update to match with del pics
+        // Just for update to match del pics
         return $photo_array;
     }
 
@@ -227,16 +283,42 @@ class BooksController extends Controller {
         if(count($photo_array) > 0)
         {
             ksort($photo_array);
-
             $photos = implode(';', $photo_array);
-
-        }else{
-
+        }else
             $photos = null;
-        }
 
 
         $request->request->set('photos' , $photos);
+    }
+
+
+    /**
+     * Moves all the photos of the deleted book to /images/sold_deleted_books/user_id
+     * Also deletes the deleted's book prev directory if empty
+     *
+     * @param Book $book
+     * @param $book
+     */
+    public function move_photos(Book $book)
+    {
+        if($book->photos === null)
+            return;
+
+        $users_deleted_photos_path = public_path() . '/images/sold_deleted_books/';
+        $users_photos_path = public_path() . '/images/books/';
+        $photos = explode(';', $book->photos);
+
+        File::exists($users_deleted_photos_path . $book->user_id) or File::makeDirectory($users_deleted_photos_path . $book->user_id);
+
+        foreach($photos as $photo)
+        {
+            if(File::exists($users_photos_path . $photo))
+                File::move($users_photos_path . $photo, $users_deleted_photos_path . $photo);
+        }
+
+        // Checks if the directory is empty
+        if(count(glob(public_path() . '/images/books/' . $book->user_id . '/*', GLOB_NOSORT)) === 0)
+            File::deleteDirectory($users_photos_path . $book->user_id);
     }
 
 
