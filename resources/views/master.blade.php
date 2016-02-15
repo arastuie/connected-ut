@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset=utf-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connected UT</title>
 
@@ -9,15 +9,14 @@
     <script src="/js/libs/modernizr.custom.13737.js" type="text/javascript"></script>
     <script src="/js/libs/bootstrap.min.js" type="text/javascript"></script>
 
-    <link href="/css/main-style.css" rel="stylesheet" type="text/css">
+
 
     <link href="/css/libs/normalize.css" rel="stylesheet" type="text/css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
     <link href='http://fonts.googleapis.com/css?family=Roboto:700italic,300,700,400' rel='stylesheet' type='text/css'>
 
-
+    <link href="/css/main-style.css" rel="stylesheet" type="text/css">
     @yield('head')
 
     @yield('style')
@@ -27,9 +26,9 @@
 
 <div class="container-fluid wrapper">
     <header>
-        <div id="top-portion" class="row"> <!-- if screen width goes under (768px), it keeps background separate than search box -->
-            <!-------------------------- LOGO --------------------------!-->
-            <div class="logo_div col-md-2 col-sm-2 col-xs-3">
+        <div id="top-portion" class="row"> {{--if screen width goes under (768px), it keeps background separate than search box--}}
+            {{-------------------------- LOGO ----------------------------}}
+            <div class="logo_div col-sm-2 col-xs-3">
                 {{--<div>Connected</div>--}}
                 {{--<br />--}}
                 {{--<div><span class="ut_yellow">U</span><span class="ut_blue">T</span></div>--}}
@@ -37,38 +36,52 @@
                 <img src="/images/general/connected-living-logo.png" alt=""/>
             </div>
 
-            <!-------------------- Primary search box -------------------!-->
+            {{--------------------- Primary search box --------------------}}
 
-            <div class="header-search_box col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1 col-xs-9 ">
+            {{--<div class="header-search_box col-md-7 col-md-offset-0 col-sm-5 col-sm-offset-1 col-xs-9 ">--}}
+                {{--<div class="row">--}}
+                    {{--<i class="fa fa-search col-sm-1 col-xs-1"></i>--}}
+
+                    {{--<form class="main_search_form col-sm-11 col-xs-11">--}}
+
+                        {{--<div class="row">--}}
+                            {{--<input class="search_input col-sm-10 col-xs-10" type="text" placeholder="Find the book you need">--}}
+                            {{--<button class="search_btn col-sm-2 col-xs-2">Go</button>--}}
+                        {{--</div>--}}
+                    {{--</form>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+
+
+            <div class="header-search-box col-md-7 col-md-offset-0 col-sm-5 col-sm-offset-1 col-xs-12">
                 <div class="row">
-                        <i class="fa fa-search col-md-1 col-sm-1 col-xs-1"></i>
+                    <i class="fa fa-search col-sm-1 col-xs-1"></i>
 
-                        <form class="main_search_form col-md-11 col-sm-11 col-xs-11">
+                    <form class="main-search-form col-sm-11 col-xs-11">
 
-                            <div class="row">
-                                <input class="search_input col-md-10 col-sm-10 col-xs-10" type="text" placeholder="Search for the book ">
-                                <button class="search_btn col-md-2 col-sm-2 col-xs-2">Go</button>
-                            </div>
-
-                        </form>
+                        <div class="row">
+                            <input class="search-input col-md-7 col-sm-6 col-xs-6" type="text" placeholder="Search...">
+                            <button class="go-search search-btn col-sm-2 col-xs-2">Go</button>
+                            <button class="adv-search search-btn col-sm-4 col-md-3 col-xs-4">Go Advanced</button>
+                        </div>
+                    </form>
                 </div>
-
             </div>
 
-            <!-------------------- LOGIN & SIGN UP -------------------!-->
-
+            {{------------------- LOGIN & SIGN UP --------------------}}
+{{--            {{dd($user)}}--}}
             @if($user == null)
-                <div class="login_box col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-7 col-xs-offset-2">
+                <div class="login_box col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-0 col-xs-7 col-xs-offset-2">
 
                     <div class="row">
                         <a href="/auth/login">
-                            <div class="log_in col-md-5 col-sm-5 col-xs-5 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
-                                <span>Log In</span>
+                            <div class="btn btn-default col-md-5 col-sm-5 col-xs-5 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+                                <span>Login</span>
                             </div>
                         </a>
                         <a href="/auth/register">
-                            <div class="sign_up col-md-5 col-sm-5 col-xs-5 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
-                                <span>Sign Up</span>
+                            <div class="btn btn-primary col-md-5 col-sm-5 col-xs-5 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+                                <span>Sign up</span>
                             </div>
                         </a>
                     </div>
@@ -76,13 +89,13 @@
                 </div>
             @else
 
-            <!--------------------- Account & Logout -----------------------!-->
+            {{--------------------- Account & Logout -----------------------}}
 
-                <div class="loggedin-box col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-7 col-xs-offset-2">
+                <div class="loggedin-box col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-0 col-xs-7 col-xs-offset-2">
                     <div class="row">
-                        <div class="account-ctr-wrap col-lg-6 col-lg-offset-2 col-md-7 col-md-offset-1 col-sm-9 col-sm-offset-0 col-xs-9 col-xs-offset-0">
+                        <div class="account-ctr-wrap col-md-8 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-9 col-xs-offset-0">
                             <div class="btn-group account-ctr">
-                                <a class="btn btn-primary" href="/account"><i class="fa fa-user fa-fw"></i> Account</a>
+                                <a class="btn btn-primary" href="/account"><i class="fa fa-user fa-fw"></i> Your Account</a>
                                 <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
                                     <span class="fa fa-caret-down"></span></a>
                                 <ul class="dropdown-menu">
@@ -95,7 +108,7 @@
                             </div>
                         </div>
 
-                        <div class="logout-btn col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-0 col-xs-3 col-xs-offset-0">
+                        <div class="logout-btn col-md-2 col-md-offset-1 col-sm-3 col-sm-offset-0 col-xs-3 col-xs-offset-0">
                             <a href="/auth/logout" class=""><i class="loggedin-btn fa fa-sign-out fa-2x"></i></a>
                         </div>
                     </div>
@@ -103,10 +116,12 @@
             @endif
         </div>
     </header>
-    <main>
-        <!-----------------All the content goes here----------------!-->
+
+    <main class="container-fluid">
+        {{------------------All the content goes here-----------------}}
         @yield('content')
     </main>
+
     <footer>
 
         <div class="copyright">

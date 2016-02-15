@@ -26,7 +26,7 @@ class RouteServiceProvider extends ServiceProvider {
 
 		$router->bind('books', function($id)
         {
-            return \App\Book::findOrFail($id);
+            return \App\Book::find($id);
         });
 	}
 

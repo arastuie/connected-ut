@@ -56,6 +56,7 @@ class BookRequest extends Request {
         foreach($this->files->get('pics') as $key => $pic)
         {
             $rules['pics.' . $key] = 'max:4000|image|mimes:jpeg,png';
+//            dd($pic);
         }
 
         return $rules;
@@ -72,7 +73,7 @@ class BookRequest extends Request {
 
         foreach($this->files->get('pics') as $key => $pic)
         {
-            $messages['pics.' . $key . '.between'] = 'Photo ' . ($key + 1) . ' should be less them 4MB.';
+            $messages['pics.' . $key . '.between'] = 'Photo ' . ($key + 1) .' should be less them 4MB.';
             $messages['pics.' . $key . '.mimes'] = 'Photo ' . ($key + 1) . '\'s type should be either jpeg or png.';
         }
 

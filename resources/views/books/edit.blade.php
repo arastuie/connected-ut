@@ -8,11 +8,14 @@
 
     @include('errors._list')
 
-    {!! Form::model($book, ['method' => 'PUT', 'action' => ['BooksController@update', $book->id], 'files' => true, 'class' => 'form-horizontal']) !!}
+    {!! Form::model($book, ['method' => 'PUT', 'action' => ['BooksController@update', $book->id], 'files' => true, 'class' => 'form-horizontal book-request-form']) !!}
         @include('books._form', ['submitBtnText' => 'Update', 'action' => 'edit'])
     {!! Form::close() !!}
 
-    <a class="btn btn-danger form-control" data-toggle="modal" data-target=".bs-modal-sm">Delete</a>
+    <div style="margin-bottom: 20px">
+        <a class="btn btn-danger form-control" data-toggle="modal" data-target=".bs-modal-sm">Delete</a>
+    </div>
+
 
     {{--Modal confirmation for delete--}}
     <div class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">

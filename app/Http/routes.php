@@ -1,13 +1,12 @@
 <?php
 
-Route::get('/', 'WelcomeController@index');
-Route::get('home', 'HomeController@index');
+Route::get('/', function(){
+    return view('index');
+});
 
-//Route::get('books', 'BooksController@index');
-//Route::get('books/create', 'BooksController@create');
-//Route::post('books/store', 'BooksController@store');
-//Route::get('books/{books}/edit', 'BooksController@edit')->where('id', '[0-9]+');
-//Route::patch('books/update', 'BooksController@update');
+Route::get('/home', function(){
+    return view('index');
+});
 
 //Route::resource('books', 'BooksController');
 
@@ -19,7 +18,7 @@ Route::group(['prefix' => 'books', 'as' => 'books.'], function(){
     Route::put('/{books}/update', ['as' => 'update', 'uses' => 'BooksController@update'])->where('books', '[0-9]+');
     Route::get('/{books}/sold/{sold}', ['as' => 'sold/delete', 'uses' => 'BooksController@destroy'])->where(['books' => '[0-9]+', 'sold' => 'true|false']);
     Route::get('/{books}', ['as' => 'show', 'uses' => 'BooksController@show'])->where('books', '[0-9]+');
-
+    Route::get('/search', ['as' => 'search', 'uses' => 'BooksController@search']);
 });
 
 Route::group(['prefix' => 'account', 'as' => 'accounts.'], function(){
@@ -34,3 +33,9 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
+//Route::get('/search', function(App\Services\Search $search, Illuminate\Http\Request $request){
+//    //dd($request->request->all());
+//    $search->on('books')->filter($request->request->all())->get();
+//});
+

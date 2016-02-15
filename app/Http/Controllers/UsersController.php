@@ -90,7 +90,8 @@ class UsersController extends Controller {
 
     public function my_books()
     {
-        $books = Auth::user()->books;
+        $books = Auth::user()->books()->orderBy('created_at', 'DESC')->get();
+
         foreach($books as $book)
             $book->photos = explode(';', $book->photos)[0];
 

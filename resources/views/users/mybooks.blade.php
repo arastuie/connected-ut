@@ -71,7 +71,7 @@
             <hr class="style-one"/>
         @empty
             <div class="row">
-                <div class="col-xs-12 no-item" style="text-align: center;">You do not have any books listed for selling. <a href="/books/create" class="link">Start selling one</a>.</div>
+                <div class="col-xs-12 no-item">You do not have any books listed for selling. <a href="/books/create" class="link">Start selling one</a>.</div>
             </div>
         @endforelse
 

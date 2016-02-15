@@ -1,0 +1,227 @@
+-- phpMyAdmin SQL Dump
+-- version 4.4.10
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost:8889
+-- Generation Time: Jan 28, 2016 at 01:01 AM
+-- Server version: 5.5.42
+-- PHP Version: 5.6.10
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `connected_ut`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `departments`
+--
+
+CREATE TABLE `departments` (
+  `id` int(10) unsigned NOT NULL,
+  `acronym` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=174 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `departments`
+--
+
+INSERT INTO `departments` (`id`, `acronym`, `name`) VALUES
+(1, 'ACCT', 'Accounting (ACCT)'),
+(2, 'ACTG', 'Accounting (ACTG)'),
+(3, 'ALS', 'Adult Liberal Studies'),
+(4, 'AL', 'Adult and Lifelong Learning'),
+(5, 'AERO', 'Aerospace Studies'),
+(6, 'AFST', 'Africana Studies'),
+(7, 'XALI', 'American Language Institute'),
+(8, 'AMST', 'American Studies'),
+(9, 'ANAT', 'Anatomy and Neurosciences'),
+(10, 'ANES', 'Anesthesiology'),
+(11, 'ANTH', 'Anthropology'),
+(12, 'ARBC', 'Arabic Language'),
+(13, 'ART', 'Art'),
+(14, 'AED', 'Art Education'),
+(15, 'ARTH', 'Art History'),
+(16, 'ASST', 'Asian Studies'),
+(17, 'ASTR', 'Astronomy'),
+(18, 'BSCI', 'Basic Science MD Elective'),
+(19, 'BIOE', 'Bioengineering'),
+(20, 'BIPG', 'Bioinform and Proteom-Genomics'),
+(21, 'BIOL', 'Biology'),
+(22, 'BRIM', 'Biomarker Res Indiv Medicine'),
+(23, 'BME', 'Biomedical Engineering'),
+(24, 'BMSP', 'Biomedical Sciences Pgm'),
+(25, 'BUAD', 'Business Administration'),
+(26, 'BANS', 'Business Analysis'),
+(27, 'BLAW', 'Business Law'),
+(28, 'BMGT', 'Business Management Technology'),
+(29, 'CABP', 'Cancer Biology'),
+(30, 'CVMD', 'Cardiovasc and Metab Disease'),
+(31, 'CTE', 'Career and Technical Education'),
+(32, 'CHEE', 'Chemical and Envrnmntl Engnrng'),
+(33, 'CHEM', 'Chemistry'),
+(34, 'CHIN', 'Chinese'),
+(35, 'CIVE', 'Civil Engineering'),
+(36, 'CLC', 'Classics'),
+(37, 'COMM', 'Communication'),
+(38, 'COCA', 'Communication and the Arts'),
+(39, 'CNET', 'Computer Network Technology'),
+(40, 'CSET', 'Computer Sci Engineering Tech'),
+(41, 'CMPT', 'Computer Technology'),
+(42, 'COMP', 'Computers: Medicine'),
+(43, 'CET', 'Construction Engineering Tech'),
+(44, 'GERO', 'Contemporary Gerontology Pract'),
+(45, 'COUN', 'Counseling'),
+(46, 'CRIM', 'Criminal Justice'),
+(47, 'CIEC', 'Curric and Instr: Erly Childhd'),
+(48, 'CI', 'Curriculum and Instruction'),
+(49, 'DENT', 'Dentistry - Oral Biology'),
+(50, 'DERM', 'Dermatology'),
+(51, 'DST', 'Disability Studies'),
+(52, 'EEES', 'Earth Ecol and Environmntl Sci'),
+(53, 'ECON', 'Economics'),
+(54, 'ETPT', 'Educ Tech and Performance Tech'),
+(55, 'EDU', 'Education'),
+(56, 'EDAS', 'Educational Admin and Supervsn'),
+(57, 'EDP', 'Educational Psychology'),
+(58, 'EECS', 'Electrical Eng and Computr Sci'),
+(59, 'EET', 'Electrical Engineering Tech'),
+(60, 'EBUS', 'Electronic Commerce'),
+(61, 'ERMD', 'Emergency Medicine'),
+(62, 'ENGT', 'Engineering Technology'),
+(63, 'ENGL', 'English'),
+(64, 'EFSB', 'Entrepren, Fam and Small Busn'),
+(65, 'ENV', 'Environmental Studies - BGSU'),
+(66, 'EMBA', 'Executive MBA'),
+(67, 'FMMD', 'Family Medicine'),
+(68, 'FILM', 'Film'),
+(69, 'FINA', 'Finance'),
+(70, 'FLEX', 'Flex Time'),
+(71, 'FDNU', 'Food and Nutrition - BGSU'),
+(72, 'FLAN', 'Foreign Language'),
+(73, 'FREN', 'French'),
+(74, 'GNEN', 'General Engineering'),
+(75, 'GEPL', 'Geography and Planning'),
+(76, 'GERM', 'German'),
+(77, 'GIFT', 'Gifted and Talented Education'),
+(78, 'GLHL', 'Global Health'),
+(79, 'HCAR', 'Health Care'),
+(80, 'HEAL', 'Health Education'),
+(81, 'HIM', 'Health Information Management'),
+(82, 'HSHS', 'Health Science & Human Service'),
+(83, 'HHS', 'Health and Human Services'),
+(84, 'HED', 'Higher Education'),
+(85, 'HIST', 'History'),
+(86, 'HON', 'Honors'),
+(87, 'HDSC', 'Human Donation Science'),
+(88, 'HURM', 'Human Resource Managment'),
+(89, 'HUM', 'Humanities'),
+(90, 'IITP', 'Infect, Immun, Transplant'),
+(91, 'INFS', 'Information Systems'),
+(92, 'INDI', 'Interdisciplinary'),
+(93, 'IDS', 'Interdisciplinary Studies'),
+(94, 'IBUS', 'International Business'),
+(95, 'JAPN', 'Japanese'),
+(96, 'KINE', 'Kinesiology'),
+(97, 'LLSS', 'Lang, Lit, and Soc Sciences'),
+(98, 'LAT', 'Latin'),
+(99, 'LAWG', 'Law (Bar-Tested)'),
+(100, 'LAWD', 'Law (Basic First-Yr Required)'),
+(101, 'LAWN', 'Law (Clinics and Skills)'),
+(102, 'LAWI', 'Law (Electives)'),
+(103, 'LAWL', 'Law (Law Revw and Moot Court)'),
+(104, 'LAWT', 'Law (Special Topics)'),
+(105, 'LAWA', 'Law (Upper Level Required)'),
+(106, 'LAWP', 'Law (Writing and Indep Resrch)'),
+(107, 'LST', 'Law and Social Thought'),
+(108, 'LGL', 'Legal Specialties'),
+(109, 'LING', 'Linguistics'),
+(110, 'MGMT', 'Management'),
+(111, 'MFGM', 'Manufacturing Management'),
+(112, 'MKTG', 'Marketing'),
+(113, 'MARS', 'Marketing and Sales Technology'),
+(114, 'MLS', 'Master of Liberal Studies'),
+(115, 'MATH', 'Mathematics'),
+(116, 'MIME', 'Mech, Ind, Mfg Engineering'),
+(117, 'MET', 'Mechanical Engineering Tech'),
+(118, 'MPHY', 'Medical Physics'),
+(119, 'MEDT', 'Medical Technology'),
+(120, 'MBC', 'Medicinal-Biological Chemistry'),
+(121, 'MEDI', 'Medicine'),
+(122, 'MICB', 'Microbiology'),
+(123, 'MSL', 'Military Science and Leadershp'),
+(124, 'MUS', 'Music'),
+(125, 'MED', 'Music Education'),
+(126, 'NEUR', 'Neurology'),
+(127, 'NNDP', 'Neurosci and Neurologcl Disord'),
+(128, 'NERS', 'Neuroscience'),
+(129, 'NEUS', 'Neurosurgery'),
+(130, 'NURS', 'Nursing'),
+(131, 'OBGY', 'Obstetrics and Gynecology'),
+(132, 'OCCT', 'Occupational Therapy'),
+(133, 'OSCM', 'Operations & Supply Chain Mgmt'),
+(134, 'OPMT', 'Operations Management'),
+(135, 'OPTH', 'Opthalmology'),
+(136, 'ORTH', 'Orthopedics'),
+(137, 'ENTS', 'Otolaryngology'),
+(138, 'PATH', 'Pathology'),
+(139, 'PEDS', 'Pediatrics'),
+(140, 'PHCL', 'Pharmacology'),
+(141, 'PHPR', 'Pharmacy Practice'),
+(142, 'PHIL', 'Philosophy'),
+(143, 'PED', 'Physical Education'),
+(144, 'PMNR', 'Physical Medicine and Rehab'),
+(145, 'PHYT', 'Physical Therapy'),
+(146, 'PHYA', 'Physician Assistant'),
+(147, 'PHYS', 'Physics'),
+(148, 'PSRG', 'Plastic Surgery'),
+(149, 'PSC', 'Political Science'),
+(150, 'PMED', 'Pre-Medical'),
+(151, 'PSLS', 'Professional Sales'),
+(152, 'PSCH', 'Psychiatry'),
+(153, 'PSY', 'Psychology'),
+(154, 'PUBH', 'Public Health'),
+(155, 'RDON', 'Radiation Oncology'),
+(156, 'RADI', 'Radiology'),
+(157, 'RCRT', 'Recreation and Rec Therapy'),
+(158, 'REL', 'Religion'),
+(159, 'RESM', 'Research and Measurement'),
+(160, 'RCBS', 'Respiratory Care'),
+(161, 'SPSY', 'School Psychology'),
+(162, 'SOCW', 'Social Work'),
+(163, 'SOC', 'Sociology'),
+(164, 'SPAN', 'Spanish'),
+(165, 'SISS', 'Spatially Integrated Soc Sci'),
+(166, 'SPED', 'Special Education'),
+(167, 'SLP', 'Speech Language Pathology'),
+(168, 'SURG', 'Surgery'),
+(169, 'THR', 'Theatre'),
+(170, 'TSOC', 'Theory and Social Foundations'),
+(171, 'UROL', 'Urology'),
+(172, 'WGST', 'Women and Gender Studies'),
+(173, 'YC', 'You College');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `departments`
+--
+ALTER TABLE `departments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `departments_acronym_index` (`acronym`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `departments`
+--
+ALTER TABLE `departments`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=174;

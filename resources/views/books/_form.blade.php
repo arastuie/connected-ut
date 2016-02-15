@@ -93,7 +93,7 @@
 
 <div class="form-group">
     {!! Form::label('ISBN_13', 'ISBN-13:') !!}
-    {!! Form::text('ISBN_13', null, ['class' => 'form-control', 'placeholder' => 'eg: 978-0321588760']) !!}
+    {!! Form::text('ISBN_13', null, ['class' => 'form-control', 'placeholder' => 'eg: 9780321588760']) !!}
 </div>
 
 <div class="form-group">
@@ -117,6 +117,11 @@
 
 @section('style')
     <style>
+        form.book-request-form{
+            padding: 5px 30px;
+            position: relative;
+        }
+
         div.browse-photo{
             width: 15%;
             min-width: 200px;
