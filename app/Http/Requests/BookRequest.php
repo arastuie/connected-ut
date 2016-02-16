@@ -50,9 +50,10 @@ class BookRequest extends Request {
             'ISBN_13' => 'max:20',
             'ISBN_10' => 'max:20',
             'publisher' => 'max:100',
-            'published_year' => 'numeric'
+            'published_year' => 'numeric',
+            'obo' => 'boolean'
         ];
-
+//        dd($this->get('obo'));
         foreach($this->files->get('pics') as $key => $pic)
         {
             $rules['pics.' . $key] = 'max:4000|image|mimes:jpeg,png';

@@ -15,6 +15,7 @@ class Book extends Model {
         'description',
         'condition',
         'price',
+        'obo',
         'available_by',
         'photos',
         'edition',

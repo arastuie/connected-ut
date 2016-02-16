@@ -7,31 +7,48 @@
     @include('books._detailedSearch', ['search' => $respond['search']])
 
     <div class="row search-status-box">
-        <div class="col-sm-12">
+        <div class="search-info-box col-sm-9 col-xs-6">
             @if($respond['search'] == null)
-                Here is the latest book listings. Search for the one you need!
+                Latest book listings.
 
             @elseif($respond['paginator']['total_pages'] == 1)
                 @if($respond['paginator']['total_count'] > 1)
-                {{ $respond['paginator']['total_count'] }} books for your search.
+                {{ $respond['paginator']['total_count'] }} books
                 @elseif($respond['paginator']['total_count'] == 1)
-                    1 book for your search.
+                    1 book
                 @endif
 
             @elseif($respond['paginator']['total_pages'] > 1)
                 {{ $respond['paginator']['item_from'] }}-{{ $respond['paginator']['item_to'] }}
-                of {{ $respond['paginator']['total_count'] }} books for your search.
+                of {{ $respond['paginator']['total_count'] }} books
 
             @else
                 No book was found.
             @endif
         </div>
+
+        {{--     Number of books per page dropdown     --}}
+        <div class="per-page-dropdown col-xs-6 col-sm-3">
+            <div class=" dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Books per page
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="/books?{{ $respond['query'] }}&limit=5">5</a></li>
+                    <li><a href="/books?{{ $respond['query'] }}&limit=10">10</a></li>
+                    <li><a href="/books?{{ $respond['query'] }}&limit=20">20</a></li>
+                    <li><a href="/books?{{ $respond['query'] }}&limit=50">50</a></li>
+                </ul>
+            </div>
+        </div>
+
     </div>
 
     <div class="container-fluid results-container">
         @foreach($respond['data'] as $book)
             <div class="row item-row">
-                <div class="col-md-4 col-lg-3 col-sm-4 col-xs-4 image-box v-center">
+                <div class="col-md-4 col-lg-3 col-sm-4 col-xs-4 image-box v-center-media">
                     <a href="/books/{{ $book['id'] }}">
                         @if($book['photos'] != null)
                             <img class="item-img" src="/images/books/{{ $book['photos'] }}">
@@ -41,7 +58,7 @@
                     </a>
 
                 </div><!--
-         --><div class="col-sm-8 col-md-8 col-lg-9 col-xs-8 v-center info-box">
+         --><div class="col-sm-8 col-md-8 col-lg-9 col-xs-8 v-center-media info-box">
                     <span class="title">{!! link_to_action('BooksController@show', $book['title'], $book['id']) !!},</span>
                     <span>{{ $book['edition'] }} edition</span>
                     <span><i>( {{ $book['condition'] }} )</i></span>
@@ -73,8 +90,14 @@
                         </div>
                     @endif
 
-
-                    <div class="price">&#36;{{ $book['price'] }}</div>
+                    <div class="price-box">
+                        <div class="price">&#36;{{ $book['price'] }}</div>
+                        @if($book['obo'])
+                            <div class="obo-tag">
+                                <span class="label label-info">OBO</span>
+                            </div>
+                        @endif
+                    </div>
 
                     <span>Available @if($book['available_by'] != 'now') by @endif {{ $book['available_by'] }}</span>
                     <br />
@@ -145,37 +168,37 @@
             font-weight: 500;
         }
 
+        div.price-box{
+            margin: 5px 0;
+            height: 30px;
+            display: flex;
+        }
+
         div.price{
             font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
             font-size: 16px;
             color: #ac2925;
             font-weight: bold;
-            margin: 7px 0;
+            padding: 0 15px 0 0;
+            display: inline;
+            margin: auto 0;
+            height: 21px;
+        }
+        
+        div.obo-tag{
+            display: inline;
+            margin: auto 0;
+            height: 25px;
         }
 
         @media screen and (min-width: 480px) {
-            div.v-center{
+            div.v-center-media{
                 display: inline-block;
                 vertical-align: middle;
                 float: none;
             }
         }
 
-        div.search-status-box{
-            border-top: 1px solid #EFEFEF;
-            border-bottom: 1px solid #EFEFEF;
-            box-shadow: 0 0 5px #ddd;
-            -webkit-box-shadow: 0 0 5px #ddd;
-            -moz-box-shadow: 0 0 5px #ddd;
-            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-            font-size: 16px;
-        }
-
-        div.search-status-box div{
-            min-height: 50px;
-            line-height: 50px;
-        }
-        
         div.results-container{
             padding: 0;
             margin: 15px 0;
@@ -201,6 +224,30 @@
 
         div.pagination-row{
             text-align: center;
+        }
+
+        div.search-status-box{
+            border-top: 1px solid #EFEFEF;
+            border-bottom: 1px solid #EFEFEF;
+            box-shadow: 0 0 5px #ddd;
+            -webkit-box-shadow: 0 0 5px #ddd;
+            -moz-box-shadow: 0 0 5px #ddd;
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            font-size: 14px;
+            height: 50px;
+        }
+
+        div.per-page-dropdown{
+            padding: 6px 30px 6px 0;
+        }
+        
+        div.per-page-dropdown .dropdown{
+            float: right;
+        }
+
+        div.search-info-box{
+            height: 100%;
+            line-height: 50px;
         }
     </style>
 @endsection

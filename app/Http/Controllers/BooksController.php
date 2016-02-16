@@ -67,13 +67,13 @@ class BooksController extends ApiController {
      * @param Search $search
      * @return \Illuminate\View\View
      */
-    public function index(Search $search)
+    public function index(Search $search, Request $request)
     {
         $result = null;
         $seachInputs = null;
         $limit = (int)(Input::get('limit', 10));
 
-        if($limit > 50 || $limit < 1)
+        if($limit > 50 || $limit < 5)
             $limit = 10;
 
 
@@ -89,7 +89,8 @@ class BooksController extends ApiController {
 
         $respond = $this->respondWithPagination($result, Input::except('page'), [
             'data' => $this->bookTransformer->transformCollection($result->all()),
-            'search' => $seachInputs
+            'search' => $seachInputs,
+            'query' => http_build_query(Input::except(['limit', 'page']))
         ]);
 
 //        dd($respond->getContent());
@@ -119,13 +120,6 @@ class BooksController extends ApiController {
         return $this->respond([
             'data' => $this->bookTransformer->transform($book, self::WITH_ALL_PHOTOS)
         ]);
-    }
-
-
-    public function search(Search $search, Request $searchRequest)
-    {
-        $result = $search->on('books')->filter(Input::all())->get();
-        dd($result);
     }
 
 

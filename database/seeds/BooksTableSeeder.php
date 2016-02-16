@@ -13,7 +13,7 @@ Class BooksTableSeeder extends \Illuminate\Database\Seeder
 {
     public function run()
     {
-        $count = 30; // Number of fake books needed
+        $count = 100; // Number of fake books needed
 
         $faker = Faker::create();
 
@@ -34,6 +34,7 @@ Class BooksTableSeeder extends \Illuminate\Database\Seeder
                 'description' => $faker->realText(120, 2),
                 'condition' => $faker->numberBetween(0, 3),
                 'price' => $faker->randomFloat(2, 1, 200),
+                'obo' => $faker->boolean(),
                 'available_by' => Carbon::createFromTimestamp($faker->dateTimeBetween('now', '+10 days')->getTimestamp()),
                 'created_at' => $date,
                 'updated_at' => $date,

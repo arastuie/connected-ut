@@ -1,3 +1,5 @@
+<div class="alert alert-info" role="alert"><strong>Keep in mind that books with more info sell faster!</strong></div>
+
 <div class="form-group">
     {!! Form::label('title', '*Title:') !!}
     {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'eg: Thomas\' Calculus: Early Transcendentals']) !!}
@@ -32,7 +34,13 @@
     {!! Form::label('price', '*Price:') !!}
     <div class="input-group">
         <span class="input-group-addon"><i class="fa fa-usd fa-fw"></i></span>
+
         {!! Form::input('number', 'price', null, ['class' => 'form-control', 'step' => '0.01', 'placeholder' => 'eg: 12.50']) !!}
+
+        <span class="input-group-addon">
+            Or Better Offer
+            {!! Form::checkbox('obo', 1, null, ['class' => 'form-horizental']) !!}
+        </span>
     </div>
 </div>
 
@@ -87,9 +95,6 @@
     {!! Form::label('description', 'Description:') !!}
     {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Description']) !!}
 </div>
-
-<br />
-<h4>Books with more info sell faster!</h4>
 
 <div class="form-group">
     {!! Form::label('ISBN_13', 'ISBN-13:') !!}

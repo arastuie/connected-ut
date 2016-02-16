@@ -34,7 +34,7 @@
 
 
                 <div class="item-spec col-sm-2 hidden-xs">
-                    <a class="mark-sold" data-toggle="modal" data-target=".bs-modal-sm"><i class="fa fa-check-square-o"></i> Mark as sold</a>
+                    <a class="mark-sold" data-toggle="modal" data-target=".bs-modal-sm{{$book->id}}"><i class="fa fa-check-square-o"></i> Mark as sold</a>
                 </div>
 
 
@@ -44,14 +44,14 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li><a href="/books/{{$book->id}}/edit"><i class="fa fa-pencil-square-o"></i> Update / Delete</a></li>
-                        <li><a class="mark-sold" data-toggle="modal" data-target=".bs-modal-sm"><i class="fa fa-check-square-o"></i> Mark as sold</a></li>
+                        <li><a class="mark-sold" data-toggle="modal" data-target=".bs-modal-sm{{$book->id}}"><i class="fa fa-check-square-o"></i> Mark as sold</a></li>
                     </ul>
                 </div>
 
 
                 {{--Modal confirmation for Mark as sold--}}
 
-                <div class="modal fade bs-modal-sm" tabindex="-1" role="dialog">
+                <div class="modal fade bs-modal-sm{{$book->id}}" tabindex="-1" role="dialog">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">

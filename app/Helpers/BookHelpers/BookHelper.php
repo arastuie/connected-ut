@@ -47,6 +47,7 @@ class BookHelper
             'description' => $book->description,
             'condition' => $book->condition,
             'price' => $book->price,
+            'obo' => $book->obo,
             'photos' => $book->photos,
             'available_by' => $book->getOriginal('available_by'),
             'posted_at' => $book->getOriginal('created_at'),
@@ -303,6 +304,9 @@ class BookHelper
     {
         self::save_photos($request);
 
+        if(! $request->has('obo'))
+            $request->request->add(['obo' => 0]);
+
         $book = Auth::user()->books()->create($request->all());
 
         self::syncInstructors($book, $request->input('instructor_list'));
@@ -324,6 +328,9 @@ class BookHelper
     public static function update_book(BookRequest $request, Book $book)
     {
         self::update_photos($request, $book);
+
+        if(! $request->has('obo'))
+            $request->request->add(['obo' => 0]);
 
         $book->update($request->all());
 

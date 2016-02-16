@@ -35,6 +35,7 @@ class CreateSoldDeletedBooksTable extends Migration
             $table->text('description')->nullable();
             $table->integer('condition');
             $table->decimal('price', 8, 2);
+            $table->boolean('obo');
             $table->text('photos')->nullable();
             $table->timestamp('posted_at');
             $table->timestamp('available_by');
@@ -49,6 +50,6 @@ class CreateSoldDeletedBooksTable extends Migration
      */
     public function down()
     {
-        Schema::drop('books');
+        Schema::drop('sold_deleted_books');
     }
 }

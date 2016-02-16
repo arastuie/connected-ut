@@ -62,7 +62,7 @@
                         <div class="row">
                             <input class="search-input col-md-7 col-sm-6 col-xs-6" type="text" placeholder="Search...">
                             <button class="go-search search-btn col-sm-2 col-xs-2">Go</button>
-                            <button class="adv-search search-btn col-sm-4 col-md-3 col-xs-4">Go Advanced</button>
+                            <button class="adv-search search-btn col-sm-4 col-md-3 col-xs-4">Go Detailed</button>
                         </div>
                     </form>
                 </div>
