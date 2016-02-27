@@ -60,7 +60,7 @@
                             </div>
 
                             <div class="modal-footer">
-                                <a class="btn btn-primary" href="/books/{{$book->id}}/sold/true"><i class="fa fa-check-square-o"></i> Mark as sold</a>
+                                <a class="btn btn-primary mark-as-sold" data-book="{{$book->id}}"><i class="fa fa-check-square-o"></i> Mark as sold</a>
                                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban"></i> Cancel</button>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                 <div class="col-xs-12 no-item">You do not have any books listed for selling. <a href="/books/create" class="link">Start selling one</a>.</div>
             </div>
         @endforelse
-
+        <div class="token" data-token="{{ csrf_token() }}" style="display: none;"></div>
     </div>
 @endsection
 
@@ -154,4 +154,22 @@
             cursor: pointer;
         }
     </style>
+@endsection
+
+@section('script')
+<script>
+    $(function() {
+        $('a.mark-as-sold').on('click', function(){
+            var token = $('div.token').attr('data-token');
+            var bookID = $(this).attr('data-book');
+            $.ajax({
+                url: "/books/" + bookID + "/sold",
+                type: "PUT",
+                data: {_token : token},
+            }).done(function(){
+                window.location.reload(true);
+            });
+        });
+    });
+</script>
 @endsection

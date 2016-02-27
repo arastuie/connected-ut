@@ -211,6 +211,22 @@
 
     <script>
         $(function() {
+            $('a.delete-book').on('click', function(){
+                var token = $(this).attr('data-token');
+                var bookID = $(this).attr('data-book');
+                $.ajax({
+                    url: "/books/" + bookID,
+                    type: "DELETE",
+                    data: {_token : token},
+                }).done(function(){
+                    window.location.replace("/account/mybooks");
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(function() {
            // Rest of the javascript is for photo selection
 
            // uploaded pic div for edit form

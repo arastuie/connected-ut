@@ -17,24 +17,14 @@ class BookHelper
      *  Insert the sold/deleted book's info into sold_deleted_books table
      *
      * @param Book $book
-     * @param $sold: routes wildcard. true = sold, false = deleted
+     * @param $sold: true = sold, false = deleted
      * @return View
      */
     public static function insert_into_sold_deleted_books_table(Book $book, $sold)
     {
-        if(!$book->id)
-            return redirect('account/mybooks');
-
-        if($sold === 'true')
-            $is_sold = 1;
-        else if($sold === 'false')
-            $is_sold = 0;
-        else
-            return redirect('account/mybooks');
-
         DB::table('sold_deleted_books')->insert([
             'user_id' => $book->user_id,
-            'is_sold' => $is_sold,
+            'is_sold' => $sold,
             'title' => $book->title,
             'edition' => $book->edition,
             'instructors' => implode(', ', $book->instructor_list),

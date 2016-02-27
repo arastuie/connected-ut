@@ -17,12 +17,7 @@ use Illuminate\Support\Facades\Response;
 use App\Services\Search;
 
 class BooksController extends ApiController {
-
-    /**
-     * @var array Book's possible conditions
-     */
-    private $conditions = ['New', 'Like New', 'Very Good', 'Good', 'Acceptable'];
-
+    // A flag for photos
     const WITH_ALL_PHOTOS = false;
 
     /**
@@ -31,33 +26,17 @@ class BooksController extends ApiController {
     protected $bookTransformer;
 
     /**
-     * @var \App\Helpers\Transformers\AuthorTransformer;
-     */
-    protected $authorTransformer;
-
-    /**
-     * @var \App\Helpers\Transformers\TagTransformer;
-     */
-    protected $tagTransformer;
-
-
-    /**
      * Create a new instance of books controller.
      *
      * Setting middleware for auth users
      * @param BookTransformer $bookTransformer
-     * @param AuthorTransformer $authorTransformer
-     * @param TagTransformer $tagTransformer
      */
-    public function __construct(BookTransformer $bookTransformer, AuthorTransformer $authorTransformer,
-                                TagTransformer $tagTransformer)
+    public function __construct(BookTransformer $bookTransformer)
     {
         $this->middleware('auth', ['except' => ['index', 'show']]);
-        $this->middleware('owner:books', ['only' => ['edit', 'destroy', 'update']]);
+        $this->middleware('owner:books', ['only' => ['edit', 'destroy', 'update', 'sold']]);
 
         $this->bookTransformer = $bookTransformer;
-        $this->authorTransformer = $authorTransformer;
-        $this->tagTransformer = $tagTransformer;
     }
 
 
@@ -76,7 +55,6 @@ class BooksController extends ApiController {
         if($limit > 50 || $limit < 5)
             $limit = 10;
 
-
         if(Input::get('search'))
         {
             $result = $search->on('books')->filter(Input::all())->get();
@@ -84,8 +62,8 @@ class BooksController extends ApiController {
             $seachInputs = Input::only(['title', 'author_list', 'course_list', 'instructor_list', 'ISBN_13', 'ISBN_10']);
         }
         else
-            $result = Book::paginate($limit);
-
+            $result = Book::orderBy('created_at', 'DESC')->paginate($limit);
+//            $books = Auth::user()->books()->orderBy('created_at', 'DESC')->get();
 
         $respond = $this->respondWithPagination($result, Input::except('page'), [
             'data' => $this->bookTransformer->transformCollection($result->all()),
@@ -113,13 +91,13 @@ class BooksController extends ApiController {
 //        return view('books.show', compact('book', 'conditions'));
 
         if(!$book->id)
-        {
             return $this->respondNotFound();
-        }
 
-        return $this->respond([
+        $respond = $this->respond([
             'data' => $this->bookTransformer->transform($book, self::WITH_ALL_PHOTOS)
         ]);
+
+        return view('books.show', compact('respond'));
     }
 
 
@@ -149,7 +127,6 @@ class BooksController extends ApiController {
     }
 
 
-
     /**
      * Save a new book.
      *
@@ -162,7 +139,6 @@ class BooksController extends ApiController {
 
         return redirect('books');
     }
-
 
 
     /**
@@ -199,21 +175,42 @@ class BooksController extends ApiController {
     }
 
     /**
-     * Deletes an existing book and moves it to sold_deleted_books table
+     * Deletes an existing book and moves it to sold_deleted_books table as a sold book
+     * Also moves the book's photos to images/sold_deleted_books/user_id
+     *
+     * @param Book $book
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function sold(Book $book)
+    {
+        if(!$book->id)
+            return redirect('/books');
+
+        BookHelper::insert_into_sold_deleted_books_table($book, true);
+
+        BookHelper::move_photos($book);
+
+        $book->delete();
+    }
+
+
+    /**
+     * Deletes an existing book and moves it to sold_deleted_books table as a deleted book
      * Also moves the book's photos to images/sold_deleted_books/user_id
      *
      * @param Book $book
      * @param sold
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy(Book $book, $sold)
+    public function destroy(Book $book)
     {
-        BookHelper::insert_into_sold_deleted_books_table($book, $sold);
+        if(!$book->id)
+            return redirect('/books');
+
+        BookHelper::insert_into_sold_deleted_books_table($book, false);
 
         BookHelper::move_photos($book);
 
         $book->delete();
-
-        return redirect('account/mybooks');
     }
 }

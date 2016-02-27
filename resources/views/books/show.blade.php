@@ -1,21 +1,22 @@
-@extends('master')
+<?php $respond =  json_decode($respond->getContent(), true) ?>
 
+@extends('master')
 
 @section('content')
 <div class="item clearfix">
-    <h3 class="title">{{ $book->title }}</h3>
+    <h3 class="title">{{ $respond['data']['title'] }}</h3>
 
     <div class="item-info clearfix">
-        @if($book->photos != null)
+        @if($respond['data']['photos'] != null)
             <div class="photos">
 
                 <div class="main-photo">
                     <span></span>
-                    <img src="/images/books/{{ $book->photos[0] }}"/>
+                    <img src="/images/books/{{ $respond['data']['photos'][0] }}"/>
                 </div>
 
                 <div class="sub-photos">
-                    @foreach($book->photos as $photo)
+                    @foreach($respond['data']['photos'] as $photo)
                         <div>
                             <img class="sub-photo" src="/images/books/{{ $photo }}">
                         </div>
@@ -25,20 +26,40 @@
         @endif
 
         <div class="item-details clearfix">
-            <span class="item-price item-detail">Price: <span>&#36;{{ $book->price }}</span></span> <br/>
-            <span class="item-condition item-detail">Condition: <span>{{ $conditions[$book->condition] }}</span></span> <br/>
-            <span class="item-available item-detail">Available by <span>{{ $book->available_by }}</span></span> <br/>
-            <span class="item-posted item-detail">Posted <span>{{ $book->created_at }}</span></span> <br/>
-            @if($book->description != "")
+            <span class="item-price item-detail">Price: <span>&#36;{{ $respond['data']['price'] }}</span></span> <br/>
+            <span class="item-condition item-detail">Condition: <span>{{ $respond['data']['condition'] }}</span></span> <br/>
+            <span class="item-available item-detail">Available by <span>{{ $respond['data']['available_by'] }}</span></span> <br/>
+            <span class="item-posted item-detail">Posted <span>{{ $respond['data']['created_at'] }}</span></span> <br/>
+            @if($respond['data']['description'] != "")
                 <span class="item-description"> Description: <br/>
-                    <p>{{ $book->description }}</p>
+                    <p>{{ $respond['data']['description'] }}</p>
                 </span>
             @endif
-            @unless($book->instructors->isEmpty())
+            @unless(count($respond['data']['instructors']) == 0)
                 <span class="item-detail">Instructors:</span>
                 <ul>
-                    @foreach($book->instructors as $instructor)
-                        <li>{{ $instructor->name }}</li>
+                    @foreach($respond['data']['instructors'] as $instructor)
+                        <li>{{ $instructor['name'] }}</li>
+                    @endforeach
+                </ul>
+
+            @endunless
+
+            @unless(count($respond['data']['authors']) == 0)
+                <span class="item-detail">Authors:</span>
+                <ul>
+                    @foreach($respond['data']['authors'] as $author)
+                        <li>{{ $author['name'] }}</li>
+                    @endforeach
+                </ul>
+
+            @endunless
+
+            @unless(count($respond['data']['courses']) == 0)
+                <span class="item-detail">Courses:</span>
+                <ul>
+                    @foreach($respond['data']['courses'] as $course)
+                        <li>{{ $course['name'] }}</li>
                     @endforeach
                 </ul>
 

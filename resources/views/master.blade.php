@@ -99,11 +99,9 @@
                                 <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
                                     <span class="fa fa-caret-down"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Edit</a></li>
-                                    <li><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
-                                    <li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li>
+                                    <li><a href="/books/create"><i class="fa fa-plus-circle fa-fw"></i> Sell a book</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="#"><i class="i"></i> Make admin</a></li>
+                                    <li><a href="/account/mybooks"><i class="fa fa-book fa-fw"></i> Your listings</a></li>
                                 </ul>
                             </div>
                         </div>

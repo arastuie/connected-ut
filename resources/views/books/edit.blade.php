@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <a class="btn btn-primary btn-danger" href="/books/{{$book->id}}/sold/false"><i class="fa fa-trash"></i> Delete</a>
+                    <a class="btn btn-primary btn-danger delete-book" data-book="{{$book->id}}" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</a>
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban"></i> Cancel</button>
                 </div>
             </div>
