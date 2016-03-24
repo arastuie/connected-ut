@@ -22,14 +22,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'email', 'password'];
-
-    /**
-     * The attributes that are not updatable.
-     *
-     * @var array
-     */
-    protected $guarded = ['id', 'created_at'];
+	protected $fillable = [
+        'email',
+        'password',
+        'firstname',
+        'lastname',
+        'contact_email',
+        'use_email',
+        'phone_number',
+        'use_phone',
+        'active'
+    ];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -46,5 +49,25 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function books()
     {
         return $this->hasMany('App\Book');
+    }
+
+    /**
+     * Returns all the departments of the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function departments()
+    {
+        return $this->belongsToMany('App\Models\Tags\Department')->withTimestamps();
+    }
+
+    /**
+     * Get a list of department ids associated with the current user
+     *
+     * @return array
+     */
+    public function getDepartmentListAttribute()
+    {
+        return $this->departments->lists('id')->toArray();
     }
 }

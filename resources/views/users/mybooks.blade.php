@@ -34,7 +34,7 @@
 
 
                 <div class="item-spec col-sm-2 hidden-xs">
-                    <a class="mark-sold" data-toggle="modal" data-target=".bs-modal-sm{{$book->id}}"><i class="fa fa-check-square-o"></i> Mark as sold</a>
+                    <a class="mark-sold mark-as-sold" data-book="{{$book->id}}"><i class="fa fa-check-square-o"></i> Mark as sold</a>
                 </div>
 
 
@@ -44,27 +44,8 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li><a href="/books/{{$book->id}}/edit"><i class="fa fa-pencil-square-o"></i> Update / Delete</a></li>
-                        <li><a class="mark-sold" data-toggle="modal" data-target=".bs-modal-sm{{$book->id}}"><i class="fa fa-check-square-o"></i> Mark as sold</a></li>
+                        <li><a class="mark-sold mark-as-sold" data-book="{{$book->id}}"><i class="fa fa-check-square-o"></i> Mark as sold</a></li>
                     </ul>
-                </div>
-
-
-                {{--Modal confirmation for Mark as sold--}}
-
-                <div class="modal fade bs-modal-sm{{$book->id}}" tabindex="-1" role="dialog">
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h5 class="modal-title" id="gridSystemModalLabel">Well done! Just to confirm:</h5>
-                            </div>
-
-                            <div class="modal-footer">
-                                <a class="btn btn-primary mark-as-sold" data-book="{{$book->id}}"><i class="fa fa-check-square-o"></i> Mark as sold</a>
-                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban"></i> Cancel</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
             </div>
@@ -162,12 +143,51 @@
         $('a.mark-as-sold').on('click', function(){
             var token = $('div.token').attr('data-token');
             var bookID = $(this).attr('data-book');
-            $.ajax({
-                url: "/books/" + bookID + "/sold",
-                type: "PUT",
-                data: {_token : token},
-            }).done(function(){
-                window.location.reload(true);
+
+            swal({
+                title: "Is it sold?",
+                text: "Once you mark it as sold, It will be gone from your listings!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3FAF3D",
+                confirmButtonText: "Yes!",
+                cancelButtonText: "cancel!",
+                closeOnConfirm: false,
+                closeOnCancel: false,
+                showLoaderOnConfirm: true,
+            }, function(isConfirm){
+                if (isConfirm) {
+                    $.ajax({
+                        url: "/books/" + bookID + "/sold",
+                        type: "PUT",
+                        data: {_token : token}
+                    }).done(function(){
+                        swal({
+                            title: "Glad to hear that. Sold!",
+                            text: "Your book has been successfully marked as sold.",
+                            type: "success",
+                            timer: 1500,
+                            allowOutsideClick: true
+                        });
+                        setTimeout(function(){
+                            window.location.reload(true);
+                        }, 1500);
+                    }).fail(function(){
+                        swal({
+                            title: "Somwthing went wrong!",
+                            text: "Please try again. If the problem persist, do not hesitate to contact us.",
+                            type: "error"
+                        });
+                    });
+                } else {
+                    swal({
+                        title: "Cancelled",
+                        text: "Your book is safe and still listed :)",
+                        type: "error",
+                        timer: 1500,
+                        allowOutsideClick: true
+                    });
+                }
             });
         });
     });

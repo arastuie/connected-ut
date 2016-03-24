@@ -4,6 +4,10 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\changePasswordRequest;
+use App\Http\Requests\UserInfoRequest;
+use App\Models\Tags\Department;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +21,6 @@ class UsersController extends Controller {
     {
         $this->middleware('auth');
     }
-
 
 
     /**
@@ -36,17 +39,15 @@ class UsersController extends Controller {
     }
 
 
-
     /**
      * Returns change password page view
      *
      * @return \Illuminate\View\View
      */
-    public function change_password()
+    public function changePassword()
     {
         return view('users.change_password');
     }
-
 
 
     /**
@@ -55,7 +56,7 @@ class UsersController extends Controller {
      * @param changePasswordRequest $request
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function update_password(ChangePasswordRequest $request)
+    public function updatePassword(ChangePasswordRequest $request)
     {
         if (Hash::check(($request->current_password), Auth::user()->password)
             && $request->new_password != $request->current_password)
@@ -83,12 +84,13 @@ class UsersController extends Controller {
         );
     }
 
-    public function update()
-    {
-        return view('users.update');
-    }
 
-    public function my_books()
+    /**
+     * Shows all the books listed by the user
+     *
+     * @return \Illuminate\View\View
+     */
+    public function myBooks()
     {
         $books = Auth::user()->books()->orderBy('created_at', 'DESC')->get();
 
@@ -96,5 +98,60 @@ class UsersController extends Controller {
             $book->photos = explode(';', $book->photos)[0];
 
         return view('users.mybooks', compact('books'));
+    }
+
+
+    /**
+     * Update request for all the user info
+     *
+     * @return \Illuminate\View\View
+     */
+    public function editInfo()
+    {
+        $user = Auth::user()->toArray();
+
+        $userDepartments = Auth::user()->departments->lists('name', 'id')->toArray();
+        $user['created_at'] = Carbon::parse($user['created_at'])->toFormattedDateString();
+        $user['department_list'] = $userDepartments;
+
+        $departments = Department::lists('name', 'id');
+        return view('users.updateInfo', compact('user', 'departments'));
+    }
+
+
+    /**
+     * Updates user info
+     *
+     * @param UserInfoRequest $request
+     * @return \Illuminate\View\View
+     */
+    public function updateInfo(UserInfoRequest $request)
+    {
+        $user = Auth::user();
+
+        if($request->exists('department_list'))
+            $this->syncDepartments($user, $request->input('department_list'));
+
+        // Check to make sure one contact info is provided
+        if(($request->exists('use_phone') && $request->use_phone == 0 && $user->use_email == false) ||
+            $request->exists('use_email') && $request->use_email == 0 && $user->use_phone == false)
+            return $this->editInfo();
+
+        $user->update($request->all());
+
+        return $this->editInfo();
+    }
+
+    /**
+     * Sync up the list of departments in the database
+     *
+     * @param User $user
+     * @param array $departments
+     */
+    public static function syncDepartments(User $user, $departments)
+    {
+        if(is_null($departments))
+            $departments = [];
+        $user->departments()->sync($departments);
     }
 }

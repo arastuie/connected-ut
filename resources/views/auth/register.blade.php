@@ -18,29 +18,17 @@
 						</div>
 					@endif
 
+					<div class="alert alert-info" role="alert"> You have to have an &commat;rockets.utoledo.edu email to sign up.</div>
+
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/register') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 						<div class="form-group">
-							<label class="col-md-4 control-label">First Name</label>
-							<div class="col-md-6">
-								<input type="text" class="form-control" name="name" value="{{ old('name') }}">
-							</div>
-						</div>
-
-						<div class="form-group">
 							<label class="col-md-4 control-label">E-Mail Address</label>
 							<div class="col-md-6">
-								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
+								<input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="example&commat;rockets.utoledo.edu">
 							</div>
 						</div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Confirm E-Mail Address</label>
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
-                            </div>
-                        </div>
 
 						<div class="form-group">
 							<label class="col-md-4 control-label">Password</label>
@@ -59,7 +47,7 @@
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">
-									Register
+									Sign up
 								</button>
 							</div>
 						</div>

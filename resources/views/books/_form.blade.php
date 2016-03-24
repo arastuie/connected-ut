@@ -1,5 +1,4 @@
 <div class="alert alert-info" role="alert"><strong>Keep in mind that books with more info sell faster!</strong></div>
-
 <div class="form-group">
     {!! Form::label('title', '*Title:') !!}
     {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'eg: Thomas\' Calculus: Early Transcendentals']) !!}
@@ -214,12 +213,51 @@
             $('a.delete-book').on('click', function(){
                 var token = $(this).attr('data-token');
                 var bookID = $(this).attr('data-book');
-                $.ajax({
-                    url: "/books/" + bookID,
-                    type: "DELETE",
-                    data: {_token : token},
-                }).done(function(){
-                    window.location.replace("/account/mybooks");
+
+                swal({
+                    title: "Are you sure?",
+                    text: "It will be permanently deleted!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No, cancel!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false,
+                    showLoaderOnConfirm: true,
+                }, function(isConfirm){
+                    if (isConfirm) {
+                        $.ajax({
+                            url: "/books/" + bookID,
+                            type: "DELETE",
+                            data: {_token : token},
+                        }).done(function(){
+                            swal({
+                                title: "Deleted!",
+                                text: "Your book has been successfully deleted.",
+                                type: "success",
+                                timer: 1500,
+                                allowOutsideClick: true
+                            });
+                            setTimeout(function(){
+                                window.location.replace("/account/mybooks");
+                            }, 1500);
+                        }).fail(function(){
+                            swal({
+                                title: "Deletion Failed!",
+                                text: "Something went wrong. Please try again. If the problem persist do not hesitate to contact us.",
+                                type: "error"
+                            });
+                        });
+                    } else {
+                        swal({
+                            title: "Cancelled",
+                            text: "Your book is safe and still listed :)",
+                            type: "error",
+                            timer: 1500,
+                            allowOutsideClick: true
+                        });
+                    }
                 });
             });
         });

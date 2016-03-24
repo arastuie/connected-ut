@@ -12,6 +12,7 @@ use App\Models\Tags\Author;
 use App\Models\Tags\Instructor;
 use App\Models\Tags\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 use App\Services\Search;
@@ -123,6 +124,10 @@ class BooksController extends ApiController {
 //            ]
 //        ]);
 
+        $user = Auth::user();
+        if($user->phone_number == null || $user->firstname == null || $user->lastname == null)
+            flash('update_persoanl_info', 'Update your contact info', 'Update your personal info for your convenience.');
+
         return view('books.create', compact('instructors', 'courses', 'authors'));
     }
 
@@ -135,7 +140,17 @@ class BooksController extends ApiController {
      */
     public function store(BookRequest $request)
     {
-        BookHelper::create_book($request);
+        try
+        {
+            BookHelper::create_book($request);
+        }
+        catch(Exception $ex)
+        {
+            flash('error', 'Listing failed', 'Please try again. If the problem persist do not hesitate to contact us.');
+            return redirect('books');
+        }
+
+        flash('success', 'Listed!', 'Your book has been listed successfully.');
 
         return redirect('books');
     }
@@ -169,7 +184,17 @@ class BooksController extends ApiController {
      */
     public function update(BookRequest $request, Book $book)
     {
-        BookHelper::update_book($request, $book);
+        try
+        {
+            BookHelper::update_book($request, $book);
+        }
+        catch(Exception $ex)
+        {
+            flash('error', 'Update failed!', 'Please try again. If the problem persist do not hesitate to contact us.');
+            return redirect('books');
+        }
+
+        flash('success', 'Updated!', 'Your book has been successfully updated.');
 
         return redirect('books');
     }

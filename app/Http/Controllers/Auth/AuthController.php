@@ -33,23 +33,6 @@ class AuthController extends Controller {
 	}
 
 	/**
-	 * Get a validator for an incoming registration request.
-	 *
-	 * If you change the password validation, change it on ChangePasswordRequest too.
-	 *
-	 * @param  array  $data
-	 * @return \Illuminate\Contracts\Validation\Validator
-	 */
-	public function validator(array $data)
-	{
-		return Validator::make($data, [
-			'name' => 'required|max:255',
-			'email' => 'required|email|max:255|unique:users',
-			'password' => 'required|min:6|confirmed',
-		]);
-	}
-
-	/**
 	 * Create a new user instance after a valid registration.
 	 *
 	 * @param  array  $data
@@ -58,9 +41,26 @@ class AuthController extends Controller {
 	public function create(array $data)
 	{
 		return User::create([
-			'name' => $data['name'],
 			'email' => $data['email'],
 			'password' => bcrypt($data['password']),
+			'active' => false,
+			'contact_email' => $data['email']
 		]);
 	}
+
+	/**
+	 * Get a validator for an incoming registration request.
+	 *
+	 * If you change the password validation, change it on ChangePasswordRequest too.
+	 *
+	 * @param  array  $data
+	 * @return \Illuminate\Contracts\Validation\Validator
+	 */
+//	public function validator(array $data)
+//	{
+//		return Validator::make($data, [
+//			'email' => 'required|email|max:255|unique:users|regex:/.+@rockets.utoledo.edu/',
+//			'password' => 'required|min:6|confirmed',
+//		]);
+//	}
 }

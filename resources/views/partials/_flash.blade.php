@@ -1,16 +1,53 @@
-@if(session('flash_message'))
-    <div class="alert alert-success {{ session('flash_message_important') ? 'alert-important' : '' }}">
-        @if(session('flash_message_important'))
-            <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button>
-        @endif
+@if(session('flash_type') == "success")
+    <script>
+        swal({
+            type: "success",
+            title: "{{ session('flash_title') }}",
+            text: "{{ session('flash_message') }}",
+            timer: 2000,
+            showConfirmButton: false,
+            allowOutsideClick: true
+        });
+    </script>
 
-        {{--{{ Session::get('flash_message') }}--}}
-        {{ session('flash_message') }}
-    </div>
+@elseif(session('flash_type') == 'error')
+    <script>
+        swal({
+            type: "error",
+            title: "{{ session('flash_title') }}",
+            text: "{{ session('flash_message') }}",
+            showConfirmButton: true
+        });
+    </script>
+
+@elseif(session('flash_type') == 'info')
+    <script>
+        swal({
+            type: "info",
+            title: "{{ session('flash_title') }}",
+            text: "{{ session('flash_message') }}",
+            showConfirmButton: true,
+        });
+    </script>
+
+@elseif(session('flash_type') == 'update_persoanl_info')
+    <script>
+        swal({
+            type: "info",
+            title: "{{ session('flash_title') }}",
+            text: "{{ session('flash_message') }}",
+            showConfirmButton: true,
+            closeOnConfirmation: false,
+            showCancelButton: true,
+            confirmButtonText: "Take me there"
+        }, function(isConfirm){
+            if(isConfirm){
+                window.location.href = "/account/update";
+            }
+        });
+    </script>
+
+    <?php Session::forget('flash_type'); ?>
+
 @endif
 
-@section('script')
-<script>
-        $('div.alert').not('.alert-important').delay({{ $delay }}).slideUp(300);
-</script>
-@endsection

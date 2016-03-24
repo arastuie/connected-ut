@@ -37,9 +37,9 @@ class ViewComposerServiceProvider extends ServiceProvider
         view()->composer('master', function($view)
         {
             if(Auth::check())
-                $user = Auth::user()->name;
+                $user = true;
             else
-                $user = null;
+                $user = false;
 
             $view->with('user', $user);
         });

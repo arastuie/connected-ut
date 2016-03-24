@@ -1,8 +1,10 @@
-<?php namespace App\Models\Tags;
+<?php
+
+namespace App\Models\Tags;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Instructor extends Model
+class Department extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,12 +14,12 @@ class Instructor extends Model
     protected $fillable = [];
 
     /**
-     * Get the books associated with the given instructor
+     * Get the users associated with the given department
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function books()
+    public function Users()
     {
-        return $this->belongsToMany('App\Book');
+        return $this->belongsToMany('App\User');
     }
 }

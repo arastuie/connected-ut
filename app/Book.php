@@ -26,13 +26,6 @@ class Book extends Model {
     ];
 
     /**
-     * The attributes are not updatable.
-     *
-     * @var array
-     */
-    protected $gaurded = ['id', 'user_id'];
-
-    /**
      * Converts all its elements to Carbon instances
      *
      * @var array

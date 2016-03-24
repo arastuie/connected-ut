@@ -8,15 +8,17 @@
     <script src="/js/libs/jquery.min.js" type="text/javascript"></script>
     <script src="/js/libs/modernizr.custom.13737.js" type="text/javascript"></script>
     <script src="/js/libs/bootstrap.min.js" type="text/javascript"></script>
-
+    <script src="/js/libs/sweetalert.min.js"></script>
 
 
     <link href="/css/libs/normalize.css" rel="stylesheet" type="text/css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link href='http://fonts.googleapis.com/css?family=Roboto:700italic,300,700,400' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/css/libs/sweetalert.css">
 
     <link href="/css/main-style.css" rel="stylesheet" type="text/css">
+
     @yield('head')
 
     @yield('style')
@@ -69,8 +71,7 @@
             </div>
 
             {{------------------- LOGIN & SIGN UP --------------------}}
-{{--            {{dd($user)}}--}}
-            @if($user == null)
+            @if(!$user)
                 <div class="login_box col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-0 col-xs-7 col-xs-offset-2">
 
                     <div class="row">
@@ -130,6 +131,9 @@
 
     @yield('script')
 
+    @if(session('flash_type'))
+        @include('partials._flash')
+    @endif
 </div>
 </body>
 </html>

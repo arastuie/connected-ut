@@ -13,24 +13,6 @@
     {!! Form::close() !!}
 
     <div style="margin-bottom: 20px">
-        <a class="btn btn-danger form-control" data-toggle="modal" data-target=".bs-modal-sm">Delete</a>
-    </div>
-
-
-    {{--Modal confirmation for delete--}}
-    <div class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h5 class="modal-title" id="gridSystemModalLabel">Are you sure you want to delete it?</h5>
-                </div>
-
-                <div class="modal-footer">
-                    <a class="btn btn-primary btn-danger delete-book" data-book="{{$book->id}}" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</a>
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban"></i> Cancel</button>
-                </div>
-            </div>
-        </div>
+        <a class="btn btn-danger form-control delete-book" data-book="{{$book->id}}" data-token="{{ csrf_token() }}">Delete</a>
     </div>
 @endsection
