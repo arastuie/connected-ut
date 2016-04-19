@@ -1,10 +1,13 @@
 <?php namespace App;
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -30,8 +33,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'contact_email',
         'use_email',
         'phone_number',
-        'use_phone',
-        'active'
+        'use_phone'
     ];
 
 	/**
@@ -69,5 +71,43 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function getDepartmentListAttribute()
     {
         return $this->departments->lists('id')->toArray();
+    }
+
+    /**
+     * Retuns a boolean indicating if a user is active
+     *
+     * @return mixed
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Sets active field of the user to true.
+     *
+     */
+    public function confirmEmail()
+    {
+        $this->active = true;
+        $this->save();
+
+        return $this;
+    }
+
+    /**
+     * These are called automatically
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function($user){
+            DB::table('user_email_confirmations')->insert([
+                'user_id' => $user->id,
+                'token' => hash_hmac('sha256', str_random(40), env('HMAC_HASH')),
+                'created_at' => Carbon::now()
+            ]);
+        });
     }
 }

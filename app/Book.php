@@ -6,6 +6,14 @@ use Carbon\Carbon;
 class Book extends Model {
 
     /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'books';
+
+
+    /**
      * Allows mass-assignments for its elements
      *
      * @var array

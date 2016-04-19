@@ -66,9 +66,8 @@ class UsersController extends Controller {
             $user->password = bcrypt($request->new_password);
             $user->save();
 
-            return redirect('account')->with([
-                'flash_message' => 'Your password has been changed successfully!'
-            ]);
+            flash('success', 'Password Changed!', 'Your password has been updated successfully!');
+            return redirect('account');
         }
 
         if (Hash::check(($request->current_password), Auth::user()->password))
@@ -135,10 +134,15 @@ class UsersController extends Controller {
         // Check to make sure one contact info is provided
         if(($request->exists('use_phone') && $request->use_phone == 0 && $user->use_email == false) ||
             $request->exists('use_email') && $request->use_email == 0 && $user->use_phone == false)
+        {
+            flash('error', 'Update denied!', 'You cannot have both your email and phone number not listed in your contact info, otherwise buyers have no way of contacing you.');
             return $this->editInfo();
+        }
+
 
         $user->update($request->all());
 
+        flash('success', 'Info updated!', 'Your personal information has been updated!');
         return $this->editInfo();
     }
 

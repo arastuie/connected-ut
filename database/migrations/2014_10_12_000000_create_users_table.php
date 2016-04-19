@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration {
 			$table->boolean('use_email')->default(true);
 			$table->string('phone_number')->nullable();
 			$table->boolean('use_phone')->default(false);
-			$table->boolean('active');
+			$table->boolean('active')->default(false);
 			$table->rememberToken();
 			$table->timestamps();
 		});

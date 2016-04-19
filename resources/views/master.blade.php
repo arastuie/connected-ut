@@ -28,7 +28,7 @@
 
 <div class="container-fluid wrapper">
     <header>
-        <div id="top-portion" class="row"> {{--if screen width goes under (768px), it keeps background separate than search box--}}
+        <div id="top-portion" class="row">
             {{-------------------------- LOGO ----------------------------}}
             <div class="logo_div col-sm-2 col-xs-3">
                 {{--<div>Connected</div>--}}
@@ -39,21 +39,6 @@
             </div>
 
             {{--------------------- Primary search box --------------------}}
-
-            {{--<div class="header-search_box col-md-7 col-md-offset-0 col-sm-5 col-sm-offset-1 col-xs-9 ">--}}
-                {{--<div class="row">--}}
-                    {{--<i class="fa fa-search col-sm-1 col-xs-1"></i>--}}
-
-                    {{--<form class="main_search_form col-sm-11 col-xs-11">--}}
-
-                        {{--<div class="row">--}}
-                            {{--<input class="search_input col-sm-10 col-xs-10" type="text" placeholder="Find the book you need">--}}
-                            {{--<button class="search_btn col-sm-2 col-xs-2">Go</button>--}}
-                        {{--</div>--}}
-                    {{--</form>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-
 
             <div class="header-search-box col-md-7 col-md-offset-0 col-sm-5 col-sm-offset-1 col-xs-12">
                 <div class="row">

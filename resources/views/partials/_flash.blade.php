@@ -47,7 +47,15 @@
         });
     </script>
 
-    <?php Session::forget('flash_type'); ?>
-
+@elseif(session('flash_type') == "success-important")
+        <script>
+            swal({
+                type: "success",
+                title: "{{ session('flash_title') }}",
+                text: "{{ session('flash_message') }}",
+            });
+        </script>
 @endif
 
+
+<?php Session::forget('flash_type'); ?>

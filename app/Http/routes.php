@@ -18,17 +18,21 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function(){
     // Registration routes...
     Route::get('register', ['as' => 'register.index', 'uses' => 'Auth\AuthController@getRegister']);
     Route::post('register', ['as' => 'register', 'uses' => 'Auth\AuthController@postRegister'])->before('csrf');
+    Route::put('register/confirm/resend', ['as' => 'register.resend.confirm', 'uses' => 'Auth\AuthController@resendConfirmEmail'])->before('csrf');
+    Route::get('register/confirm/{token}', ['as' => 'register.confirm', 'uses' => 'Auth\AuthController@confirmEmail']);
+    Route::get('register/disconfirm/{token}', ['as' => 'register.disconfirm', 'uses' => 'Auth\AuthController@disconfirmEmail']);
 });
 
 // Password reset
 Route::group(['prefix' => 'password', 'as' => 'password_reset.'], function(){
     // Password reset link request routes...
-    Route::get('email', ['as' => 'request.index', 'uses' => 'Auth\PasswordController@getEmail']);
-    Route::post('email', ['as' => 'request', 'uses' => 'Auth\PasswordController@postEmail']);
+    Route::get('email', ['as' => 'password.request.index', 'uses' => 'Auth\PasswordController@getEmail']);
+    Route::post('email', ['as' => 'password.request', 'uses' => 'Auth\PasswordController@postEmail']);
 
     // Password reset routes...
-    Route::get('reset/{token}', ['as' => 'index', 'uses' => 'Auth\PasswordController@getReset']);
+    Route::get('reset/{token}', ['as' => 'password.reset', 'uses' => 'Auth\PasswordController@getReset']);
     Route::post('reset', ['as' => 'update', 'uses' => 'Auth\PasswordController@postReset']);
+    Route::get('reset/cancel/{token}', ['as' => 'password.reset.cancel', 'uses' => 'Auth\PasswordController@getReset']);
 });
 
 // Accounts
@@ -49,7 +53,7 @@ Route::group(['prefix' => 'books', 'as' => 'books.'], function(){
     Route::post('/store', ['as' => 'store', 'uses' => 'BooksController@store'])->before('csrf');
     Route::get('/{books}/edit', ['as' => 'edit', 'uses' => 'BooksController@edit'])->where('books', '[0-9]+');
     Route::put('/{books}/update', ['as' => 'update', 'uses' => 'BooksController@update'])->where('books', '[0-9]+')->before('csrf');
-    Route::put('/{books}/sold', ['as' => 'sold', 'uses' => 'BooksController@sold'])->where(['books' => '[0-9]+'])->before('csrf');
-    Route::delete('/{books}', ['as' => 'delete', 'uses' => 'BooksController@destroy'])->where(['books' => '[0-9]+'])->before('csrf');
+    Route::put('/{books}/sold', ['as' => 'sold', 'uses' => 'BooksController@sold'])->where('books', '[0-9]+')->before('csrf');
+    Route::delete('/{books}', ['as' => 'delete', 'uses' => 'BooksController@destroy'])->where('books', '[0-9]+')->before('csrf');
 });
 

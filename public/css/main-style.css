@@ -108,6 +108,9 @@ hr.style-one {
     background-image: linear-gradient(to right, #F5F5F5, #999, #F5F5F5);
 }
 
+ul.error-list{
+    padding: 10px 40px;
+}
 /*.container{*/
     /*width: 100%;*/
 /*}*/
