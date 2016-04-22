@@ -95,6 +95,28 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this;
     }
 
+
+    /**
+     * Returns the contact info of the user
+     *
+     * @return array
+     */
+    public function getContactInfo()
+    {
+        $contactInfo = [
+            "email" => "",
+            "phone" => ""
+        ];
+
+        if($this->use_email && $this->contact_email != "")
+            $contactInfo["email"] = $this->contact_email;
+
+        if($this->use_phone && $this->phone_number != null)
+            $contactInfo["phone"] = $this->phone_number;
+
+        return $contactInfo;
+    }
+
     /**
      * These are called automatically
      */

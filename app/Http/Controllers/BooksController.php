@@ -94,8 +94,11 @@ class BooksController extends ApiController {
         if(!$book->id)
             return $this->respondNotFound();
 
+        $contactInfo = $book->owner()->getContactInfo();
+
         $respond = $this->respond([
-            'data' => $this->bookTransformer->transform($book, self::WITH_ALL_PHOTOS)
+            'data' => $this->bookTransformer->transform($book, self::WITH_ALL_PHOTOS),
+            'seller-info' => $contactInfo
         ]);
 
         return view('books.show', compact('respond'));

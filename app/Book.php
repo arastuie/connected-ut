@@ -40,6 +40,16 @@ class Book extends Model {
      */
     protected $dates = ['available_by'];
 
+
+    /**
+     * Returns the owner of the book
+     *
+     * @return mixed
+     */
+    public function owner()
+    {
+        return User::find($this->user_id);
+    }
     /**
      * Sets Available_by attr to a carbon instance to save to DB
      *

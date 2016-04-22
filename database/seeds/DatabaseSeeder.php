@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder {
 
 		$this->cleanDatabase();
 
-		//$this->call('BooksTableSeeder');
+		$this->call('BooksTableSeeder');
 	}
 
 	/**

@@ -75,12 +75,12 @@ class BookHelper
 
                 if(($image->width() / $image->height()) >= 1)
                 {
-                    $image->resize(400, null, function($constraint){
+                    $image->resize(500, null, function($constraint){
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     });
                 }else{
-                    $image->resize(null, 400, function($constraint){
+                    $image->resize(null, 500, function($constraint){
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     });
