@@ -1,13 +1,14 @@
 <?php
 
-use Faker\Factory as Faker;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use App\User;
-use App\Book;
+use App\Models\Book;
+use App\Models\User;
 use App\Models\Tags\Author;
 use App\Models\Tags\Course;
+use Faker\Factory as Faker;
 use App\Models\Tags\Instructor;
+use Illuminate\Support\Facades\DB;
+
 
 Class BooksTableSeeder extends \Illuminate\Database\Seeder
 {

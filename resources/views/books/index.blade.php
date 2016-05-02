@@ -8,10 +8,8 @@
 
     <div class="row search-status-box">
         <div class="search-info-box col-sm-9 col-xs-6">
-            @if($respond['search'] == null)
-                Latest book listings.
 
-            @elseif($respond['paginator']['total_pages'] == 1)
+            @if($respond['paginator']['total_pages'] == 1)
                 @if($respond['paginator']['total_count'] > 1)
                 {{ $respond['paginator']['total_count'] }} books
                 @elseif($respond['paginator']['total_count'] == 1)
@@ -35,10 +33,10 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <li><a href="/books?{{ $respond['query'] }}&limit=5">5</a></li>
-                    <li><a href="/books?{{ $respond['query'] }}&limit=10">10</a></li>
-                    <li><a href="/books?{{ $respond['query'] }}&limit=20">20</a></li>
-                    <li><a href="/books?{{ $respond['query'] }}&limit=50">50</a></li>
+                    <li><a href="{{ $respond['current_url'] . "?" . $respond['query'] }}&limit=5">5</a></li>
+                    <li><a href="{{ $respond['current_url'] . "?" . $respond['query'] }}&limit=10">10</a></li>
+                    <li><a href="{{ $respond['current_url'] . "?" . $respond['query'] }}&limit=20">20</a></li>
+                    <li><a href="{{ $respond['current_url'] . "?" . $respond['query'] }}&limit=50">50</a></li>
                 </ul>
             </div>
         </div>
@@ -65,27 +63,27 @@
 
                     @if(count($book['authors']) > 0)
                         <div class="authors">
-                            written by <a href="/books?author_list%5B%5D={{ $book['authors'][0]['id'] }}&search=on">{{ $book['authors'][0]['name'] }}</a>
+                            written by <a href="/search/books/detailed?author_list%5B%5D={{ $book['authors'][0]['id'] }}">{{ $book['authors'][0]['name'] }}</a>
                             @for($i = 1; $i < count($book['authors']); $i++)
-                                and <a href="/books?author_list%5B%5D={{ $book['authors'][$i]['id'] }}&search=on">{{ $book['authors'][$i]['name'] }}</a>
+                                and <a href="/search/books/detailed?author_list%5B%5D={{ $book['authors'][$i]['id'] }}">{{ $book['authors'][$i]['name'] }}</a>
                             @endfor
                         </div>
                     @endif
 
                     @if(count($book['instructors']) > 0)
                         <div class="instructors tags">
-                            Taught by <a href="/books?instructor_list%5B%5D={{ $book['instructors'][0]['id'] }}&search=on">{{ $book['instructors'][0]['name'] }}</a>
+                            Taught by <a href="/search/books/detailed?instructor_list%5B%5D={{ $book['instructors'][0]['id'] }}">{{ $book['instructors'][0]['name'] }}</a>
                             @for($i = 1; $i < count($book['instructors']); $i++)
-                                and <a href="/books?instructor_list%5B%5D={{ $book['instructors'][$i]['id'] }}&search=on">{{ $book['instructors'][$i]['name'] }}</a>
+                                and <a href="/search/books/detailed?instructor_list%5B%5D={{ $book['instructors'][$i]['id'] }}">{{ $book['instructors'][$i]['name'] }}</a>
                             @endfor
                         </div>
                     @endif
 
                     @if(count($book['courses']) > 0)
                         <div class="courses tags">
-                            Courses <a href="/books?course_list%5B%5D={{ $book['courses'][0]['id'] }}&search=on">{{ $book['courses'][0]['name'] }}</a>
+                            Courses <a href="/search/books/detailed?course_list%5B%5D={{ $book['courses'][0]['id'] }}">{{ $book['courses'][0]['name'] }}</a>
                             @for($i = 1; $i < count($book['courses']); $i++)
-                                and <a href="/books?course_list%5B%5D={{ $book['courses'][$i]['id'] }}&search=on">{{ $book['courses'][$i]['name'] }}</a>
+                                and <a href="/search/books/detailed?course_list%5B%5D={{ $book['courses'][$i]['id'] }}">{{ $book['courses'][$i]['name'] }}</a>
                             @endfor
                         </div>
                     @endif

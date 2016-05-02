@@ -22,6 +22,6 @@ class Author extends Model
      */
     public function books()
     {
-        return $this->belongsToMany('App\Book');
+        return $this->belongsToMany('App\Models\Book');
     }
 }

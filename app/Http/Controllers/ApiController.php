@@ -88,7 +88,7 @@ class ApiController extends Controller
                 'limit' => $result->perPage(),
                 'item_from' => ($result->currentPage() - 1) * $result->perPage() + 1,
                 'item_to' => $result->currentPage() * $result->perPage(),
-                'html_nav' => $result->appends($inputs)->render(),
+                'html_nav' => $result->appends($inputs)->render()
             ]
         ]);
 

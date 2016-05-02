@@ -2,14 +2,13 @@
 
 namespace App\Helpers\BookHelpers;
 
-use App\Book;
-use App\Http\Requests\BookRequest;
+use App\Models\Book;
 use App\Models\Tags\Author;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use Intervention\Image\Facades\Image;
+use App\Http\Requests\BookRequest;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 
 class BookHelper
 {

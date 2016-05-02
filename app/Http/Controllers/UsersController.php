@@ -1,16 +1,15 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
-use App\Http\Requests\changePasswordRequest;
-use App\Http\Requests\UserInfoRequest;
-use App\Models\Tags\Department;
-use App\User;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Http\Requests;
 use Illuminate\Http\Request;
+use App\Models\Tags\Department;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\UserInfoRequest;
+use App\Http\Requests\changePasswordRequest;
 
 class UsersController extends Controller {
 

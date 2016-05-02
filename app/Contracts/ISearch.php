@@ -2,7 +2,7 @@
 
 namespace App\Contracts;
 
-interface Search
+interface ISearch
 {
     public function on($index);
 

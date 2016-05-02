@@ -1,4 +1,4 @@
-<?php namespace App;
+<?php namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -50,7 +50,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function books()
     {
-        return $this->hasMany('App\Book');
+        return $this->hasMany('App\Models\Book');
     }
 
     /**

@@ -2,8 +2,8 @@
 
 namespace App\Mailers;
 
+use App\Models\User;
 use Illuminate\Contracts\Mail\Mailer;
-use App\User;
 
 class AppMailer {
 
@@ -22,6 +22,12 @@ class AppMailer {
         $this->mailer = $mailer;
     }
 
+    /**
+     * Sends an email confirmation email for user activation
+     *
+     * @param $token
+     * @param User $user
+     */
     public function sendEmailConfirmation($token, User $user)
     {
         $this->to = $user->email;
@@ -31,6 +37,10 @@ class AppMailer {
         $this->deliver();
     }
 
+    /**
+     * Delivers an email
+     *
+     */
     public function deliver()
     {
         $this->mailer->send($this->view, $this->data, function($message) {

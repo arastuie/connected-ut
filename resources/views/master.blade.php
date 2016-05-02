@@ -44,14 +44,13 @@
                 <div class="row">
                     <i class="fa fa-search col-sm-1 col-xs-1"></i>
 
-                    <form class="main-search-form col-sm-11 col-xs-11">
-
+                    {!! Form::open( ['method' => 'GET', 'action' => ['SearchController@books'], 'class' => 'main-search-form col-sm-11 col-xs-11', 'autocomplete' => 'off']) !!}
                         <div class="row">
-                            <input class="search-input col-md-7 col-sm-6 col-xs-6" type="text" placeholder="Search...">
-                            <button class="go-search search-btn col-sm-2 col-xs-2">Go</button>
-                            <button class="adv-search search-btn col-sm-4 col-md-3 col-xs-4">Go Detailed</button>
+                            {!! Form::text('keywords', null, ['class' => 'search-input col-md-7 col-sm-6 col-xs-6', 'placeholder' => 'Search...']) !!}
+                            {!! Form::button('Go', ['type' => 'submit', 'class' => 'go-search search-btn col-sm-2 col-xs-2']) !!}
+                            {!! Form::button('Go Detailed', ['type' => 'submit', 'class' => 'adv-search search-btn col-sm-4 col-md-3 col-xs-4', 'formaction' => '/search/books/detailed']) !!}
                         </div>
-                    </form>
+                    {!! Form::close() !!}
                 </div>
             </div>
 

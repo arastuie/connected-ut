@@ -1,7 +1,8 @@
 <?php namespace App\Providers;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Book;
 use Illuminate\Routing\Router;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider {
@@ -27,7 +28,7 @@ class RouteServiceProvider extends ServiceProvider {
 
 		$router->bind('books', function($id)
         {
-			return \App\Book::find($id);
+			return Book::find($id);
         });
 	}
 

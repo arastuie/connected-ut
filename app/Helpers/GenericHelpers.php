@@ -7,7 +7,7 @@
  * @param $title
  * @param $message
  */
-function flash($type, $title, $message)
+function flash($type, $title = '', $message = '')
 {
     session()->flash('flash_type', $type);
     session()->flash('flash_title', $title);

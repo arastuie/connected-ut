@@ -1,9 +1,9 @@
 <?php namespace App\Http\Controllers\Auth;
 
 use create;
-use App\User;
 use Validator;
 use Carbon\Carbon;
+use App\Models\User;
 use App\Mailers\AppMailer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

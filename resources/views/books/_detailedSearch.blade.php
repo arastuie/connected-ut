@@ -9,7 +9,7 @@
             </div>
 
             <div class="search-panel-body panel-body">
-                {!! Form::model($search, ['method' => 'GET', 'action' => ['BooksController@index'], 'class' => 'form-horizontal']) !!}
+                {!! Form::model($search, ['method' => 'GET', 'action' => ['SearchController@booksDetailed'], 'class' => 'form-horizontal', 'autocomplete' => 'off']) !!}
 
                 <div class="form-group">
                     {!! Form::label('title', 'Title:', ['class' => 'control-label col-sm-2']) !!}
@@ -55,7 +55,7 @@
 
                 <div class="form-group">
                     <div class="col-xs-offset-7 col-xs-4 col-sm-offset-9 col-sm-2">
-                        {!! Form::submit('Let\'s Go', ['class' => 'form-control btn btn-info', 'name' => 'search']) !!}
+                        {!! Form::button('Let&#39;s Go', ['type' => 'submit', 'class' => 'form-control btn btn-info']) !!}
                     </div>
                 </div>
                 {!! Form::close() !!}
@@ -68,23 +68,34 @@
 @section('script')
 
     <script>
-        $("#instructor_list").select2({
-            placeholder: "Select all the instructors who use this book"
-        });
+        $(function(){
+            $("#instructor_list, #course_list, #author_list").select2({
+                placeholder: "Select all",
+                allowClear: true,
+            });
 
-        $("#course_list").select2({
-            placeholder: "Select all the courses which use this book"
-        });
-
-        $("#author_list").select2({
-            placeholder: "Select or add all the authors of this book"
-        });
-
-        $("div.search-panel-heading").on('click', function(){
-            $(this).children(".toggle-btn").toggleClass("fa-bars fa-times");
-            $("div.search-panel-body").stop().slideToggle(400);
+            $("div.search-panel-heading").on('click', function(){
+                $(this).children(".toggle-btn").toggleClass("fa-bars fa-times");
+                $("div.search-panel-body").stop().slideToggle(400);
+            })
         })
     </script>
+
+    @if(session('flash_type') == "detailed_search_open")
+        <script>
+            $(function(){
+                $("div.panel").animate({
+                    opacity: "hide"
+                }, 300, function(){
+                    $("div.panel").animate({
+                        opacity: "show"
+                    }, 500);
+
+                    $("div.search-panel-body").stop().slideToggle(500);
+                })
+            })
+        </script>
+    @endif
 @endsection
 
 @section('head')

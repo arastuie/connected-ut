@@ -1,25 +1,27 @@
 <?php namespace App\Http\Controllers;
 
-use App\Book;
-use App\Helpers\BookHelpers\BookHelper;
-use App\Helpers\Transformers\AuthorTransformer;
-use App\Helpers\Transformers\BookTransformer;
-use App\Helpers\Transformers\TagTransformer;
+use App\Models\Book;
 use App\Http\Requests;
-use App\Http\Requests\BookRequest;
-use App\Http\Controllers\ApiController;
 use App\Models\Tags\Author;
-use App\Models\Tags\Instructor;
 use App\Models\Tags\Course;
 use Illuminate\Http\Request;
+use App\Helpers\SearchHelper;
+use App\Services\SearchService;
+use App\Models\Tags\Instructor;
+use App\Http\Requests\BookRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use App\Helpers\BookHelpers\BookHelper;
+use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Response;
-use App\Services\Search;
+use App\Helpers\Transformers\TagTransformer;
+use App\Helpers\Transformers\BookTransformer;
+use App\Helpers\Transformers\AuthorTransformer;
 
 class BooksController extends ApiController {
     // A flag for photos
     const WITH_ALL_PHOTOS = false;
+    const DEF_PAGINATION_LIMIT = 10;
 
     /**
      * @var \App\Helpers\Transformers\BookTransformer;
@@ -34,7 +36,7 @@ class BooksController extends ApiController {
      */
     public function __construct(BookTransformer $bookTransformer)
     {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware('auth', ['except' => ['index', 'show', 'search']]);
         $this->middleware('owner:books', ['only' => ['edit', 'destroy', 'update', 'sold']]);
 
         $this->bookTransformer = $bookTransformer;
@@ -42,37 +44,25 @@ class BooksController extends ApiController {
 
 
     /**
-     * Preforms searches and returns all books if no search was requested
+     * Returns all books ordered by most recent
      *
-     * @param Search $search
+     * @param SearchService $search
+     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function index(Search $search, Request $request)
+    public function index(SearchService $search, Request $request)
     {
-        $result = null;
-        $seachInputs = null;
-        $limit = (int)(Input::get('limit', 10));
+        $limit = SearchHelper::getPaginateLimit($request, self::DEF_PAGINATION_LIMIT);
 
-        if($limit > 50 || $limit < 5)
-            $limit = 10;
+        $result = Book::orderBy('created_at', 'DESC')->paginate($limit);
 
-        if(Input::get('search'))
-        {
-            $result = $search->on('books')->filter(Input::all())->get();
-            $result = $result->paginate($limit);
-            $seachInputs = Input::only(['title', 'author_list', 'course_list', 'instructor_list', 'ISBN_13', 'ISBN_10']);
-        }
-        else
-            $result = Book::orderBy('created_at', 'DESC')->paginate($limit);
-//            $books = Auth::user()->books()->orderBy('created_at', 'DESC')->get();
-
-        $respond = $this->respondWithPagination($result, Input::except('page'), [
+        $respond = $this->respondWithPagination($result, $request->only('limit'), [
             'data' => $this->bookTransformer->transformCollection($result->all()),
-            'search' => $seachInputs,
-            'query' => http_build_query(Input::except(['limit', 'page']))
+            'search' => null,
+            'query' => "",
+            'current_url' => $request->url()
         ]);
 
-//        dd($respond->getContent());
         return view('books.index', compact('respond'));
     }
 
@@ -85,12 +75,6 @@ class BooksController extends ApiController {
      */
     public function show(Book $book)
     {
-//        BookHelper::photo_explode($book);
-//
-//        $conditions = $this->conditions;
-//
-//        return view('books.show', compact('book', 'conditions'));
-
         if(!$book->id)
             return $this->respondNotFound();
 

@@ -2,7 +2,7 @@
 
 namespace App\Helpers\Transformers;
 
-use App\book;
+use App\Models\Book;
 use App\Helpers\Transformers\TagTransformer;
 
 

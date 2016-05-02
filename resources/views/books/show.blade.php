@@ -131,7 +131,7 @@
             <div class="info-header"> Seller Contact Info: </div>
             <div class="contact-info">
                 @if($respond['seller-info']['email'] != "")
-                    <span class="item-emailaddress item-detail"> Email: <span>{{ $respond['seller-info']['email'] }}</span></span> <br />
+                    <span class="item-emailaddress item-detail"> Email: <span>{!!  Html::email($respond['seller-info']['email']) !!} </span></span> <br />
                 @endif
 
                 @if($respond['seller-info']['phone'] != "")
