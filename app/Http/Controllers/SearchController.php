@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Http\Requests;
-use App\Helpers\SearchHelper;
 use Illuminate\Http\Request;
+use App\Helpers\SearchHelper;
 use App\Services\SearchService;
 use App\Http\Controllers\Controller;
 use App\Helpers\Transformers\BookTransformer;
@@ -26,7 +26,7 @@ class SearchController extends ApiController
         $searchInputs  = SearchHelper::getSearchInputs($request, Self::SEARCH_QUERY_INPUTS);
         $searchInputs['limit'] = SearchHelper::getPaginateLimit($request, Self::DEF_PAGINATION_LIMIT);
 
-        $result = $search->on('books')->by($request->input('keywords'))->get()->paginate($searchInputs['limit']);
+        $result = $search->on('books')->by($searchInputs['keywords'])->get()->paginate($searchInputs['limit']);
 
         $respond = $this->respondWithPagination($result, $searchInputs, [
             'data' => $bookTransformer->transformCollection($result->all()),

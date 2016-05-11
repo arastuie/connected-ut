@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Tags\Instructor;
 use App\Models\Tags\Author;
 use App\Models\Tags\Course;
+use App\Models\Tags\Instructor;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\ServiceProvider;
 
 class ViewComposerServiceProvider extends ServiceProvider
 {
@@ -20,6 +20,8 @@ class ViewComposerServiceProvider extends ServiceProvider
         $this->composeLoginBar();
 
         $this->composeDetailedSearch();
+
+        $this->composeMasterSearchQuery();
     }
 
     /**
@@ -32,6 +34,9 @@ class ViewComposerServiceProvider extends ServiceProvider
         //
     }
 
+    /**
+     * Sets user if logged in
+     */
     private function composeLoginBar()
     {
         view()->composer('master', function($view)
@@ -45,6 +50,9 @@ class ViewComposerServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Passes all the tags to the detailed search
+     */
     private function composeDetailedSearch()
     {
         view()->composer('books._detailedSearch', function($view)
@@ -54,6 +62,22 @@ class ViewComposerServiceProvider extends ServiceProvider
             $authors = Author::lists('full_name', 'id');
 
             $view->with(compact('instructors', 'courses', 'authors'));
+        });
+    }
+
+    /**
+     * Sets the master page search query if any
+     */
+    private function composeMasterSearchQuery()
+    {
+        view()->composer('master', function($view)
+        {
+            if(isset($view->respond['search']['keywords']))
+                $master_search_query['keywords'] = $view->respond['search']['keywords'];
+            else
+                $master_search_query = null;
+
+            $view->with(compact('master_search_query'));
         });
     }
 }

@@ -44,7 +44,7 @@
                 <div class="row">
                     <i class="fa fa-search col-sm-1 col-xs-1"></i>
 
-                    {!! Form::open( ['method' => 'GET', 'action' => ['SearchController@books'], 'class' => 'main-search-form col-sm-11 col-xs-11', 'autocomplete' => 'off']) !!}
+                    {!! Form::model($master_search_query, ['method' => 'GET', 'action' => ['SearchController@books'], 'class' => 'main-search-form col-sm-11 col-xs-11', 'autocomplete' => 'off']) !!}
                         <div class="row">
                             {!! Form::text('keywords', null, ['class' => 'search-input col-md-7 col-sm-6 col-xs-6', 'placeholder' => 'Search...']) !!}
                             {!! Form::button('Go', ['type' => 'submit', 'class' => 'go-search search-btn col-sm-2 col-xs-2']) !!}

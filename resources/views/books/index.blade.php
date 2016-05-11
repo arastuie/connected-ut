@@ -3,7 +3,6 @@
 @section('content')
 
     <?php $respond =  json_decode($respond->getContent(), true) ?>
-
     @include('books._detailedSearch', ['search' => $respond['search']])
 
     <div class="row search-status-box">

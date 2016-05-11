@@ -62,24 +62,38 @@ class SearchService implements ISearch
      */
     public function by($keywords)
     {
+        $this->selectStatement = "";
         $regexKeywords = preg_replace('/\b[a-z]{1,2}\b/', '', $keywords);
+        $regexKeywords = preg_replace('/\b(are|they|the|that|edition)\b/', '', $keywords);
         $regexKeywords = preg_replace('/\s+/', '|', trim($regexKeywords));
-        if($regexKeywords != "")
-        {
-            $this->bindings['keywords'] = $regexKeywords;
-            $this->selectStatement = "SELECT `id` AS 'book_id' FROM `books` WHERE `title` REGEXP :keywords";
-        }
 
-//        $courses = collect(
-//                        DB::select(DB::raw("SELECT `id` FROM `courses` WHERE `full_course_name` REGEXP :keywords AS Flag"), ['keywords' => $regexKeywords])
-//                    )->lists('id')->all();
-//
-//        $i = implode("','", $courses);
-//        $bookIds = collect(
-//            DB::select(DB::raw("SELECT `book_id` FROM `book_course` WHERE `course_id` IN ('$i')"))
-//        )->lists('book_id')->all();
-//        dd($bookIds);
-//        dd(Book::whereIn('id', $bookIds)->get());
+        // return if there is nothing to search for
+        if($regexKeywords == "")
+            return $this;
+
+        // Title
+        $this->bindings['title'] = $regexKeywords;
+        $this->selectStatement = "SELECT `id` AS 'book_id' FROM `books` WHERE `title` REGEXP :title";
+
+        // Edition
+        $this->bindings['edition'] = $regexKeywords;
+        $this->selectStatement .= " UNION ALL SELECT `id` AS 'book_id' FROM `books` WHERE `edition` REGEXP :edition";
+
+        // publisher
+        $this->bindings['publisher'] = $regexKeywords;
+        $this->selectStatement .= " UNION ALL SELECT `id` AS 'book_id' FROM `books` WHERE `publisher` REGEXP :publisher";
+
+        // Courses
+        $this->bindings['course'] = $regexKeywords;
+        $this->selectStatement .= " UNION ALL SELECT `book_id` FROM `book_course` WHERE `course_id` IN (SELECT `id` FROM `courses` WHERE `full_course_name` REGEXP :course)";
+
+        // Instructors
+        $this->bindings['instructor'] = $regexKeywords;
+        $this->selectStatement .= " UNION ALL SELECT `book_id` FROM `book_instructor` WHERE `instructor_id` IN (SELECT `id` FROM `instructors` WHERE `name` REGEXP :instructor)";
+
+        // Authors
+        $this->bindings['author'] = $regexKeywords;
+        $this->selectStatement .= " UNION ALL SELECT `book_id` FROM `author_book` WHERE `author_id` IN (SELECT `id` FROM `authors` WHERE `full_name` REGEXP :author)";
 
         return $this;
     }
