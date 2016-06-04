@@ -100,6 +100,8 @@
         </div>
     </header>
 
+    @yield('index-top')
+
     <main class="container-fluid">
         {{------------------All the content goes here-----------------}}
         @yield('content')
