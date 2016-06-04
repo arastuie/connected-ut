@@ -65,6 +65,22 @@ return [
 			'unix_socket' => '/Applications/MAMP/tmp/mysql/mysql.sock',
 		],
 
+		/*
+		 * Database connection for tracker
+		 */
+		'tracker' => [
+			'driver'      => 'mysql',
+			'host'        => env('DB_HOST', 'localhost'),
+			'database'    => env('DB_DATABASE_TRACKER', 'forge'),
+			'username'    => env('DB_USERNAME', 'forge'),
+			'password'    => env('DB_PASSWORD', ''),
+			'charset'     => 'utf8',
+			'collation'   => 'utf8_unicode_ci',
+			'prefix'      => '',
+			'strict'      => false,
+			'unix_socket' => '/Applications/MAMP/tmp/mysql/mysql.sock',
+		],
+
 		'pgsql' => [
 			'driver'   => 'pgsql',
 			'host'     => env('DB_HOST', 'localhost'),
@@ -122,5 +138,6 @@ return [
 		],
 
 	],
+
 
 ];

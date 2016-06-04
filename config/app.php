@@ -137,7 +137,7 @@ return [
 		'Illuminate\View\ViewServiceProvider',
         'Illuminate\Html\HtmlServiceProvider',
         'Intervention\Image\ImageServiceProvider',
-
+		'PragmaRX\Tracker\Vendor\Laravel\ServiceProvider',
 		/*
 		 * Application Service Providers...
 		 */
@@ -197,7 +197,8 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
         'Form'      => 'Illuminate\Html\FormFacade',
         'Html'      => 'Illuminate\Html\HtmlFacade',
-        'Image'     => 'Intervention\Image\Facades\Image'
+        'Image'     => 'Intervention\Image\Facades\Image',
+		'Tracker'   => 'PragmaRX\Tracker\Vendor\Laravel\Facade',
 	],
 
 ];
