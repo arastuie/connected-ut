@@ -45,17 +45,17 @@
     <div class="container-fluid results-container">
         @foreach($respond['data'] as $book)
             <div class="row item-row">
-                <div class="col-md-4 col-lg-3 col-sm-4 col-xs-4 image-box v-center-media">
+                <div class="col-md-4 col-lg-3 col-sm-4 col-xs-12 image-box v-center-media">
                     <a href="/books/{{ $book['id'] }}">
                         @if($book['photos'] != null)
                             <img class="item-img" src="/images/books/{{ $book['photos'] }}">
                         @else
-                            <img class="item-img" alt="No Image" src="/images/general/no-image-available.jpg">
+                            <img class="item-img item-no-image" alt="No Image" src="/images/general/no-image-available.jpg">
                         @endif
                     </a>
 
                 </div><!--
-         --><div class="col-sm-8 col-md-8 col-lg-9 col-xs-8 v-center-media info-box">
+         --><div class="col-sm-8 col-md-8 col-lg-9 col-xs-12 v-center-media info-box">
                     <span class="title">{!! link_to_action('BooksController@show', $book['title'], $book['id']) !!},</span>
                     <span>{{ $book['edition'] }} edition</span>
                     <span><i>( {{ $book['condition'] }} )</i></span>
@@ -69,6 +69,7 @@
                         </div>
                     @endif
 
+
                     @if(count($book['instructors']) > 0)
                         <div class="instructors tags">
                             Taught by <a href="/search/books/detailed?instructor_list%5B%5D={{ $book['instructors'][0]['id'] }}">{{ $book['instructors'][0]['name'] }}</a>
@@ -78,6 +79,7 @@
                         </div>
                     @endif
 
+
                     @if(count($book['courses']) > 0)
                         <div class="courses tags">
                             Courses <a href="/search/books/detailed?course_list%5B%5D={{ $book['courses'][0]['id'] }}">{{ $book['courses'][0]['name'] }}</a>
@@ -86,6 +88,8 @@
                             @endfor
                         </div>
                     @endif
+
+
 
                     <div class="price-box">
                         <div class="price">&#36;{{ $book['price'] }}</div>
@@ -102,7 +106,7 @@
                 </div>
             </div>
 
-            <hr class="style-one">
+            <hr class="style-one hidden-xs">
         @endforeach
 
         {{--Message if no result was found--}}
@@ -116,7 +120,7 @@
 
     {{--Pagination--}}
     <div class="row pagination-row">
-        <nav>
+        <nav class="">
             {!! $respond['paginator']['html_nav'] !!}
         </nav>
     </div>
@@ -129,6 +133,11 @@
 
 @section('style')
     <style>
+        div.results-container{
+            padding: 0;
+            margin: 20px 15px 0 0;
+        }
+
         span.title a{
             font-size: 18px;
             color: #222;
@@ -196,11 +205,65 @@
             }
         }
 
-        div.results-container{
-            padding: 0;
-            margin: 15px 0;
+        @media screen and (max-width: 767px) {
+            div.item-row{
+                max-width: 450px;
+                border: 1px solid #555;
+                margin: 40px auto;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                border-radius: 5px;
+                padding: 0;
+                box-shadow: 1px 2px 3px #999;
+            }
+
+            div.image-box{
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid #000;
+                margin-bottom: 10px;
+                background-color: #f9f9f9;
+                box-shadow: 0 2px 3px #777;
+                -webkit-border-radius: 5px 5px 0 0;
+                -moz-border-radius: 5px 5px 0 0;
+                border-radius: 5px 5px 0 0;
+            }
+
+            img.item-img{
+                max-width: 200px;
+                max-height: 200px;
+                border-radius: 5px;
+                vertical-align: middle;
+            }
+
+            div.info-box{
+                border: 0;
+                padding: 15px;
+            }
+
+            img.item-no-image{
+                max-width: 100px;
+            }
+
+            div.results-container{
+                margin: 0;
+            }
         }
 
+        @media screen and (max-width: 460px) {
+            ul.pagination li span, ul.pagination li a{
+                padding-top: 10px;
+                padding-bottom: 10px;
+                width: 100%;
+                border-left: 0;
+                border-right: 0;
+                border-bottom-width: 0;
+            }
+
+            ul.pagination li:last-child a{
+                border-bottom-width: 1px;
+            }
+        }
 
         i.toggle-btn{
             float: right;
