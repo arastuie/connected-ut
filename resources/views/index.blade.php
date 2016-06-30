@@ -240,10 +240,6 @@
 
         div.attg{
             height: 35vw;
-            -webkit-box-shadow: 10px 20px 3px #666;
-            -moz-box-shadow: 10px 20px 3px #666;
-            box-shadow: 10px 20px 3px #666;
-            z-index: 200;
         }
 
         div.ut-only-message{
@@ -340,7 +336,7 @@
             }
         }
 
-        @media screen and (max-width: 991px) {
+        @media screen and (max-width: 97px) {
             div.engaging-title span{
                 font-size: 3vw;
             }
