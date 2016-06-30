@@ -251,17 +251,33 @@
         }
 
         @media screen and (max-width: 460px) {
-            ul.pagination li span, ul.pagination li a{
-                padding-top: 10px;
-                padding-bottom: 10px;
-                width: 100%;
-                border-left: 0;
-                border-right: 0;
-                border-bottom-width: 0;
+            .pagination{
+                width: 85%;
             }
 
-            ul.pagination li:last-child a{
-                border-bottom-width: 1px;
+            .pagination > li{
+                display: none;
+            }
+
+            .pagination > li:first-child, .pagination > li:last-child{
+                display: inline;
+            }
+
+            .pagination > li:first-child{
+                float: left;
+            }
+
+            .pagination > li:last-child{
+                float: right;
+            }
+
+            .pagination > li:first-child > span:after, .pagination > li:first-child > a:after{
+                content: " Previous";
+            }
+
+            .pagination > li:last-child > span:after, .pagination > li:last-child > a:before{
+                content: "Next ";
+
             }
         }
 
