@@ -75,8 +75,8 @@
                             <div class="row">
                                 <div class="account-ctr-wrap col-md-8 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-9 col-xs-offset-0">
                                     <div class="btn-group account-ctr">
-                                        <a class="btn btn-primary" href="/account"><i class="fa fa-user fa-fw"></i> Your Account</a>
-                                        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <a class="btn btn-primary your-account-btn" href="/account"><i class="fa fa-user fa-fw"></i> Your Account</a>
+                                        <a class="btn btn-primary dropdown-toggle your-account-btn" data-toggle="dropdown" href="#">
                                             <span class="fa fa-caret-down"></span></a>
                                         <ul class="dropdown-menu">
                                             <li><a href="/books/create"><i class="fa fa-plus-circle fa-fw"></i> Sell a book</a></li>

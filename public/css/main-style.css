@@ -344,6 +344,15 @@ form.main-search-form{
     }
 }
 
+@media screen and (max-width: 374px) {
+    a.your-account-btn{
+        font-size: 11px;
+    }
+
+    div.account-ctr{
+        margin-top: 2px;
+    }
+}
 /***************************** TESTING ******************************/
 .border{
     border: 1px solid #000;
