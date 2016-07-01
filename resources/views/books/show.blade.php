@@ -16,8 +16,20 @@
 
     {{--    Photos    --}}
     <div class="item-info clearfix row">
+        <div class="col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h2 class="title">{{ $respond['data']['title'] }}
+                        @if($respond['data']['edition'] != "")
+                            <span>, {{$respond['data']['edition']}} edition</span>
+                        @endif
+                    </h2>
+                </div>
+            </div>
+        </div>
+
         @if(! $noPhoto)
-            <div class="col-sm-5 col-xs-12">
+            <div class="col-sm-6 col-xs-12">
                 <div class="photos">
                     <div class="main-photo row">
                         <div class="main-photo-box col-sm-12 col-xs-12">
@@ -39,106 +51,163 @@
             </div>
         @endif
 
-        <div class="item-details clearfix col-sm-{{($noPhoto)? "10 col-sm-offset-1" : "7"}} col-xs-12">
-            <div class="row">
-                <div class="col-sm-12 col-xs-12">
-                    <h3 class="title">{{ $respond['data']['title'] }}, <span>{{$respond['data']['edition']}} edition</span></h3>
-                </div>
+        <div class="col-sm-6 col-xs-12">
+            <div class="panel panel-primary">
 
-                <div class="col-sm-{{($moreDetails)? "7" : "12"}} col-xs-12">
-                    <span class="item-detail">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Item Information
+                    </h3>
+                </div>
+                <ul class="list-group">
+
+                    <li class="item-detail list-group-item">
                         Price: <span>&#36;{{ $respond['data']['price'] }}</span>
                         @if($respond['data']['obo'])
                             <span>/ or better offer</span>
                         @endif
-                    </span> <br/>
-                    <span class="item-detail">Condition: <span>{{ $respond['data']['condition'] }}</span></span> <br/>
-                    <span class="item-detail">Available by <span>{{ $respond['data']['available_by'] }}</span></span> <br/>
-                    <span class="item-detail">Posted <span>{{ $respond['data']['created_at'] }}</span></span> <br/>
+                    </li>
 
-                    @unless(count($respond['data']['instructors']) == 0)
-                        <span class="item-detail">Instructors:</span>
-                        <ul>
-                            @foreach($respond['data']['instructors'] as $instructor)
-                                <li>{{ $instructor['name'] }}</li>
-                            @endforeach
-                        </ul>
-                    @endunless
+                    <li class="item-detail list-group-item">
+                        Condition: <span>{{ $respond['data']['condition'] }}</span>
+                    </li>
 
-                    @unless(count($respond['data']['authors']) == 0)
-                        <span class="item-detail">Authors:</span>
-                        <ul>
-                            @foreach($respond['data']['authors'] as $author)
-                                <li>{{ $author['name'] }}</li>
-                            @endforeach
-                        </ul>
-                    @endunless
+                    <li class="item-detail list-group-item">
+                        Available by <span>{{ $respond['data']['available_by'] }}</span>
+                    </li>
 
-                    @unless(count($respond['data']['courses']) == 0)
-                        <span class="item-detail">Courses:</span>
-                        <ul>
-                            @foreach($respond['data']['courses'] as $course)
-                                <li>{{ $course['name'] }}</li>
-                            @endforeach
-                        </ul>
-                    @endunless
+                    <li class="item-detail list-group-item">
+                        Posted <span>{{ $respond['data']['created_at'] }}</span>
+                    </li>
 
-                    @if($respond['data']['description'] != "")
-                        <span class="item-detail item-description"> Description: <br/>
-                            <p>{{ $respond['data']['description'] }}</p>
-                         </span>
-                    @endif
-                </div>
 
-                {{--   More details   --}}
-                @if($moreDetails)
-                    <div class="col-sm-5 col-xs-12">
-                        <div class="info-header">More Details:</div>
 
-                        <div class="more-detail">
-                            @if($respond['data']['publisher'] != "")
-                                <span class="item-detail">Publisher:
-                        <span>
-                            {{ $respond['data']['publisher'] }},
-                            @if($respond['data']['published_year'] != "")
-                                ({{ $respond['data']['published_year'] }})
-                            @endif
-                        </span>
-                    </span> <br>
-                            @endif
-
-                            @if($respond['data']['edition'] != "")
-                                <span class="item-detail">Edition: <span>{{ $respond['data']['edition'] }}</span></span><br>
-                            @endif
-
-                            @if($respond['data']['ISBN_10'] != "")
-                                <span class="item-detail">ISBN-10: <span>{{ $respond['data']['ISBN_10'] }}</span></span><br>
-                            @endif
-
-                            @if($respond['data']['ISBN_13'] != "")
-                                <span class="item-detail">ISBN-13: <span>{{ $respond['data']['ISBN_13'] }}</span></span><br>
-                            @endif
-                        </div>
-                    </div>
-                @endif
+                </ul>
 
             </div>
         </div>
 
+        @if(count($respond['data']['instructors']) > 0 || count($respond['data']['courses']) > 0)
+            <div class="col-sm-6  col-xs-12">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">UT Specific Details</h3>
+                    </div>
+
+                    <ul class="list-group">
+                        @unless(count($respond['data']['instructors']) == 0)
+                            <li class="item-detail list-group-item">Instructors:
+                                <ul>
+                                    @foreach($respond['data']['instructors'] as $instructor)
+                                        <li>{{ $instructor['name'] }}</li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                        @endunless
+
+                        @unless(count($respond['data']['courses']) == 0)
+                            <li class="item-detail list-group-item">Courses:
+                                <ul>
+                                    @foreach($respond['data']['courses'] as $course)
+                                        <li>{{ $course['name'] }}</li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                        @endunless
+                    </ul>
+                </div>
+            </div>
+        @endif
+
+        {{--   More details   --}}
+        @if($moreDetails)
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Item Details</h3>
+                    </div>
+
+                    <ul class="list-group">
+
+                        @unless(count($respond['data']['authors']) == 0)
+                            <li class="item-detail list-group-item">Authors:
+                                <ul>
+                                    @foreach($respond['data']['authors'] as $author)
+                                        <li>{{ $author['name'] }}</li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                        @endunless
+
+                        @if($respond['data']['publisher'] != "")
+                            <li class="item-detail list-group-item">Publisher:
+                                <span>
+                                    {{ $respond['data']['publisher'] }},
+                                    @if($respond['data']['published_year'] != "")
+                                        ({{ $respond['data']['published_year'] }})
+                                    @endif
+                                </span>
+                            </li>
+                        @endif
+
+                        @if($respond['data']['edition'] != "")
+                            <li class="item-detail list-group-item">
+                                Edition: <span>{{ $respond['data']['edition'] }}</span>
+                            </li>
+                        @endif
+
+                        @if($respond['data']['ISBN_10'] != "")
+                            <li class="item-detail list-group-item">
+                                ISBN-10: <span>{{ $respond['data']['ISBN_10'] }}</span>
+                            </li>
+                        @endif
+
+                        @if($respond['data']['ISBN_13'] != "")
+                            <li class="item-detail list-group-item">
+                                ISBN-13: <span>{{ $respond['data']['ISBN_13'] }}</span>
+                            </li>
+                        @endif
+                    </ul>
+                </div>
+
+            </div>
+        @endif
+
+        @if($respond['data']['description'] != "")
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Item Description</h3>
+                    </div>
+                    <div class="panel-body item-description">
+                        <p>{{ $respond['data']['description'] }}</p>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+
         {{--    Seller Info    --}}
         <div class="item-contact col-sm-12 col-xs-12">
-            <hr class="style-one"/>
-            <div class="info-header"> Seller Contact Info: </div>
-            <div class="contact-info">
-                @if($respond['seller-info']['email'] != "")
-                    <span class="item-emailaddress item-detail"> Email: <span>{!!  Html::email($respond['seller-info']['email']) !!} </span></span> <br />
-                @endif
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Seller Contact Info</h3>
+                </div>
 
-                @if($respond['seller-info']['phone'] != "")
-                        <span class="item-emailaddress item-detail"> Phone number: <span>{{ $respond['seller-info']['phone'] }}</span></span>
-                @endif
+                <ul class="list-group">
+                    @if($respond['seller-info']['email'] != "")
+                        <li class="item-emailaddress item-detail list-group-item">
+                            Email: <span>{!!  Html::email($respond['seller-info']['email']) !!}</span>
+                        </li>
+                    @endif
+
+                    @if($respond['seller-info']['phone'] != "")
+                        <li class="item-emailaddress item-detail list-group-item">
+                            Phone number: <span>{{ $respond['seller-info']['phone'] }}</span>
+                        </li>
+                    @endif
+                </ul>
             </div>
-
         </div>
     </div>
 </div>
@@ -147,16 +216,16 @@
 
 @section('style')
 <style>
-    h3.title{
+    h2.title{
         margin: 20px 0;
         font-family: 'Roboto', sans-serif;
     }
 
-    h3.title span{
+    h2.title span{
         font-weight: lighter;
     }
 
-    span.item-detail{
+    li.item-detail{
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: 15px;
         color: #000;
@@ -164,34 +233,17 @@
         font-weight: bold;
     }
 
-    span.item-detail span {
-        /*font-style: italic;*/
+    li.item-detail span, li.item-detail ul {
         color: #333;
         font-weight: lighter;
     }
 
-    span.item-description p{
-        margin: 5px 0 0 15px;
-        color: #000000;
+    div.item-description p{
+        color: #333;
         font-weight: normal;
-    }
-
-    div.more-detail{
-        margin-left: 25px;
-    }
-
-    div.info-header{
-        font-size: 20px;
-        margin: 10px 0;
-    }
-
-    div.item-contact{
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
-
-    div.contact-info{
-        margin-left: 25px;
+        font-family: "Roboto", Helvetica, Arial, sans-serif;
+        line-height: 27px;
+        font-size: 18px;
     }
 
     /* Photos' Style */
@@ -265,6 +317,7 @@
     @media only screen and (max-width: 767px) {
         div.photos{
             height: 50vh;
+            margin-bottom: 15px;
         }
 
         div.main-photo{
