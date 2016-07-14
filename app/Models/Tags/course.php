@@ -4,7 +4,7 @@ namespace App\Models\Tags;
 
 use Illuminate\Database\Eloquent\Model;
 
-class course extends Model
+class Course extends Model
 {
     /**
      * The attributes that are mass assignable.

@@ -3,8 +3,6 @@ namespace App\Services;
 
 use App\Models\Book;
 use App\Contracts\ISearch;
-use App\Models\Tags\course;
-use App\Models\Tags\Instructor;
 use \Illuminate\Support\Facades\DB;
 
 
