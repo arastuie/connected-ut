@@ -62,7 +62,6 @@ return [
 			'collation'   => 'utf8_unicode_ci',
 			'prefix'      => '',
 			'strict'      => false,
-			'unix_socket' => '/Applications/MAMP/tmp/mysql/mysql.sock',
 		],
 
 		/*
@@ -78,7 +77,6 @@ return [
 			'collation'   => 'utf8_unicode_ci',
 			'prefix'      => '',
 			'strict'      => false,
-			'unix_socket' => '/Applications/MAMP/tmp/mysql/mysql.sock',
 		],
 
 		'pgsql' => [
