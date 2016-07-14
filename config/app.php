@@ -1,6 +1,6 @@
 <?php
 
-return [
+return array(
 
 	/*
 	|--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
 	|
 	*/
 
-	'url' => 'http://localhost',
+	'url' => env('APP_URL'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return [
 	|
 	*/
 
-	'timezone' => 'UTC',
+	'timezone' => env('APP_TIMEZONE'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -108,7 +108,7 @@ return [
 	|
 	*/
 
-	'providers' => [
+	'providers' => array(
 
 		/*
 		 * Laravel Framework Service Providers...
@@ -148,7 +148,7 @@ return [
 		'App\Providers\RouteServiceProvider',
 
 		'App\Providers\ViewComposerServiceProvider',
-	],
+    ),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -161,7 +161,7 @@ return [
 	|
 	*/
 
-	'aliases' => [
+	'aliases' => array(
 
 		'App'       => 'Illuminate\Support\Facades\App',
 		'Artisan'   => 'Illuminate\Support\Facades\Artisan',
@@ -199,6 +199,6 @@ return [
         'Html'      => 'Illuminate\Html\HtmlFacade',
         'Image'     => 'Intervention\Image\Facades\Image',
 		'Tracker'   => 'PragmaRX\Tracker\Vendor\Laravel\Facade',
-	],
+    ),
 
-];
+);
