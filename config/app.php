@@ -39,7 +39,7 @@ return array(
 	|
 	*/
 
-	'timezone' => env('APP_TIMEZONE'),
+	'timezone' => 'America/New_York',
 
 	/*
 	|--------------------------------------------------------------------------
