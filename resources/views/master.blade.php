@@ -18,6 +18,17 @@
         <script src="/js/libs/bootstrap.min.js" type="text/javascript"></script>
         <script src="/js/libs/modernizr.custom.13737.js" type="text/javascript"></script>
         <script src="/js/libs/sweetalert.min.js"></script>
+
+        {{--Favicon related links--}}
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/general/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" href="/images/general/favicons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/images/general/favicons/favicon-16x16.png" sizes="16x16">
+        <link rel="manifest" href="/images/general/favicons/manifest.json">
+        <link rel="mask-icon" href="/images/general/favicons/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#00aba9">
+        <meta name="msapplication-TileImage" content="/images/general/favicons/mstile-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
         @yield('head')
 
         @yield('style')
