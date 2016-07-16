@@ -43,18 +43,41 @@ class AuthController extends Controller {
 	 * Create a new user instance after a valid registration.
 	 *
 	 * @param  array  $data
-		 * @return User
-		 */
-		public function create(array $data)
-		{
-			return User::create([
-				'email' => $data['email'],
-				'password' => bcrypt($data['password']),
-				'contact_email' => $data['email']
-			]);
-		}
+     * @return User
+     */
+    public function create(array $data)
+    {
+        return User::create([
+            'email' => strtolower($data['email']),
+            'password' => bcrypt($data['password']),
+            'contact_email' => strtolower($data['email'])
+        ]);
+    }
 
-		/**
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * If you change the password validation, change it on ChangePasswordRequest too.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    public function validator(array $data)
+    {
+        $rules = [
+            'email' => 'required|email|max:255|unique:users|regex:/.+@rockets.utoledo.edu/i',
+            'password' => 'required|min:6|confirmed'
+        ];
+
+        $messages = [
+            'regex' => 'You must use your @rockets.utoledo.edu email address to sign up.',
+            'min' => 'Your password must have at least 6 characters'
+        ];
+
+        return Validator::make($data, $rules, $messages);
+    }
+
+    /**
 	 * Gets the token passed by the user to verify his/her email address
 	 *
 	 * @param $token

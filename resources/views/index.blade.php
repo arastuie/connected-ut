@@ -324,11 +324,16 @@
             }
 
             div.mission-quote{
-                font-size: 17px;
+                font-size: 15px;
             }
 
             div.mission-div{
-                padding: 20px 80px;
+                padding: 15px 20px;
+            }
+
+            div.mission-inner-row-div{
+                padding: 0;
+                font-size: 12px;
             }
 
             div.engaging-title span{
