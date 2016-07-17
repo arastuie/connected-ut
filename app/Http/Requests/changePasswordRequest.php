@@ -3,7 +3,7 @@
 use App\Http\Requests\Request;
 use Illuminate\Support\Facades\Auth;
 
-class changePasswordRequest extends Request {
+class ChangePasswordRequest extends Request {
 
 	/**
 	 * Determine if the user is authorized to make this request.

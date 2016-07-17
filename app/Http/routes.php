@@ -32,7 +32,7 @@ Route::group(['prefix' => 'password', 'as' => 'password_reset.'], function(){
     // Password reset routes...
     Route::get('reset/{token}', ['as' => 'password.reset', 'uses' => 'Auth\PasswordController@getReset']);
     Route::post('reset', ['as' => 'update', 'uses' => 'Auth\PasswordController@postReset']);
-    Route::get('reset/cancel/{token}', ['as' => 'password.reset.cancel', 'uses' => 'Auth\PasswordController@getReset']);
+    Route::get('reset/cancel/{token}', ['as' => 'password.reset.cancel', 'uses' => 'Auth\PasswordController@cancelPasswordReset']);
 });
 
 // Accounts

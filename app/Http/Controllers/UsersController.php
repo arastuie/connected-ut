@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserInfoRequest;
-use App\Http\Requests\changePasswordRequest;
+use App\Http\Requests\ChangePasswordRequest;
 
 class UsersController extends Controller {
 
@@ -52,7 +52,7 @@ class UsersController extends Controller {
     /**
      * Updates password
      *
-     * @param changePasswordRequest $request
+     * @param ChangePasswordRequest $request
      * @return $this|\Illuminate\Http\RedirectResponse
      */
     public function updatePassword(ChangePasswordRequest $request)
