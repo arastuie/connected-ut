@@ -20,6 +20,8 @@ class PasswordController extends Controller {
 
 	use ResetsPasswords;
 
+    public $subject = "ConnectedUT - Password Rest";
+
 	/**
 	 * Create a new password controller instance.
 	 *

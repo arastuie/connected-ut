@@ -116,20 +116,4 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
         return $contactInfo;
     }
-
-    /**
-     * These are called automatically
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::created(function($user){
-            DB::table('user_email_confirmations')->insert([
-                'user_id' => $user->id,
-                'token' => hash_hmac('sha256', str_random(40), env('HMAC_HASH')),
-                'created_at' => Carbon::now()
-            ]);
-        });
-    }
 }

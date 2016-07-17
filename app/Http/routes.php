@@ -16,11 +16,11 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function(){
     Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\AuthController@getLogout']);
 
     // Registration routes...
-    Route::get('register', ['as' => 'register.index', 'uses' => 'Auth\AuthController@getRegister']);
-    Route::post('register', ['as' => 'register', 'uses' => 'Auth\AuthController@postRegister'])->before('csrf');
-    Route::put('register/confirm/resend', ['as' => 'register.resend.confirm', 'uses' => 'Auth\AuthController@resendConfirmEmail'])->before('csrf');
-    Route::get('register/confirm/{token}', ['as' => 'register.confirm', 'uses' => 'Auth\AuthController@confirmEmail']);
-    Route::get('register/disconfirm/{token}', ['as' => 'register.disconfirm', 'uses' => 'Auth\AuthController@disconfirmEmail']);
+    Route::get('register', ['as' => 'register.index', 'uses' => 'Auth\RegistrationController@getRegister']);
+    Route::post('register', ['as' => 'register', 'uses' => 'Auth\RegistrationController@postRegister'])->before('csrf');
+    Route::put('register/confirm/resend', ['as' => 'register.resend.confirm', 'uses' => 'Auth\RegistrationController@resendConfirmEmail'])->before('csrf');
+    Route::get('register/confirm/{token}', ['as' => 'register.confirm', 'uses' => 'Auth\RegistrationController@confirmEmail']);
+    Route::get('register/disconfirm/{token}', ['as' => 'register.disconfirm', 'uses' => 'Auth\RegistrationController@disconfirmEmail']);
 });
 
 // Password reset

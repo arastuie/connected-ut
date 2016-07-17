@@ -45,7 +45,7 @@ class AppMailer {
     {
         $this->mailer->send($this->view, $this->data, function($message) {
             $message->from($this->from, 'Connected UT')
-                ->to($this->to)->subject('Email Verification');
+                ->to($this->to)->subject('ConnectedUT - Email Verification');
         });
     }
 }

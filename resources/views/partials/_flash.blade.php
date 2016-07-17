@@ -4,9 +4,19 @@
             type: "success",
             title: "{{ session('flash_title') }}",
             text: "{{ session('flash_message') }}",
-            timer: 2000,
+            timer: 3000,
             showConfirmButton: false,
             allowOutsideClick: true
+        });
+    </script>
+
+@elseif(session('flash_type') == 'success_info')
+    <script>
+        swal({
+            type: "success",
+            title: "{{ session('flash_title') }}",
+            text: "{{ session('flash_message') }}",
+            showConfirmButton: true
         });
     </script>
 

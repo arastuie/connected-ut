@@ -1,181 +1,115 @@
 <?php namespace App\Http\Controllers\Auth;
 
-use create;
-use Validator;
-use Carbon\Carbon;
-use App\Models\User;
-use App\Mailers\AppMailer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\LoginRequest;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Contracts\Auth\Registrar;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
+use Illuminate\Foundation\Auth\RedirectsUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 
 class AuthController extends Controller {
 
-	/*
-	|--------------------------------------------------------------------------
-	| Registration & Login Controller
-	|--------------------------------------------------------------------------
-	|
-	| This controller handles the registration of new users, as well as the
-	| authentication of existing users. By default, this controller uses
-	| a simple trait to add these behaviors. Why don't you explore it?
-	|
-	*/
+    //use AuthenticatesAndRegistersUsers
+    use RedirectsUsers, ThrottlesLogins;
 
-	use AuthenticatesAndRegistersUsers;
-
-	/**
-	 * Create a new authentication controller instance.
-	 *
-	 * @return void
-	 */
+    /**
+     * Create a new authentication controller instance.
+     */
 	public function __construct()
 	{
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
 
-	/**
-	 * Create a new user instance after a valid registration.
-	 *
-	 * @param  array  $data
-     * @return User
+    /**
+     * Show the application login form.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function create(array $data)
+    public function getLogin()
     {
-        return User::create([
-            'email' => strtolower($data['email']),
-            'password' => bcrypt($data['password']),
-            'contact_email' => strtolower($data['email'])
-        ]);
+        return view('auth.login');
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * Handle a login request to the application.
      *
-     * If you change the password validation, change it on ChangePasswordRequest too.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @param LoginRequest|Request $request
+     * @return \Illuminate\Http\Response
      */
-    public function validator(array $data)
+    public function postLogin(LoginRequest $request)
     {
-        $rules = [
-            'email' => 'required|email|max:255|unique:users|regex:/.+@rockets.utoledo.edu/i',
-            'password' => 'required|min:6|confirmed'
-        ];
+        if ($this->hasTooManyLoginAttempts($request))
+            return $this->sendLockoutResponse($request);
 
-        $messages = [
-            'regex' => 'You must use your @rockets.utoledo.edu email address to sign up.',
-            'min' => 'Your password must have at least 6 characters'
-        ];
+        $credentials = $this->getCredentials($request);
 
-        return Validator::make($data, $rules, $messages);
+        // Check if credentials are right but user is not active
+        if(Auth::validate($request->only($this->loginUsername(), 'password')) && ! Auth::validate($credentials))
+            return view('/auth/reconfirm')->with(['email' => $request->input($this->loginUsername())]);
+
+        if (Auth::attempt($credentials, $request->has('remember')))
+            return $this->handleUserWasAuthenticated($request);
+
+        $this->incrementLoginAttempts($request);
+
+        return redirect('/auth/login')
+            ->withInput($request->only($this->loginUsername(), 'remember'))
+            ->withErrors([
+                $this->loginUsername() => 'These credentials do not match our records.',
+            ]);
     }
 
     /**
-	 * Gets the token passed by the user to verify his/her email address
-	 *
-	 * @param $token
-	 * @throws NotFoundHttpException
-	 * * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-	 */
-	public function confirmEmail($token)
-	{
-		if (is_null($token))
-			throw new NotFoundHttpException;
-
-		$confirmToken = DB::table('user_email_confirmations')->where('token', $token)->first();
-
-		if($confirmToken == null)
-		{
-			flash('error', 'Invalid!', 'This link is either not valid or has been expired!');
-			return redirect('/');
-		}
-
-		$user = User::whereId($confirmToken->user_id)->first();
-
-		if($user->active)
-		{
-			DB::table('user_email_confirmations')->where('user_id', $confirmToken->user_id)->delete();
-			flash('error', 'Invalid!', 'This link is either not valid or has been expired!');
-			return redirect('/');
-		}
-
-		$user->confirmEmail();
-
-		DB::table('user_email_confirmations')->where('user_id', $confirmToken->user_id)->delete();
-
-		flash('success', 'Confirmed!', 'Your email address is verified! You can login now!');
-
-		return redirect('auth/login');
-	}
-
-	/**
-	 * Deletes a user who signed up with an invalid email address
-	 *
-	 * @param $token
-	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-	 * @throws NotFoundHttpException
-	 */
-	public function DisconfirmEmail($token)
-	{
-		if (is_null($token))
-			throw new NotFoundHttpException;
-
-		$userID = DB::table('user_email_confirmations')->where('token', $token)->value('user_id');
-
-		if($userID == null)
-		{
-			flash('error', 'Invalid!', 'This link is either not valid or has been expired!');
-			return redirect('/');
-		}
-
-		$user = User::whereId($userID)->delete();
-
-		DB::table('user_email_confirmations')->where('user_id', $userID)->delete();
-
-		flash('info', 'We Apologies!', 'Your email has been removed from our records. Sorry for the inconvenience.');
-
-		return redirect('/');
-	}
-
-
-	/**
-	 * Resends a new email confirmation email and deletes the old one
-	 *
-	 * @param Request $request
-	 * @param AppMailer $mailer
-	 * @throws NotFoundHttpException
+     * Send the response after the user was authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-	public function resendConfirmEmail(Request $request, AppMailer $mailer)
-	{
-		$this->validate($request, [
-			'email' => 'required|email',
-			'password' => 'required',
-		]);
+    protected function handleUserWasAuthenticated(Request $request)
+    {
+        $this->clearLoginAttempts($request);
 
-		$user = User::whereEmail($request->input('email'))->first();
+        flash('success', 'Welcome Back!', 'Have a good time connecting!');
 
-		if($user == null || ! Hash::check($request->input('password'), $user->password) || $user->active == true)
-			throw new NotFoundHttpException;
+        return redirect()->intended($this->redirectPath());
+    }
 
-		if(DB::table('user_email_confirmations')->where('user_id', $user->id)->value('token') == null)
-			throw new NotFoundHttpException;
+    /**
+     * Get the needed authorization credentials from the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    protected function getCredentials(Request $request)
+    {
+        return [
+            $this->loginUsername() => $request->input($this->loginUsername()),
+            'password' => $request->password,
+            'active' => 1
+        ];
+    }
 
-		DB::table('user_email_confirmations')->where('user_id', $user->id)->delete();
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function loginUsername()
+    {
+        return 'email';
+    }
 
-		$newToken = hash_hmac('sha256', str_random(40), env('HMAC_HASH'));
-		$confirmEmail = DB::table('user_email_confirmations')->insert([
-			'user_id' => $user->id,
-			'token' => $newToken,
-			'created_at' => Carbon::now()
-		]);
+    /**
+     * Log the user out of the application.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLogout()
+    {
+        Auth::logout();
 
-		$mailer->sendEmailConfirmation($newToken, $user);
-	}
+        flash('success', 'See you soon!', 'Hope you had a good time connecting!');
+
+        return redirect('/');
+    }
 }
