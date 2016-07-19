@@ -38,6 +38,8 @@
         If you believe you have received this email by mistake please <a href="{{ url('password/reset/cancel/'.$token) }}">click here</a>.
     </p>
 
+    <br>
+
     <div class="logo_div col-md-2 col-sm-3 col-xs-4">
         <a href="//connectedut.com">Connected<span class="ut">UT</span></a>
     </div>

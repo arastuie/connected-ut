@@ -39,7 +39,8 @@ return [
 	 *     '172.17.0.0/255.255.0.0'
 	 */
 	'do_not_track_ips' => [
-		'127.0.0.0/24' /// range 127.0.0.1 - 127.0.0.255
+		'127.0.0.0/24', /// range 127.0.0.1 - 127.0.0.255
+        env('ADMIN_IP')
 	],
 
 	/**
@@ -275,7 +276,7 @@ return [
 	/**
 	 * Enable the Stats Panel?
 	 */
-	'stats_panel_enabled' => false,
+	'stats_panel_enabled' => true,
 
 	/**
 	 * Stats Panel routes before filter

@@ -116,4 +116,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
         return $contactInfo;
     }
+
+    /**
+     * Returns true if the user is admin
+     *
+     * @return bool
+     */
+    public function getIsAdminAttribute()
+    {
+        if($this->email == env('ADMIN_EMAIL') && $this->id == env('ADMIN_ID'))
+            return true;
+        else
+            return false;
+    }
 }

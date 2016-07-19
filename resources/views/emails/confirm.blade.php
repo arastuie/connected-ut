@@ -36,6 +36,8 @@
         If you believe you received this email by mistake and you did not sign up for a ConnectedUT account, please <a href='{{ url("auth/register/disconfirm/{$token}") }}'>click here</a>.
     </p>
 
+    <br>
+
     <p>
         Happy connecting!
     </p>
