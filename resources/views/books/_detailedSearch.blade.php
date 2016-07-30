@@ -72,6 +72,8 @@
             $("#instructor_list, #course_list, #author_list").select2({
                 placeholder: "Select all",
                 allowClear: true,
+                selectOnClose: true,
+                minimumInputLength: 2
             });
 
             $("div.search-panel-heading").on('click', function(){
