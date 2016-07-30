@@ -55,7 +55,7 @@
 
                 <div class="form-group">
                     <div class="col-xs-offset-7 col-xs-4 col-sm-offset-9 col-sm-2">
-                        {!! Form::button('Let&#39;s Go', ['type' => 'submit', 'class' => 'form-control btn btn-info']) !!}
+                        {!! Form::button('Go', ['type' => 'submit', 'class' => 'form-control btn btn-info']) !!}
                     </div>
                 </div>
                 {!! Form::close() !!}
