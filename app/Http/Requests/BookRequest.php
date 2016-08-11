@@ -39,25 +39,25 @@ class BookRequest extends Request {
 	 */
 	public function rules()
 	{
-
         $rules = [
-            'title' => 'required|min:4|max:200',
-            'condition' => 'required|numeric',
-            'available_by' => 'required|date|after:yesterday',
-            'price' => 'required|numeric|regex:/^\d{0,8}(\.\d{1,2})?$/',
-            'pics' => 'array',
+            'title' => 'required_with:title|min:4|max:200',
+            'condition' => 'numeric',
+            'available_by' => 'date|after:yesterday',
+            'price' => 'numeric|regex:/^\d{0,8}(\.\d{1,2})?$/',
             'edition' => 'max:50',
             'ISBN_13' => 'max:20',
             'ISBN_10' => 'max:20',
             'publisher' => 'max:100',
             'published_year' => 'numeric',
-            'obo' => 'boolean'
+            'obo' => 'boolean',
+            'photo' => 'between:5,4000|image|mimes:jpeg,png',
         ];
-//        dd($this->get('obo'));
-        foreach($this->files->get('pics') as $key => $pic)
+
+        // Not empty if present
+        foreach(['title', 'condition', 'available_by', 'price'] as $field)
         {
-            $rules['pics.' . $key] = 'max:4000|image|mimes:jpeg,png';
-//            dd($pic);
+            if($this->request->has($field))
+                $rules[$field] .= '|required';
         }
 
         return $rules;
@@ -71,14 +71,9 @@ class BookRequest extends Request {
     public function messages()
     {
         $messages = [];
-
-        foreach($this->files->get('pics') as $key => $pic)
-        {
-            $messages['pics.' . $key . '.between'] = 'Photo ' . ($key + 1) .' should be less them 4MB.';
-            $messages['pics.' . $key . '.mimes'] = 'Photo ' . ($key + 1) . '\'s type should be either jpeg or png.';
-        }
-
-        $messages['after'] = 'The :attribute cannot be a date from past.';
+        $messages['photo.between'] = "The photo must be between 5KB and 4MB in size.";
+        $messages['photo.mimes'] = "The photo's type should be either jpeg, jpg or png.";
+        $messages['after'] = 'The :attrbute cannot be a date from past.';
 
         return $messages;
     }

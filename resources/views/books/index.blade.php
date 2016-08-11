@@ -48,9 +48,14 @@
                 <div class="col-md-4 col-lg-3 col-sm-4 col-xs-12 image-box v-center-media">
                     <a href="/books/{{ $book['id'] }}">
                         @if($book['photos'] != null)
-                            <img class="item-img" src="/images/books/{{ $book['photos'] }}">
+                            <? foreach($book['photos'] as $photo): ?>
+                                <? if($photo['is_main']): ?>
+                                    <img class="item-img" src="{{ $photo['thumbnail_path']}}">
+                                    <? break; ?>
+                                <? endif; ?>
+                            <? endforeach; ?>
                         @else
-                            <img class="item-img item-no-image" alt="No Image" src="/images/general/no-image-available.jpg">
+                            <img class="item-img item-no-image" alt="No image" src="/images/general/no-image-available.jpg">
                         @endif
                     </a>
 
@@ -93,7 +98,7 @@
 
                     <div class="price-box">
                         <div class="price">&#36;{{ $book['price'] }}</div>
-                        @if($book['obo'])
+                        @if($book['obo'] && $book['price'] != 0)
                             <div class="obo-tag">
                                 <span class="label label-info">OBO</span>
                             </div>
@@ -150,7 +155,7 @@
         }
         
         img.item-img{
-            width: 90%;
+            /*width: 90%;*/
             max-width: 200px;
             border-radius: 5px;
             vertical-align: middle;

@@ -25,13 +25,12 @@ class CreateBooksTable extends Migration {
 			$table->string('ISBN_10', 20)->nullable();
 			$table->string('ISBN_13', 20)->nullable();
 			$table->integer('published_year')->nullable();
-
             $table->text('description')->nullable();
-            $table->integer('condition');
-            $table->decimal('price', 8, 2);
-			$table->boolean('obo');
-            $table->text('photos')->nullable();
-            $table->timestamp('available_by');
+            $table->tinyInteger('condition')->nullable();
+            $table->decimal('price', 8, 2)->nullable();
+			$table->boolean('obo')->default(false);
+            $table->timestamp('available_by')->nullable();
+            $table->tinyInteger('status')->nullable();
 			$table->timestamps();
 		});
 	}

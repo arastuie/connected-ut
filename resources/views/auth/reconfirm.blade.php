@@ -62,7 +62,7 @@
                     }).fail(function(){
                         swal({
                             title: "Resending Failed!",
-                            text: "Something went wrong. Please try again. If the problem persist do not hesitate to contact us.",
+                            text: "Something went wrong. Please try again. If the problem persist do not hesitate to contact us at support@connectedut.com.",
                             type: "error"
                         });
                     });

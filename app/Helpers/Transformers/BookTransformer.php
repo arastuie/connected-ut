@@ -18,14 +18,20 @@ class BookTransformer extends Transformer
      */
     private $tagTransformer;
 
+    /**
+     * @var instance of PhotoTransfomer class
+     */
+    private $photoTransformer;
 
     /**
      * Creates am instance of TagTransformer class
      *
      * @param \App\Helpers\Transformers\TagTransformer $tagTransformer
+     * @param PhotoTransformer $photoTransformer
      */
-    public function __construct(TagTransformer $tagTransformer){
+    public function __construct(TagTransformer $tagTransformer, PhotoTransformer $photoTransformer){
         $this->tagTransformer = $tagTransformer;
+        $this->photoTransformer = $photoTransformer;
     }
 
     /**
@@ -40,7 +46,7 @@ class BookTransformer extends Transformer
         unset($book->user_id);
         unset($book->updated_at);
 
-        $book->condition = "Very Good";
+        $book->condition = $this->conditions[$book->condition];
 
         $bookObject = Book::find($book->id);
         $book->instructors = $this->tagTransformer->tagsName('name')->transformCollection($bookObject->instructors->toArray());
@@ -49,17 +55,11 @@ class BookTransformer extends Transformer
 
         $book->authors = $this->tagTransformer->tagsName('full_name')->transformCollection($bookObject->authors->toArray());
 
-
-        if($book->photos === null)
-            return $book;
-
         if($only_main_photo)
-        {
-            $book->photos = explode(';', $book->photos, 2)[0];
-            return $book;
-        }
+            $book->photos = $this->photoTransformer->transformCollection([$bookObject->mainPhoto()->toArray()]);
+        else
+            $book->photos = $this->photoTransformer->transformCollection($bookObject->photos()->get()->toArray());
 
-        $book->photos = explode(';', $book->photos);
         return $book;
     }
 }

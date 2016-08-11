@@ -1,18 +1,27 @@
 @extends('master')
 
 @section('content')
+    <div class="row">
+        {!! Form::model($book, ['method' => 'PUT', 'action' => ['BooksController@update', $book->id], 'files' => true, 'class' => 'form-horizontal book-request-form']) !!}
 
-    <h2>Edit: {{ $book->title }}</h2>
+        <div class="col-xs-12 col-sm-12">
+            <h2 class="title">Edit: {{ $book->title }}</h2>
+            <hr/>
+        </div>
 
-    <hr/>
+        @include('errors._list')
 
-    @include('errors._list')
+        @include('books._form', [
+                'submitBtnText' => ($book->status == \App\Models\Book::STATUS['saved_for_later'])? 'List it' : 'Unlist it',
+                'doneBtnText' => ($book->status == \App\Models\Book::STATUS['saved_for_later'])? 'Save for later' : 'Done editing'
+            ])
 
-    {!! Form::model($book, ['method' => 'PUT', 'action' => ['BooksController@update', $book->id], 'files' => true, 'class' => 'form-horizontal book-request-form']) !!}
-        @include('books._form', ['submitBtnText' => 'Update', 'action' => 'edit'])
-    {!! Form::close() !!}
+        <div class="col-xs-12 col-sm-12">
+            <div class="form-group">
+                <a class="btn btn-danger form-control delete-book">Delete</a>
+            </div>
+        </div>
 
-    <div style="margin-bottom: 20px">
-        <a class="btn btn-danger form-control delete-book" data-book="{{$book->id}}" data-token="{{ csrf_token() }}">Delete</a>
+        {!! Form::close() !!}
     </div>
 @endsection

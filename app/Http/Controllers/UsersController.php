@@ -1,13 +1,11 @@
 <?php namespace App\Http\Controllers;
 
+
 use Carbon\Carbon;
 use App\Models\User;
-use App\Http\Requests;
-use Illuminate\Http\Request;
 use App\Models\Tags\Department;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\UserInfoRequest;
 use App\Http\Requests\ChangePasswordRequest;
 
@@ -29,11 +27,6 @@ class UsersController extends Controller {
      */
     public function index()
     {
-        $books = Auth::user()->books;
-        foreach($books as $book)
-        {
-            $book->photos = explode(';', $book->photos)[0];
-        }
         return view('users.index', compact('books'));
     }
 
@@ -93,7 +86,13 @@ class UsersController extends Controller {
         $books = Auth::user()->books()->orderBy('created_at', 'DESC')->get();
 
         foreach($books as $book)
-            $book->photos = explode(';', $book->photos)[0];
+        {
+            $mainPhoto = $book->mainPhoto();
+            if($mainPhoto != null)
+                $book->mainPhotoThumbPath = $mainPhoto->thumbnail_path;
+            else
+                $book->mainPhotoThumbPath = null;
+        }
 
         return view('users.mybooks', compact('books'));
     }
@@ -134,7 +133,7 @@ class UsersController extends Controller {
         if(($request->exists('use_phone') && $request->use_phone == 0 && $user->use_email == false) ||
             $request->exists('use_email') && $request->use_email == 0 && $user->use_phone == false)
         {
-            flash('error', 'Update denied!', 'You cannot have both your email and phone number not listed in your contact info, otherwise buyers have no way of contacing you.');
+            flash('error', 'Update denied!', 'You cannot have both your email and phone number not listed in your contact info, otherwise buyers have no way of contacting you.');
             return $this->editInfo();
         }
 

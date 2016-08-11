@@ -28,7 +28,10 @@ class RouteServiceProvider extends ServiceProvider {
 
 		$router->bind('books', function($id)
         {
-			return Book::find($id);
+			$book = Book::find($id);
+            if($book == null)
+                abort(404);
+            return $book;
         });
 	}
 

@@ -78,7 +78,7 @@
                 <div class="col-sm-6 col-xs-12 mission-quote">
                     This is a private platform made by, and exclusively for the University of Toledo students. Our mission is to help UT students connect easier and make college more affordable. Help us improve this platform by your suggestions and your feedback.
                     <br>
-                    <a href="/" class="btn btn-info mission-contact">Contact us</a>
+                    <div class="alert alert-default" role="alert">Contact us at <br> support&#64;connectedut.com</div>
                 </div>
             </div>
         </div>

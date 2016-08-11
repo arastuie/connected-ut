@@ -3,58 +3,64 @@
 @section('content')
 
 @include('partials._flash', with(['delay' => 4000]))
+<div class="account-container">
+    <i class="fa fa-user fa-3x user-thumb"></i><span class="heading-title">My Account</span>
 
-<i class="fa fa-user fa-3x user-thumb"></i><span class="heading-title">My Account</span>
+    <div class="full-width clearfix">
 
-<div class="full-width clearfix">
+        <a class="style-reset" href="/account/update">
+            <div class="update-info">
+                <i class="fa fa-pencil"></i>
+                <span>Update personal info</span>
+                <span>&#62;</span>
+            </div>
+        </a>
 
-    <a class="style-reset" href="/account/update">
-        <div class="update-info">
-            <i class="fa fa-pencil"></i>
-            <span>Update personal info</span>
-            <span>&#62;</span>
-        </div>
-    </a>
+        <a class="style-reset" href="/account/change_password">
+            <div class="update-info">
+                <i class="fa fa-key"></i>
+                <span>Change password</span>
+                <span>&#62;</span>
+            </div>
+        </a>
 
-    <a class="style-reset" href="/account/change_password">
-        <div class="update-info">
-            <i class="fa fa-key"></i>
-            <span>Change password</span>
-            <span>&#62;</span>
-        </div>
-    </a>
+    </div>
 
+    <hr class="style-two"/>
+
+    <i class="fa fa-book fa-3x user-thumb"></i><span class="heading-title">My Listings</span>
+
+    <div class="full-width clearfix">
+
+        <a class="style-reset" href="/account/mybooks">
+            <div class="update-info">
+                <i class="fa fa-list"></i>
+                <span>My books</span>
+                <span>&#62;</span>
+            </div>
+        </a>
+
+        <a class="style-reset" href="/books/create">
+            <div class="update-info">
+                <i class="fa fa-plus-circle"></i>
+                <span>Start selling a book</span>
+                <span>&#62;</span>
+            </div>
+        </a>
+
+    </div>
 </div>
 
-<hr class="style-two"/>
-
-<i class="fa fa-book fa-3x user-thumb"></i><span class="heading-title">My Listings</span>
-
-<div class="full-width clearfix">
-
-    <a class="style-reset" href="/account/mybooks">
-        <div class="update-info">
-            <i class="fa fa-list"></i>
-            <span>My books</span>
-            <span>&#62;</span>
-        </div>
-    </a>
-
-    <a class="style-reset" href="/books/create">
-        <div class="update-info">
-            <i class="fa fa-plus-circle"></i>
-            <span>Start selling a book</span>
-            <span>&#62;</span>
-        </div>
-    </a>
-
-</div>
 
 @endsection
 
 
 @section('style')
 <style>
+    div.account-container{
+        padding: 25px 5px;
+    }
+
     span.heading-title{
         color: #333;
         font-size: 25px;
@@ -150,6 +156,12 @@
 
     td a:hover{
         text-decoration: none;
+    }
+
+    @media screen and (min-width: 767px) {
+        div.account-container{
+            padding: 25px 50px;
+        }
     }
 
 </style>

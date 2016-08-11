@@ -4,13 +4,23 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
 class Book extends Model {
-
     /**
      * The database table used by the model.
      *
      * @var string
      */
     protected $table = 'books';
+
+
+    /**
+     * Different statues of a book
+     *
+     * @var array
+     */
+    const STATUS = [
+        'saved_for_later' => 0,
+        'listed' => 1
+    ];
 
 
     /**
@@ -25,12 +35,12 @@ class Book extends Model {
         'price',
         'obo',
         'available_by',
-        'photos',
         'edition',
         'publisher',
         'published_year',
         'ISBN_13',
-        'ISBN_10'
+        'ISBN_10',
+        'status'
     ];
 
     /**
@@ -71,6 +81,9 @@ class Book extends Model {
      */
     public function getAvailableByAttribute($date)
     {
+        if(is_null($date))
+            return null;
+
         if(Carbon::parse($date)->isFuture())
             return Carbon::parse($date)->toFormattedDateString();
 
@@ -91,6 +104,7 @@ class Book extends Model {
     public function created_at(){
         return $this->created_at;
     }
+
     /**
      * Returns the owner of the book
      *
@@ -159,5 +173,25 @@ class Book extends Model {
     public function getAuthorListAttribute()
     {
         return $this->authors->lists('id')->toArray();
+    }
+
+    /**
+     * Get the photos associated with the given book
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function photos()
+    {
+        return $this->hasMany('App\Models\Photos\BookPhoto');
+    }
+
+    /**
+     * Returns the main photo of the book
+     *
+     *
+     */
+    public function mainPhoto()
+    {
+        return $this->photos()->where('is_main', true)->first();
     }
 }

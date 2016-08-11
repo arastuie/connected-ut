@@ -1,6 +1,4 @@
-<?php
-
-namespace App\Helpers\BookHelpers;
+<?php namespace App\Helpers\BookHelpers;
 
 use App\Models\Book;
 use App\Models\Tags\Author;
@@ -17,9 +15,9 @@ class BookHelper
      *
      * @param Book $book
      * @param $sold: true = sold, false = deleted
-     * @return View
+     * @return void
      */
-    public static function insert_into_sold_deleted_books_table(Book $book, $sold)
+    public static function insertIntoSoldDeletedBooksTable(Book $book, $sold)
     {
         DB::table('sold_deleted_books')->insert([
             'user_id' => $book->user_id,
@@ -37,7 +35,7 @@ class BookHelper
             'condition' => $book->condition,
             'price' => $book->price,
             'obo' => $book->obo,
-            'photos' => $book->photos,
+            'photo_count' => $book->photos()->count(),
             'available_by' => $book->getOriginal('available_by'),
             'posted_at' => $book->getOriginal('created_at'),
             'created_at' => date("Y-m-d H:i:s"),
@@ -47,154 +45,69 @@ class BookHelper
 
 
     /**
-     *  Resizes all the photos to width=400 then saves all the photos in
-     * /images/books/"user's id"/"user's id + time + photo number + extension"
-     * Then saves an string of folder/photoName divided by ';' to the database
+     *  Resize the photo to width=500 and creates a thumbnail then saves them in
+     * /images/books/"user's id"/"user's id + uniqueid + photo number + extension"
+     * then inserts a new record to book_photos table
      *
      * @param BookRequest $request
-     * @return array photo_array
-     */
-    public static function save_photos(BookRequest $request)
-    {
-        $users_id = Auth::user()->id;
-        $users_photos_path = public_path() . '/images/books/' . $users_id . '/';
-        $photo_array = [];
-
-        if(count($request->pics) > 4)
-            redirect('/');
-
-        foreach($request->pics as $key => $photo)
-        {
-            if($photo != null)
-            {
-                $extension = explode('.', $photo->getClientOriginalName());
-                $extension = end($extension);
-                $image = Image::make($photo);
-                $fileName = $users_id . time() . $key . '.' . $extension;
-
-                if(($image->width() / $image->height()) >= 1)
-                {
-                    $image->resize(500, null, function($constraint){
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                }else{
-                    $image->resize(null, 500, function($constraint){
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                }
-
-                File::exists($users_photos_path) or File::makeDirectory($users_photos_path);
-                $image->save($users_photos_path . $fileName);
-                $photo_array[$key] = $users_id . '/' . $fileName;
-            }
-        }
-
-        $photos = count($photo_array) > 0 ? implode(';', $photo_array) : null;
-        $request->request->add(['photos' => $photos]);
-
-        // Just for update to match del pics
-        return $photo_array;
-    }
-
-
-
-    /**
-     * delete photos and regenerate photo_array (returned from save_photo()) based on
-     * the update request
-     *
-     * @param BookRequest $request
-     * @param $book
-     */
-    public static function update_photos(BookRequest $request, $book)
-    {
-        $photo_array = self::save_photos($request);
-
-        $uploaded_pics = ($book->photos != null)? explode(';', $book->photos): null;
-
-        if($request->deleted_pics != '')
-        {
-            $del_pics = explode(';', $request->deleted_pics);
-
-            foreach($del_pics as $del_pic)
-            {
-                File::delete(public_path() . '/images/books/' . $uploaded_pics[$del_pic]);
-
-                unset($uploaded_pics[$del_pic]);
-            }
-        }
-
-        if($uploaded_pics != null)
-            $photo_array += $uploaded_pics;
-
-
-        if(count($photo_array) > 0)
-        {
-            ksort($photo_array);
-            $photos = implode(';', $photo_array);
-        }else
-            $photos = null;
-
-
-        $request->request->set('photos' , $photos);
-    }
-
-
-    /**
-     * Moves all the photos of the deleted book to /images/sold_deleted_books/user_id
-     * Also deletes the deleted's book prev directory if empty
-     *
      * @param Book $book
-     * @param $book
+     * @return \Illuminate\Database\Eloquent\Model
      */
-    public static function move_photos(Book $book)
+    public static function savePhoto(BookRequest $request, Book $book)
     {
-        if($book->photos === null)
-            return;
+        $photo = $request->photo;
 
-        $users_deleted_photos_path = public_path() . '/images/sold_deleted_books/';
-        $users_photos_path = public_path() . '/images/books/';
-        $photos = explode(';', $book->photos);
+        $image = Image::make($photo);
 
-        File::exists($users_deleted_photos_path . $book->user_id) or File::makeDirectory($users_deleted_photos_path . $book->user_id);
-
-        foreach($photos as $photo)
+        if(($image->width() / $image->height()) >= 1)
         {
-            if(File::exists($users_photos_path . $photo))
-                File::move($users_photos_path . $photo, $users_deleted_photos_path . $photo);
+            $image->resize(700, null, function($constraint){
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+        }
+        else
+        {
+            $image->resize(null, 700, function($constraint){
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
         }
 
-        // Checks if the directory is empty
-        if(count(glob(public_path() . '/images/books/' . $book->user_id . '/*', GLOB_NOSORT)) === 0)
-            File::deleteDirectory($users_photos_path . $book->user_id);
+        $user_id = Auth::user()->id;
+        $photo_public_path = '/images/books/' . $user_id . '/';
+        $user_photos_path = public_path() . $photo_public_path;
+        $extension = explode('.', $photo->getClientOriginalName());
+        $extension = '.' . end($extension);
+        $fileName = $user_id . '-' .  uniqid();
+
+        // Check if the file exists, just add '-1' since it is based on milliseconds
+        if(File::exists($user_photos_path . $fileName  . $extension))
+            $fileName .= '-1';
+
+        File::exists($user_photos_path) or File::makeDirectory($user_photos_path);
+        $image->save($user_photos_path . $fileName  . $extension);
+
+        // Creating and saving thumbnail
+        $thumb_image = Image::make($photo);
+        $thumb_image->resize(150, 150, function($constraint){
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+
+        $thumb_fileName = $fileName . '-thumb';
+        $thumb_image->save($user_photos_path . $thumb_fileName . $extension);
+
+        $uploadedPhoto = $book->photos()->create([
+            'path' => $photo_public_path . $fileName . $extension,
+            'filename' => $fileName  . $extension,
+            'thumbnail_path' => $photo_public_path . $thumb_fileName . $extension,
+            'thumbnail_filename' => $thumb_fileName . $extension,
+            'is_main' => ($book->photos()->count() == 0)
+        ]);
+
+        return $uploadedPhoto;
     }
-
-
-
-    /**
-     * Replaces the string in $book->photos with an array of photos
-     *
-     *
-     * @param $book Book object
-     * @param bool $main true returns just the main photo, false returns all
-     */
-    public static function photo_explode($book, $main = false)
-    {
-
-        if($book->photos === null)
-            return;
-
-        if($main)
-        {
-            $book->photos = explode(';', $book->photos, 2)[0];
-            return;
-        }
-
-        $book->photos = explode(';', $book->photos);
-
-    }
-
 
 
     /**
@@ -211,7 +124,6 @@ class BookHelper
     }
 
 
-
     /**
      * Sync up the list of courses in the database:
      *
@@ -226,17 +138,15 @@ class BookHelper
     }
 
 
-
     /**
      * Sync up the list of authors in the database
      * And create a new author if not existed
      *
      * @param Book $book
-     * @param BookRequest $request
+     * @param array $authors
      */
-    public static function syncAuthors(Book $book, BookRequest $request)
+    public static function syncAuthors(Book $book, $authors)
     {
-        $authors = $request->input('author_list');
         if(is_null($authors))
             $authors = [];
         foreach($authors as $key => $author)
@@ -262,7 +172,6 @@ class BookHelper
     }
 
 
-
     /**
      * Returns all the authors as a key-value pair as 'id#^full_name'
      *
@@ -280,51 +189,5 @@ class BookHelper
         }
 
         return $authors;
-    }
-
-
-
-    /**
-     * Save a new book
-     * @param BookRequest $request
-     * @return mixed
-     */
-    public static function create_book(BookRequest $request)
-    {
-        self::save_photos($request);
-
-        if(! $request->has('obo'))
-            $request->request->add(['obo' => 0]);
-
-        $book = Auth::user()->books()->create($request->all());
-
-        self::syncInstructors($book, $request->input('instructor_list'));
-        self::syncCourses($book, $request->input('course_list'));
-        self::syncAuthors($book, $request);
-
-        return $book;
-    }
-
-
-
-    /**
-     * Update an edited book
-     *
-     * @param BookRequest $request
-     * @param Book $book
-     * @return mixed
-     */
-    public static function update_book(BookRequest $request, Book $book)
-    {
-        self::update_photos($request, $book);
-
-        if(! $request->has('obo'))
-            $request->request->add(['obo' => 0]);
-
-        $book->update($request->all());
-
-        self::syncInstructors($book, $request->input('instructor_list'));
-        self::syncCourses($book, $request->input('course_list'));
-        self::syncAuthors($book, $request);
     }
 }

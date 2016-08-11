@@ -47,7 +47,7 @@ class SearchService implements ISearch
             $result = [];
 
         $result = $this->sortByMostRepeated($result);
-        $result = Book::whereIn('id', $result);
+        $result = Book::whereIn('id', $result)->whereStatus(Book::STATUS['listed']);
 
         return $result;
     }

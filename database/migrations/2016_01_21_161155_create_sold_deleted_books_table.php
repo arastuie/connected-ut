@@ -36,7 +36,7 @@ class CreateSoldDeletedBooksTable extends Migration
             $table->integer('condition');
             $table->decimal('price', 8, 2);
             $table->boolean('obo');
-            $table->text('photos')->nullable();
+            $table->integer('photo_count');
             $table->timestamp('posted_at');
             $table->timestamp('available_by');
             $table->timestamps();

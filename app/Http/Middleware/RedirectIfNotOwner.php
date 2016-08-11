@@ -22,7 +22,7 @@ class RedirectIfNotOwner {
 
         $item = $request->route($wildcard);
 
-        if($user && $item->user_id === Auth::id())
+        if($item != null && $user && $item->user_id === Auth::id())
         {
             return $next($request);
         }

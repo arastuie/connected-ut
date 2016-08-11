@@ -52,10 +52,13 @@ Route::group(['prefix' => 'books', 'as' => 'books.'], function(){
     Route::get('/create', ['as' => 'create', 'uses' => 'BooksController@create']);
     Route::get('/{books}', ['as' => 'show', 'uses' => 'BooksController@show'])->where('books', '[0-9]+');
     Route::get('/{books}/edit', ['as' => 'edit', 'uses' => 'BooksController@edit'])->where('books', '[0-9]+');
+    Route::post('/{books}/update/photo', ['as' => 'upload.photo', 'uses' => 'BooksController@uploadPhoto'])->where('books', '[0-9]+')->before('csrf');
+    Route::delete('/{books}/photo', ['as' => 'delete.photo', 'uses' => 'BooksController@deletePhoto'])->where('books', '[0-9]+')->before('csrf');
     Route::put('/{books}/update', ['as' => 'update', 'uses' => 'BooksController@update'])->where('books', '[0-9]+')->before('csrf');
-    Route::put('/{books}/sold', ['as' => 'sold', 'uses' => 'BooksController@sold'])->where('books', '[0-9]+')->before('csrf');
+    Route::put('/{books}/sold', ['as' => 'sold', 'uses' => 'BooksController@soldOrDelete'])->where('books', '[0-9]+')->before('csrf');
     Route::post('/store', ['as' => 'store', 'uses' => 'BooksController@store'])->before('csrf');
-    Route::delete('/{books}', ['as' => 'delete', 'uses' => 'BooksController@destroy'])->where('books', '[0-9]+')->before('csrf');
+    Route::delete('/{books}', ['as' => 'delete', 'uses' => 'BooksController@soldOrDelete'])->where('books', '[0-9]+')->before('csrf');
+    Route::put('/{books}/status', ['as' => 'status', 'uses' => 'BooksController@updateStatus'])->where('books', '[0-9]+')->before('csrf');
 });
 
 // Search
