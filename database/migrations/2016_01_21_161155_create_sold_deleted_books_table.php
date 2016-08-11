@@ -20,7 +20,7 @@ class CreateSoldDeletedBooksTable extends Migration
 
             $table->boolean('is_sold');
 
-            $table->string('title', 200);
+            $table->string('title', 200)->nullable();
             $table->string('edition', 50)->nullable();
 
             $table->text('instructors')->nullable();
@@ -33,12 +33,12 @@ class CreateSoldDeletedBooksTable extends Migration
             $table->integer('published_year')->nullable();
 
             $table->text('description')->nullable();
-            $table->integer('condition');
-            $table->decimal('price', 8, 2);
-            $table->boolean('obo');
-            $table->integer('photo_count');
+            $table->integer('condition')->nullable();
+            $table->decimal('price', 8, 2)->nullable();
+            $table->boolean('obo')->nullable();
+            $table->integer('photo_count')->nullable();
             $table->timestamp('posted_at');
-            $table->timestamp('available_by');
+            $table->timestamp('available_by')->nullable();
             $table->timestamps();
         });
     }

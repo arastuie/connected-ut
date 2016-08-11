@@ -85,13 +85,16 @@ class UsersController extends Controller {
     {
         $books = Auth::user()->books()->orderBy('created_at', 'DESC')->get();
 
-        foreach($books as $book)
+        if(! is_null($books))
         {
-            $mainPhoto = $book->mainPhoto();
-            if($mainPhoto != null)
-                $book->mainPhotoThumbPath = $mainPhoto->thumbnail_path;
-            else
-                $book->mainPhotoThumbPath = null;
+            foreach($books as $book)
+            {
+                $mainPhoto = $book->mainPhoto();
+                if($mainPhoto != null)
+                    $book->mainPhotoThumbPath = $mainPhoto->thumbnail_path;
+                else
+                    $book->mainPhotoThumbPath = null;
+            }
         }
 
         return view('users.mybooks', compact('books'));
