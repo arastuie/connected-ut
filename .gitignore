@@ -9,8 +9,7 @@ node_modules/
 .idea/
 *.iws
 
-public/images/books
-public/images/sold_deleted_books
+public/images/books/*
 storage/misc
 
 .DS_Store
