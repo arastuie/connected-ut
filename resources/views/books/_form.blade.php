@@ -35,9 +35,17 @@
 
                     {!! Form::input('number', 'price', null, ['class' => 'form-control item-info', 'step' => '0.01', 'placeholder' => 'eg: 12.50']) !!}
 
-                    <div class="input-group-addon obo-addon">
+                    <div class="input-group-addon obo-addon hidden-xs">
                         {!! Form::checkbox('obo', 1, null, ['class' => 'form-horizental item-info']) !!} Or Best Offer
                     </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 hidden-sm hidden-md hidden-lg">
+                <div class="checkbox obo-checkbox">
+                    <label>
+                        {!! Form::checkbox('obo', 1, null, ['class' => 'form-horizental item-info']) !!} or best offer (OBO)
+                    </label>
                 </div>
             </div>
 
