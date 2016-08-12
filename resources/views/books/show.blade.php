@@ -133,7 +133,7 @@
 
                             @if($i == 1 && count($respond['data']['authors']) > 2)
                                 {{ " and ..." }}
-                                <?php $i = count($respond['data']['authors']) ?>
+                                {{--*/ $i = count($respond['data']['authors']) /*--}}
                             @endif
                         @endfor
                     </div>
