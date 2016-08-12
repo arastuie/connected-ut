@@ -3,6 +3,7 @@
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Book;
 use App\Models\Tags\Department;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -83,21 +84,13 @@ class UsersController extends Controller {
      */
     public function myBooks()
     {
-        $books = Auth::user()->books()->orderBy('created_at', 'DESC')->get();
+        $listedBooks = Auth::user()->books()->whereStatus(Book::STATUS['listed'])->orderBy('created_at', 'DESC')->get();
+        $this->setMainPhotos($listedBooks);
 
-        if(! is_null($books))
-        {
-            foreach($books as $book)
-            {
-                $mainPhoto = $book->mainPhoto();
-                if($mainPhoto != null)
-                    $book->mainPhotoThumbPath = $mainPhoto->thumbnail_path;
-                else
-                    $book->mainPhotoThumbPath = null;
-            }
-        }
+        $savedForLaterBooks = Auth::user()->books()->whereStatus(Book::STATUS['saved_for_later'])->orderBy('created_at', 'DESC')->get();
+        $this->setMainPhotos($savedForLaterBooks);
 
-        return view('users.mybooks', compact('books'));
+        return view('users.mybooks', compact('listedBooks', 'savedForLaterBooks'));
     }
 
 
@@ -158,5 +151,23 @@ class UsersController extends Controller {
         if(is_null($departments))
             $departments = [];
         $user->departments()->sync($departments);
+    }
+
+
+    /**
+     * Sets the main_photo attribute of every item in items
+     *
+     * @param $items
+     */
+    private static function setMainPhotos($items)
+    {
+        foreach($items as $item)
+        {
+            $mainPhoto = $item->mainPhoto();
+            if($mainPhoto != null)
+                $item->main_photo = $mainPhoto->toArray();
+            else
+                $item->main_photo = null;
+        }
     }
 }

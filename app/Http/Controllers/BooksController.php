@@ -221,7 +221,7 @@ class BooksController extends ApiController {
         }
         catch(Exception $e)
         {
-            return response()->json(['success' => false, 'message' => 'Server error.'], 500);
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
 
         return response()->json(['success' => true, 'photo' => ['id' => $photo->id, 'isMain' => $photo->is_main], 'photoCount' => $book->photos()->count()], 201);

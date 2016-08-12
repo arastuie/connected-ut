@@ -47,13 +47,8 @@
             <div class="row item-row">
                 <div class="col-md-4 col-lg-3 col-sm-4 col-xs-12 image-box v-center-media">
                     <a href="/books/{{ $book['id'] }}">
-                        @if($book['photos'] != null)
-                            <? foreach($book['photos'] as $photo): ?>
-                                <? if($photo['is_main']): ?>
-                                    <img class="item-img" src="{{ $photo['thumbnail_path']}}">
-                                    <? break; ?>
-                                <? endif; ?>
-                            <? endforeach; ?>
+                        @if($book['main_photo'] != null)
+                            <img class="item-img" src="{{ $book['main_photo']['thumbnail_path']}}">
                         @else
                             <img class="item-img item-no-image" alt="No image" src="/images/general/no-image-available.jpg">
                         @endif

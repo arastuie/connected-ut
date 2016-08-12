@@ -155,7 +155,6 @@ $(function() {
 
         data[fieldName] = fieldValue;
 
-        console.log(data);
         updateBookInfo(data, bookID, $this);
     });
 
@@ -254,7 +253,6 @@ $(function() {
                         photoID : photoID
                     }
                 }).done(function(xhr){
-                    console.log(xhr.photoCount);
                     letMorePhotoUpload(photoUploaderDiv, xhr.photoCount);
 
                     if(xhr.mainPhotoID != null)
@@ -268,8 +266,7 @@ $(function() {
                         timer: 500,
                         allowOutsideClick: true
                     });
-                }).fail(function(xhr){
-                    console.log(xhr.responseText);
+                }).fail(function(){
                     swal({
                         title: "Deletion Failed!",
                         text: "Something went wrong. Please try again. If the problem persist do not hesitate to contact us at support@connectedut.com.",
@@ -348,7 +345,6 @@ function notifyFailure($this, msg)
 {
     $this.parents('div.form-group').addClass('has-error has-feedback');
 
-    console.log($this.parents('div.input-group').length > 0);
     if($this.parents('div.input-group').length > 0) {
         $this.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');
         $this.parents('div.input-group').after('<div class="help-block with-errors">' + msg + '</div>');

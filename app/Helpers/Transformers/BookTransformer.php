@@ -55,10 +55,15 @@ class BookTransformer extends Transformer
 
         $book->authors = $this->tagTransformer->tagsName('full_name')->transformCollection($bookObject->authors->toArray());
 
-        if($only_main_photo)
-            $book->photos = $this->photoTransformer->transformCollection([$bookObject->mainPhoto()->toArray()]);
+
+        $mainPhoto = $bookObject->mainPhoto();
+        if(! is_null($mainPhoto))
+            $book->main_photo = $mainPhoto->toArray();
         else
-            $book->photos = $this->photoTransformer->transformCollection($bookObject->photos()->get()->toArray());
+            $book->main_photo = null;
+
+        if(! $only_main_photo)
+            $book->photos = $this->photoTransformer->transformCollection($bookObject->photos->toArray());
 
         return $book;
     }

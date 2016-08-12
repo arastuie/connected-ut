@@ -1,5 +1,4 @@
 @extends('master')
-
 @section('content')
     <div class="full-width clearfix">
         <a class="style-reset" href="/books/create">
@@ -14,96 +13,86 @@
     <div class="posted-items row">
         <div class="table-heading col-sm-12 col-xs-12"> <i class="fa fa-list"></i> Listed Books</div>
 
-        <? $count = 0 ?>
-        @foreach($books as $book)
-            @if($book->status == \App\Models\Book::STATUS['listed'])
-                <? $count++ ?>
-                <div class="col-sm-12 col-xs-12">
-                    <div class="row item-row">
-                        <div class="item-spec thumb-div col-xs-3  col-sm-2">
-                            @if($book->mainPhotoThumbPath != null)
-                                <img src="{{ $book->mainPhotoThumbPath }}">
-                            @else
-                                <i class="fa fa-picture-o"></i>
-                            @endif
-                        </div>
-
-                        <div class="item-spec item-title col-sm-4 col-xs-6">
-                            <a href="/books/{{$book->id}}" class="link">{{ $book-> title }}</a>
-                        </div>
-
-                        <div class="item-spec col-sm-3 col-sm-offset-1 hidden-xs">
-                            <a href="/books/{{$book->id}}/edit"><i class="fa fa-pencil-square-o"></i> Update / Delete</a>
-                        </div>
-
-
-                        <div class="item-spec col-sm-2 hidden-xs">
-                            <a class="mark-sold mark-as-sold" data-book="{{$book->id}}"><i class="fa fa-check-square-o"></i> Mark as sold</a>
-                        </div>
-
-
-                        <div class="item-spec btn-group col-xs-2 col-xs-offset-1 hidden-sm hidden-md hidden-lg">
-                            <div class="btn-group-div">
-                                <a class="options-btn btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-cog"></i>&nbsp; &nbsp;<span class="fa fa-caret-down"></span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><a href="/books/{{$book->id}}/edit"><i class="fa fa-pencil-square-o"></i> Update / Delete</a></li>
-                                    <li><a class="mark-sold mark-as-sold" data-book="{{$book->id}}"><i class="fa fa-check-square-o"></i> Mark as sold</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
+        @forelse($listedBooks as $book)
+            <div class="col-sm-12 col-xs-12">
+                <div class="row item-row">
+                    <div class="item-spec thumb-div col-xs-3  col-sm-2">
+                        @if($book->main_photo != null)
+                            <img src="{{ $book->main_photo['thumbnail_path'] }}">
+                        @else
+                            <i class="fa fa-picture-o"></i>
+                        @endif
                     </div>
-                    <hr class="style-one"/>
+
+                    <div class="item-spec item-title col-sm-4 col-xs-6">
+                        <a href="/books/{{$book->id}}" class="link">{{ $book->title }}</a>
+                    </div>
+
+                    <div class="item-spec col-sm-3 col-sm-offset-1 hidden-xs">
+                        <a href="/books/{{$book->id}}/edit"><i class="fa fa-pencil-square-o"></i> Update / Delete</a>
+                    </div>
+
+
+                    <div class="item-spec col-sm-2 hidden-xs">
+                        <a class="mark-sold mark-as-sold" data-book="{{$book->id}}"><i class="fa fa-check-square-o"></i> Mark as sold</a>
+                    </div>
+
+
+                    <div class="item-spec btn-group col-xs-2 col-xs-offset-1 hidden-sm hidden-md hidden-lg">
+                        <div class="btn-group-div">
+                            <a class="options-btn btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-cog"></i>&nbsp; &nbsp;<span class="fa fa-caret-down"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a href="/books/{{$book->id}}/edit"><i class="fa fa-pencil-square-o"></i> Update / Delete</a></li>
+                                <li><a class="mark-sold mark-as-sold" data-book="{{$book->id}}"><i class="fa fa-check-square-o"></i> Mark as sold</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
-            @endif
-        @endforeach
-        @if($count == 0)
+                <hr class="style-one"/>
+            </div>
+        @empty
             <div class="row">
                 <div class="col-xs-12 no-item">You do not have any books listed for selling. <a href="/books/create" class="link">Start selling one</a>.</div>
             </div>
-        @endif
+        @endforelse
     </div>
 
 
     <div class="posted-items row">
         <div class="table-heading col-sm-12 col-xs-12"> <i class="fa fa-floppy-o"></i> Saved for later</div>
-        <? $count = 0 ?>
-        @foreach($books as $book)
-            @if($book->status == \App\Models\Book::STATUS['saved_for_later'])
-                <? $count++ ?>
-                <div class="col-sm-12 col-xs-12">
-                    <div class="row item-row">
-                        <div class="item-spec thumb-div col-xs-3 col-sm-2">
-                            @if($book->mainPhotoThumbPath != null)
-                                <img src="{{ $book->mainPhotoThumbPath }}">
-                            @else
-                                <i class="fa fa-picture-o"></i>
-                            @endif
-                        </div>
-
-                        <div class="item-spec item-title col-sm-4 col-xs-6">
-                            <a href="/books/{{$book->id}}" class="link">{{ $book-> title }}</a>
-                        </div>
-
-                        <div class="item-spec btn-group item-spec-saved-edit col-sm-5 col-sm-offset-1 col-xs-2 col-xs-offset-1">
-                            <div class="btn-group-div">
-                                <a href="/books/{{$book->id}}/edit" class="hidden-xs"> <i class="fa fa-pencil-square-o"></i> Update / List / Delete </a>
-                                <a href="/books/{{$book->id}}/edit" class="options-btn btn btn-info hidden-sm hidden-md hidden-lg"> <i class="fa fa-pencil-square-o"></i> </a>
-                            </div>
-                        </div>
-
+        @forelse($savedForLaterBooks as $book)
+            <div class="col-sm-12 col-xs-12">
+                <div class="row item-row">
+                    <div class="item-spec thumb-div col-xs-3 col-sm-2">
+                        @if($book->main_photo != null)
+                            <img src="{{ $book->main_photo['thumbnail_path'] }}">
+                        @else
+                            <i class="fa fa-picture-o"></i>
+                        @endif
                     </div>
-                    <hr class="style-one"/>
+
+                    <div class="item-spec item-title col-sm-4 col-xs-6">
+                        <a href="/books/{{$book->id}}" class="link">{{ $book-> title }}</a>
+                    </div>
+
+                    <div class="item-spec btn-group item-spec-saved-edit col-sm-5 col-sm-offset-1 col-xs-2 col-xs-offset-1">
+                        <div class="btn-group-div">
+                            <a href="/books/{{$book->id}}/edit" class="hidden-xs"> <i class="fa fa-pencil-square-o"></i> Update / List / Delete </a>
+                            <a href="/books/{{$book->id}}/edit" class="options-btn btn btn-info hidden-sm hidden-md hidden-lg"> <i class="fa fa-pencil-square-o"></i> </a>
+                        </div>
+                    </div>
+
                 </div>
-            @endif
-        @endforeach
-        @if($count == 0)
-            <div class="row">
-                <div class="col-xs-12 no-item">You do not have any books saved for later!.</div>
+                <hr class="style-one"/>
             </div>
-        @endif
+        @empty
+            <div class="row">
+                <div class="col-xs-12 no-item">You do not have any books saved for later!</div>
+            </div>
+        @endforelse
     </div>
 
 

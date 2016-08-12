@@ -91,13 +91,11 @@
         @if(! $noPhoto)
             <div class="photos">
                 <div class="main-photo">
-                    <? foreach($respond['data']['photos'] as $photo): ?>
-                         <? if($photo['is_main']): ?>
-
-                            <img class="show-photo" src="{{ $photo['path'] }}"/>
-                            <? break; ?>
-                        <? endif; ?>
-                    <? endforeach; ?>
+                    @if($respond['data']['main_photo'] != null)
+                        <img class="show-photo" src="{{ $respond['data']['main_photo']['path'] }}"/>
+                    @else
+                        <img class="show-photo" src="{{ $respond['data']['photos'][0]['path'] }}"/>
+                    @endif
                 </div>
 
                 <div class="sub-photos">
