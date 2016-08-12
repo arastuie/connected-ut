@@ -32,20 +32,20 @@
                 @unless($respond['data']['authors'] == null)
                     <div class="title-sub-info">
                         by
-                        <? $author_count = count($respond['data']['authors']);
-                        for($i = 0; $i < $author_count; $i++): ?>
-                        <a href="{{ action("SearchController@booksDetailed", ['author_list[]' => $respond['data']['authors'][$i]['id']]) }}">{{ $respond['data']['authors'][$i]['name'] }}</a>
-                        <? if($author_count - $i > 2): ?>
-                        {{ ", " }}
-                        <? elseif($author_count - $i == 2 && $i != 1): ?>
-                        {{ " and " }}
-                        <? endif; ?>
+                        @for($i = 0; $i < count($respond['data']['authors']); $i++)
+                            <a href="{{ action("SearchController@booksDetailed", ['author_list[]' => $respond['data']['authors'][$i]['id']]) }}">{{ $respond['data']['authors'][$i]['name'] }}</a>
 
-                        <? if($i == 1 && $author_count > 2): ?>
-                        {{ " and ..." }}
-                        <? break; ?>
-                        <? endif; ?>
-                        <? endfor; ?>
+                            @if(count($respond['data']['authors']) - $i > 2)
+                                {{ ", " }}
+                            @elseif(count($respond['data']['authors']) - $i == 2 && $i != 1)
+                                {{ " and " }}
+                            @endif
+
+                            @if($i == 1 && count($respond['data']['authors']) > 2)
+                                {{ " and ..." }}
+                                {{--*/ $i = count($respond['data']['authors']) /*--}}
+                            @endif
+                        @endfor
                     </div>
                 @endunless
 
@@ -121,7 +121,6 @@
                 @unless($respond['data']['authors'] == null)
                     <div class="title-sub-info">
                         by
-
                         @for($i = 0; $i < count($respond['data']['authors']); $i++)
                             <a href="{{ action("SearchController@booksDetailed", ['author_list[]' => $respond['data']['authors'][$i]['id']]) }}">{{ $respond['data']['authors'][$i]['name'] }}</a>
 
