@@ -46,7 +46,7 @@ class BookTransformer extends Transformer
         unset($book->user_id);
         unset($book->updated_at);
 
-        $book->condition = $this->conditions[$book->condition];
+        $book->condition = ($book->conditions != null) ? $this->conditions[$book->condition] : null;
 
         $bookObject = Book::find($book->id);
         $book->instructors = $this->tagTransformer->tagsName('name')->transformCollection($bookObject->instructors->toArray());
