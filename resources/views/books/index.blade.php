@@ -57,7 +57,9 @@
                 </div><!--
          --><div class="col-sm-8 col-md-8 col-lg-9 col-xs-12 v-center-media info-box">
                     <span class="title">{!! link_to_action('BooksController@show', $book['title'], $book['id']) !!},</span>
-                    <span>{{ $book['edition'] }} edition</span>
+                    @if($book['edition'] != "")
+                        <span>{{ $book['edition'] }} edition</span>
+                    @endif
                     <span><i>( {{ $book['condition'] }} )</i></span>
 
                     @if(count($book['authors']) > 0)

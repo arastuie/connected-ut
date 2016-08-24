@@ -11,7 +11,13 @@ class Course extends Model
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'departments',
+        'course_number',
+        'course_name',
+        'full_course_name',
+        'associated_term'
+    ];
 
     /**
      * Get the books associated with the given course
